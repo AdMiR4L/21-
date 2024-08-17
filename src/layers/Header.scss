@@ -77,7 +77,19 @@
 
     .modal-header{
         border-bottom: transparent;
-        padding: .5rem 1rem!important;
+        padding: 25px 50px 20px 50px!important;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .modal-cross-icon{
+            cursor: pointer;
+            width: 24px;
+            fill: #c7c7c7;
+        }
+        .modal-title{
+            font-size: 20px;
+            font-weight: 500;
+        }
 
         .close{
             position: relative;
@@ -106,6 +118,8 @@
         .create{
             margin: 10px 0;
             font-size: 13px;
+            color: #878787;
+            font-weight: 400;
             span{
                 color: $secondary;
                 padding-right: 5px;
@@ -131,10 +145,11 @@
             margin-bottom: 15px;
         }
         .title{
-            @extend %black-content;
-            text-align: center;
-            margin: 15px 0;
-            font-family: Morabba;
+            font-weight: 400;
+            text-align: right;
+            font-size: 13px;
+            margin-top: 15px;
+            font-family: iranyekan;
         }
 
         .modal-logo{
@@ -216,4 +231,10 @@
             }
         }
     }
+}
+@media screen and (max-width: 768px){
+    .auth-btn{
+        width: 100%!important;
+    }
+
 }

@@ -2,13 +2,6 @@
 import './App.css';
 import './assets/css/fontiran.css';
 import Header from "./layers/Header";
-import Landing from "./layouts/Landing";
-import Cubes from "./layouts/Cubes";
-import TopPlayers from "./layouts/TopPlayers";
-import MainSlider from "./layouts/MainSlider";
-import Feed from "./layouts/Feed";
-import Articles from "./layouts/Articles";
-import FAQ from "./layouts/FAQ";
 import Footer from "./layers/Footer";
 import React, {useState} from "react";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
@@ -42,7 +35,7 @@ function App() {
                   {/* Add a fallback route to catch unmatched routes */}
                   <Route path="*" element={<NotFound />} />
               </Routes>
-              <Footer />
+              <Footer user={user} setUser={setUser} loginModal={loginModal} setloginModal={setLoginModal}/>
           </div>
       </Router>
   );

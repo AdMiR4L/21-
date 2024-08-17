@@ -7,11 +7,11 @@ import Telephone from "../assets/telephone.png";
 
 
 import "./Footer.css";
-import {Link, useParams} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 
-function Footer() {
+function Footer(props) {
 
-    const { location } = useParams();
+    const location  = useLocation();
     return (
         <footer className="">
             <div className="main-footer d-none d-md-block">
@@ -253,9 +253,9 @@ function Footer() {
             </div>
             <ul className="mobile-nav d-md-none">
                 <li className="item">
-                    <Link to="dashboard">
+                    <Link to="/">
                         {
-                            location === "/" ?
+                            location.pathname=== "/" ?
                                 <svg className="mobile-nav-icon" xmlns="http://www.w3.org/2000/svg"
                                      viewBox="0 0 512 511.68">
                                     <path d="M256,319.68c-35.35,0-64,28.65-64,64v128h128v-128c0-35.35-28.65-64-64-64Z"/>
@@ -276,7 +276,14 @@ function Footer() {
                     </Link>
                 </li>
                 <li className="item">
-                    <Link to="dashboard">
+                    <Link to="dashboard"
+                          onClick={(event) => {
+                              console.log(localStorage)
+                              if (!localStorage.loggedIn) {
+                                  event.preventDefault(); // Prevent default navigation
+                                  props.loginModal(true); // Open login modal
+                              }
+                          }}>
                         {location !== "articles" ?
                         <svg className="mobile-nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512.01 469.83">
                             <path d="M470.56,90.72L313.25,15.77c-34.63-20.68-77.73-21.05-112.7-.96L41.46,90.72c-.6.3-1.22.62-1.79.96C1.92,113.26-11.19,161.37,10.4,199.12c7.32,12.8,18.08,23.28,31.06,30.27l43.88,20.91v104.53c.03,46.74,30.44,88.04,75.07,101.93,31.06,8.99,63.26,13.38,95.6,13.06,32.33.36,64.53-4,95.6-12.95,44.63-13.89,75.05-55.19,75.07-101.93v-104.68l42.67-20.4v175.96c0,11.78,9.55,21.33,21.33,21.33s21.33-9.55,21.33-21.33V149.81c.14-25.05-19.64-48.19-41.45-59.09h0ZM384.01,354.93c.01,27.96-18.13,52.69-44.8,61.08-27.05,7.73-55.07,11.48-83.2,11.14-28.13.34-56.15-3.41-83.2-11.14-26.67-8.39-44.81-33.12-44.8-61.08v-84.31l70.76,33.71c17.46,10.37,37.4,15.82,57.71,15.77,19.33.14,38.33-4.98,54.98-14.8l72.55-34.67v84.31ZM452.28,190.88l-160.9,76.8c-22.43,13.06-50.24,12.69-72.32-.96L61.64,191.84c-17.55-9.46-24.1-31.36-14.64-48.9,3.2-5.93,8-10.85,13.85-14.2L220.75,52.36c22.44-13.03,50.23-12.67,72.32.96l157.31,74.94c11.57,6.42,18.81,18.56,18.96,31.79.02,12.53-6.43,24.19-17.07,30.83h0Z"/>
@@ -304,13 +311,16 @@ function Footer() {
                     </Link>
                 </li>
                 <li className="item">
-                <Link to="dashboard">
-                        {/* <svg className="mobile-nav-icon"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 470.49 507.83">
-                            <path  d="M294.17,245.71c-11.66,6.64-24.38,11.23-37.59,13.57v248.55c11.24-2.19,22.05-6.2,32-11.88l128.58-74.22c32.96-19.11,53.27-54.3,53.33-92.39v-148.48c-.07-11.4-1.98-22.71-5.65-33.49l-170.67,98.35ZM197.74,208.8c23.25,13.37,51.86,13.37,75.11,0l170.67-98.35c-7.56-8.69-16.48-16.08-26.41-21.91L288.58,14.24c-33.02-18.99-73.65-18.99-106.67,0L53.33,88.48c-9.58,5.61-18.22,12.68-25.6,20.97l170.01,99.35ZM213.91,259.28c-13.22-2.33-25.94-6.92-37.61-13.57L6.06,146.21c-3.94,11.13-5.99,22.84-6.06,34.65v148.48c.06,38.1,20.38,73.29,53.33,92.39l128.58,74.22c9.95,5.68,20.76,9.69,32,11.88v-248.55Z"/>
-                        </svg>*/}
-
+                    <Link to="dashboard"
+                          onClick={(event) => {
+                              console.log(localStorage)
+                              if (!localStorage.loggedIn) {
+                                  event.preventDefault(); // Prevent default navigation
+                                  props.setloginModal(true); // Open login modal
+                              }
+                          }}>
                         {
-                            location !== "profile" ?
+                            location.pathname !== "/dashboard" ?
                                 <svg className="mobile-nav-icon" xmlns="http://www.w3.org/2000/svg"
                                      viewBox="0 0 384 512">
                                     <path

@@ -9,7 +9,7 @@ import ThemeIcon from "../assets/icons/theme.svg";
 import UserIcon from "../assets/icons/user.svg";
 import GoogleLogo from "../assets/icons/google.svg";
 import FacebookLogo from "../assets/icons/facebook.svg";
-
+import toast, { Toaster } from 'react-hot-toast';
 
 import '../assets/css/bootstrap.min.css'
 import "./Header.css";
@@ -195,13 +195,15 @@ class Header extends Component{
             headers: headers
         })
             .then((response) => {
-                //console.log(response);
-                localStorage.setItem("userDetails" , JSON.stringify(response.data.success))
+                console.log(response);
+                console.log(localStorage);
+                localStorage.setItem("userDetails" , JSON.stringify(response.data))
                 localStorage.setItem("loggedIn" , true)
                 this.setState({loggedIn : true})
                 this.setState({isLoading : false})
 
                 setTimeout(()=> { this.props.setLoginModal(false)}, 300)
+                toast.success(response.data.name+" عـزیـز، خوش اومدی")
 
                 console.log("USER_DETAILS ->", response);
             })
@@ -214,6 +216,7 @@ class Header extends Component{
     render(){
         return (
             <div className="container">
+                <Toaster />
                 <div className="row">
                     <header className="col-12 d-none d-md-block">
                         <nav className="main-header">
@@ -231,7 +234,11 @@ class Header extends Component{
                                             <img src={UserIcon} alt="User"/>
                                         </li>
                                         :
-                                        <li onClick={() => localStorage.removeItem("authToken")}
+                                        <li onClick={() => {
+                                            localStorage.removeItem("authToken");
+                                            localStorage.removeItem("loggedIn");
+                                            localStorage.removeItem("userDetails");
+                                        }}
                                             className="item">
                                             <img src={UserIcon} alt="User"/>
                                         </li>
@@ -261,10 +268,18 @@ class Header extends Component{
                         <Modal show={this.props.loginModal} onHide={() => this.props.setLoginModal(!this.props.loginModal)} centered className="login-required">
                             <Modal.Header>
                                 <Modal.Title>
-                                    <button className="close" onClick={() => this.props.setLoginModal(!this.props.loginModal)}>
-                                        <i className="fa-light fa-xmark"/>
-                                    </button>
+                                    {this.state.forgot ?
+                                            "کلمه عبور را فراموش کرده اید ؟"
+                                            :
+                                            "ورود یا ساخت حساب کاربری جدید"
+                                    }
                                 </Modal.Title>
+                                <svg onClick={() => this.props.setLoginModal(!this.props.loginModal)}
+                                     className="modal-cross-icon" xmlns="http://www.w3.org/2000/svg"
+                                     viewBox="0 0 211 211">
+                                    <path
+                                        d="M105.5,0C47.23,0,0,47.23,0,105.5s47.23,105.5,105.5,105.5,105.5-47.23,105.5-105.5C210.93,47.26,163.74.07,105.5,0ZM146.18,132.63c3.81,3.68,3.92,9.75.24,13.56-3.68,3.81-9.75,3.92-13.56.24-.08-.08-.16-.16-.24-.24l-27.12-27.13-27.12,27.13c-3.81,3.68-9.88,3.57-13.56-.24-3.59-3.72-3.59-9.61,0-13.33l27.12-27.13-27.12-27.13c-3.81-3.68-3.92-9.75-.24-13.56,3.68-3.81,9.75-3.92,13.56-.24.08.08.16.16.24.24l27.12,27.13,27.12-27.13c3.68-3.81,9.75-3.92,13.56-.24,3.81,3.68,3.92,9.75.24,13.56-.08.08-.16.16-.24.24l-27.12,27.13,27.12,27.13Z"/>
+                                </svg>
 
                             </Modal.Header>
                             <Modal.Body>
@@ -272,14 +287,14 @@ class Header extends Component{
                                 {/*    <img src={Logo} alt="logo"/>*/}
 
                                 {/*</div>*/}
-                                <div className="title">
-                                    {
-                                        this.state.forgot ?
-                                            "کلمه عبور را فراموش کرده اید ؟"
-                                            :
-                                            "ورود یا ساخت حساب کاربری جدید"
-                                    }
-                                </div>
+                                {/*<div className="title">*/}
+                                {/*    {*/}
+                                {/*        this.state.forgot ?*/}
+                                {/*            "جای نگرانی نیست، شماره خود را وارد کنید"*/}
+                                {/*            :*/}
+                                {/*            "برای تجربه ای بهتر لطفا با حساب خود وارد شوید"*/}
+                                {/*    }*/}
+                                {/*</div>*/}
                                 <Collapse in={this.state.reg}>
                                     <div className="text-center reg-form">
                                         <div className="name-control d-flex justify-content-between">
@@ -299,7 +314,7 @@ class Header extends Component{
                                                         : null
                                                 }
                                             </div>
-                                            <div className="item lastname">
+                                            <div className="item lastname pr-2">
                                                 <input
                                                     id="lastName"
                                                     className="input-control"
@@ -418,7 +433,7 @@ class Header extends Component{
                                             id="loginEmail"
                                             className="input-control"
                                             type="email"
-                                            placeholder="ایمیل یا شماره همراه"
+                                            placeholder="نام کاربری یا شماره همراه"
                                             style={{marginTop : "10px"}}
                                             value={this.state.loginRequest.email}
                                             onChange = {(e) => this.handleInputChange(e)}/>
@@ -478,19 +493,19 @@ class Header extends Component{
                                         <input
                                             id="forgotEmail"
                                             className="input-control"
-                                            type="email"
-                                            placeholder="آدرس ایمیل"
+                                            type="text"
+                                            placeholder="شماره همراه"
                                             style={{marginTop : "10px"}}
                                             value={this.state.forgotEmail}
                                             onChange = {(e) => this.state.setState({forgotEmail : e.target.value})}/>
                                         {
                                             this.state.regFailed.status ?
                                                 <span className="validate-error mb-3">
-                                                                   Inserted Credentials Does Not Match !
+                                                                   شماره تماس وارد شده صحیح نمی باشد
                                                                 </span>
                                                 : null
                                         }
-                                        <span onClick={this.loginReq} className="auth-btn load-btn login" href="">
+                                        <span onClick={this.loginReq} className="auth-btn load-btn login">
                                                            {
                                                                this.state.isLoading?
                                                                    <div className="spinner-container">
@@ -510,7 +525,7 @@ class Header extends Component{
                                 </Collapse>
 
 
-                                <div className="login-choices">
+                                {/*<div className="login-choices">
                                     <div className="content">
                                         برای ورود میتوانید از گزینه های زیر استفاده کنید
                                     </div>
@@ -520,7 +535,7 @@ class Header extends Component{
                                     <a href="">
                                         <img src={FacebookLogo} alt="Facebook"/>
                                     </a>
-                                </div>
+                                </div>*/}
 
                             </Modal.Body>
                             <Modal.Footer>
@@ -529,8 +544,8 @@ class Header extends Component{
 
                                 <div className="content">
                                     در صورت ورود یا ثبت نام شما
-                                    <a className="pl-1 pr-1" href="">قوانین و ضوابط</a>
-                                    پذیرفته اید
+                                    <a className="pl-1 pr-1" href="">قوانین و مقررات</a>
+                                    را پذیرفته اید
                                 </div>
                             </Modal.Footer>
                         </Modal>
