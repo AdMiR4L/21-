@@ -1,0 +1,61 @@
+@import "../assets/css/main";
+
+.breadcrumb{
+  .home-icon{
+    width: 20px;
+    fill: #c5c5c5;
+    margin-left: 10px;
+  }
+   overflow-x: scroll ;
+   margin: 10px 0;
+   padding: 5px 10px;
+   //transform: translateY(-35px);
+  border: 1px solid #efefef;
+  background-color: #f3f3f3;
+  border-radius: 15px;
+   &::-webkit-scrollbar {
+     display: none;
+   }
+   .bread{
+     display: flex;
+     width: max-content;
+     align-items: center;
+     .crumb-item{
+       padding: 5px 10px;
+       .fa-house-blank{
+         transform: translateY(2px);
+       }
+       i{
+         padding-right: 10px;
+       }
+       a{
+         @extend %normal-content;
+         font-size: 13px;
+         font-family: iranyekan;
+         color: darken($light , 20%);
+         position: relative;
+         display: inline-flex;
+         align-items: center;
+         &:before{
+           content: "";
+           position: absolute;
+           border-left: 1px solid #a9a9a9;
+           border-bottom: 1px solid #999;
+           transform: rotate(45deg);
+           width: 6px;
+           height: 6px;
+           left: -11px;
+         }
+       }
+       &:nth-last-child(1) {
+         a {
+           color: $primary;
+           font-weight: 600;
+           &:before{
+             display: none;
+           }
+         }
+       }
+     }
+   }
+ }

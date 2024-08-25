@@ -1,0 +1,296 @@
+
+import LevelIcon from "../assets/icons/level.svg";
+import AvatarImage from "../assets/delete/avatar.jpg";
+import './TopPlayers.css'
+function TopPlayers() {
+    return (
+        <aside className="col-12">
+            <div className="section-top">
+                <div className="section-header">
+                    <h3 className="head">
+                        بازیکنان برتر این ماه
+                    </h3>
+                    <h4 className="notice mb-0">
+                        هر ماه بازیکنان برتر بر اساس امتیاز رده بندی میشوند
+                    </h4>
+                </div>
+            </div>
+            <div className="top-players">
+                <ul className="player-cards">
+                    <li className="player">
+                        <div className="avatar">
+                            <div className="img-container">
+                                <img src={AvatarImage} alt="avatar"/>
+                            </div>
+                            <div className="number">#1</div>
+                        </div>
+                        <ul className="player-info">
+                            <li className="head">
+                                <div className="name">
+                                    محمد خامی
+                                </div>
+                                <div className="level">
+                                    Lv.
+                                    <span className="lvl">8</span>
+                                    <div className="icon-container">
+                                        <img src={LevelIcon} alt="Level"/>
+                                    </div>
+
+                                </div>
+                            </li>
+                            <li className="foot">
+                                <div className="item">
+                                    <svg className="win-icon" xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 40.79 56.72">
+                                        <path id="Path_45" data-name="Path 45" className="cls-1"
+                                              d="M29.47,39.75l2.6-4.21,4.68-1.6.52-4.92,3.52-3.46-1.67-4.65,1.68-4.66-3.52-3.46-.52-4.92-4.69-1.6-2.59-4.21-4.92.59-4.16-2.66-4.17,2.66-4.91-.59-2.59,4.21-4.68,1.6-.52,4.92-3.52,3.46,1.67,4.65-1.67,4.65,3.52,3.46.52,4.92,4.68,1.6,2.6,4.21,4.91-.59,4.17,2.66,4.16-2.65,4.92.59ZM6.05,20.92c0-7.92,6.42-14.34,14.34-14.34s14.34,6.42,14.34,14.34-6.42,14.34-14.34,14.34c-7.92,0-14.34-6.43-14.34-14.34h0Z"/>
+                                        <path id="Path_46" data-name="Path 46" className="cls-1"
+                                              d="M20.39,9.9c-6.08,0-11.01,4.93-11.01,11.01,0,6.08,4.93,11.01,11.01,11.01,6.08,0,11.01-4.93,11.01-11.01h0c0-6.08-4.93-11.01-11.01-11.01ZM15.43,42.61l-5.85.7-3.08-5-1.05-.36L.93,52.08l8.14-.45,6.37,5.09,3.75-11.71-3.76-2.4ZM34.26,38.31l-3.08,5-5.85-.7-3.77,2.4,3.75,11.71,6.37-5.09,8.14.45-4.52-14.13-1.04.36Z"/>
+                                    </svg>
+                                    <span className="strong">23</span>
+                                    برد
+                                </div>
+                                <div className="item">
+
+                                    <svg className="score-icon" xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 23.21 23.21">
+                                        <path id="Path_48" data-name="Path 48" className="cls-1"
+                                              d="M22.05,1.16h-3.48V0H4.64v1.16H1.16C.56,1.13.04,1.59,0,2.2c0,.04,0,.08,0,.12v2.78c0,2.66,2,4.91,4.64,5.22v.12c-.02,3.28,2.26,6.13,5.46,6.85l-.81,2.44h-2.67c-.49.01-.91.34-1.04.81l-.93,2.67h13.92l-.93-2.67c-.13-.47-.56-.8-1.04-.81h-2.67l-.81-2.44c3.2-.72,5.47-3.57,5.45-6.85v-.12c2.65-.31,4.64-2.56,4.64-5.22v-2.78c.03-.61-.43-1.13-1.04-1.16-.04,0-.08,0-.13,0ZM4.64,8.01c-1.33-.34-2.28-1.53-2.32-2.9v-1.63h2.32v4.53ZM13.93,11.61l-2.32-1.28-2.32,1.27.58-2.32-1.74-2.32h2.44l1.04-2.32,1.04,2.32h2.44l-1.74,2.32.58,2.32ZM20.89,5.11c0,1.39-.97,2.59-2.32,2.9V3.48h2.32v1.63Z"/>
+                                    </svg>
+                                    <span className="strong">138</span>
+                                    امتیاز
+                                </div>
+                                <div className="item reg-date">
+                                    از
+                                    مهر 1399
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li className="player">
+                        <div className="avatar">
+                            <div className="img-container">
+                                <img src={AvatarImage} alt="avatar"/>
+                            </div>
+                            <div className="number">#1</div>
+                        </div>
+                        <ul className="player-info">
+                            <li className="head">
+                                <div className="name">
+                                    محمد خامی
+                                </div>
+                                <div className="level">
+                                    Lv.
+                                    <span className="lvl">8</span>
+                                    <div className="icon-container">
+                                        <img src={LevelIcon} alt="Level"/>
+                                    </div>
+
+                                </div>
+                            </li>
+                            <li className="foot">
+                                <div className="item">
+                                    <svg className="win-icon" xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 40.79 56.72">
+                                        <path id="Path_45" data-name="Path 45" className="cls-1"
+                                              d="M29.47,39.75l2.6-4.21,4.68-1.6.52-4.92,3.52-3.46-1.67-4.65,1.68-4.66-3.52-3.46-.52-4.92-4.69-1.6-2.59-4.21-4.92.59-4.16-2.66-4.17,2.66-4.91-.59-2.59,4.21-4.68,1.6-.52,4.92-3.52,3.46,1.67,4.65-1.67,4.65,3.52,3.46.52,4.92,4.68,1.6,2.6,4.21,4.91-.59,4.17,2.66,4.16-2.65,4.92.59ZM6.05,20.92c0-7.92,6.42-14.34,14.34-14.34s14.34,6.42,14.34,14.34-6.42,14.34-14.34,14.34c-7.92,0-14.34-6.43-14.34-14.34h0Z"/>
+                                        <path id="Path_46" data-name="Path 46" className="cls-1"
+                                              d="M20.39,9.9c-6.08,0-11.01,4.93-11.01,11.01,0,6.08,4.93,11.01,11.01,11.01,6.08,0,11.01-4.93,11.01-11.01h0c0-6.08-4.93-11.01-11.01-11.01ZM15.43,42.61l-5.85.7-3.08-5-1.05-.36L.93,52.08l8.14-.45,6.37,5.09,3.75-11.71-3.76-2.4ZM34.26,38.31l-3.08,5-5.85-.7-3.77,2.4,3.75,11.71,6.37-5.09,8.14.45-4.52-14.13-1.04.36Z"/>
+                                    </svg>
+                                    <span className="strong">23</span>
+                                    برد
+                                </div>
+                                <div className="item">
+
+                                    <svg className="score-icon" xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 23.21 23.21">
+                                        <path id="Path_48" data-name="Path 48" className="cls-1"
+                                              d="M22.05,1.16h-3.48V0H4.64v1.16H1.16C.56,1.13.04,1.59,0,2.2c0,.04,0,.08,0,.12v2.78c0,2.66,2,4.91,4.64,5.22v.12c-.02,3.28,2.26,6.13,5.46,6.85l-.81,2.44h-2.67c-.49.01-.91.34-1.04.81l-.93,2.67h13.92l-.93-2.67c-.13-.47-.56-.8-1.04-.81h-2.67l-.81-2.44c3.2-.72,5.47-3.57,5.45-6.85v-.12c2.65-.31,4.64-2.56,4.64-5.22v-2.78c.03-.61-.43-1.13-1.04-1.16-.04,0-.08,0-.13,0ZM4.64,8.01c-1.33-.34-2.28-1.53-2.32-2.9v-1.63h2.32v4.53ZM13.93,11.61l-2.32-1.28-2.32,1.27.58-2.32-1.74-2.32h2.44l1.04-2.32,1.04,2.32h2.44l-1.74,2.32.58,2.32ZM20.89,5.11c0,1.39-.97,2.59-2.32,2.9V3.48h2.32v1.63Z"/>
+                                    </svg>
+                                    <span className="strong">138</span>
+                                    امتیاز
+                                </div>
+                                <div className="item reg-date">
+                                    از
+                                    مهر 1399
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li className="player">
+                        <div className="avatar">
+                            <div className="img-container">
+                                <img src={AvatarImage} alt="avatar"/>
+                            </div>
+                            <div className="number">#1</div>
+                        </div>
+                        <ul className="player-info">
+                            <li className="head">
+                                <div className="name">
+                                    محمد خامی
+                                </div>
+                                <div className="level">
+                                    Lv.
+                                    <span className="lvl">8</span>
+                                    <div className="icon-container">
+                                        <img src={LevelIcon} alt="Level"/>
+                                    </div>
+
+                                </div>
+                            </li>
+                            <li className="foot">
+                                <div className="item">
+                                    <svg className="win-icon" xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 40.79 56.72">
+                                        <path id="Path_45" data-name="Path 45" className="cls-1"
+                                              d="M29.47,39.75l2.6-4.21,4.68-1.6.52-4.92,3.52-3.46-1.67-4.65,1.68-4.66-3.52-3.46-.52-4.92-4.69-1.6-2.59-4.21-4.92.59-4.16-2.66-4.17,2.66-4.91-.59-2.59,4.21-4.68,1.6-.52,4.92-3.52,3.46,1.67,4.65-1.67,4.65,3.52,3.46.52,4.92,4.68,1.6,2.6,4.21,4.91-.59,4.17,2.66,4.16-2.65,4.92.59ZM6.05,20.92c0-7.92,6.42-14.34,14.34-14.34s14.34,6.42,14.34,14.34-6.42,14.34-14.34,14.34c-7.92,0-14.34-6.43-14.34-14.34h0Z"/>
+                                        <path id="Path_46" data-name="Path 46" className="cls-1"
+                                              d="M20.39,9.9c-6.08,0-11.01,4.93-11.01,11.01,0,6.08,4.93,11.01,11.01,11.01,6.08,0,11.01-4.93,11.01-11.01h0c0-6.08-4.93-11.01-11.01-11.01ZM15.43,42.61l-5.85.7-3.08-5-1.05-.36L.93,52.08l8.14-.45,6.37,5.09,3.75-11.71-3.76-2.4ZM34.26,38.31l-3.08,5-5.85-.7-3.77,2.4,3.75,11.71,6.37-5.09,8.14.45-4.52-14.13-1.04.36Z"/>
+                                    </svg>
+                                    <span className="strong">23</span>
+                                    برد
+                                </div>
+                                <div className="item">
+
+                                    <svg className="score-icon" xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 23.21 23.21">
+                                        <path id="Path_48" data-name="Path 48" className="cls-1"
+                                              d="M22.05,1.16h-3.48V0H4.64v1.16H1.16C.56,1.13.04,1.59,0,2.2c0,.04,0,.08,0,.12v2.78c0,2.66,2,4.91,4.64,5.22v.12c-.02,3.28,2.26,6.13,5.46,6.85l-.81,2.44h-2.67c-.49.01-.91.34-1.04.81l-.93,2.67h13.92l-.93-2.67c-.13-.47-.56-.8-1.04-.81h-2.67l-.81-2.44c3.2-.72,5.47-3.57,5.45-6.85v-.12c2.65-.31,4.64-2.56,4.64-5.22v-2.78c.03-.61-.43-1.13-1.04-1.16-.04,0-.08,0-.13,0ZM4.64,8.01c-1.33-.34-2.28-1.53-2.32-2.9v-1.63h2.32v4.53ZM13.93,11.61l-2.32-1.28-2.32,1.27.58-2.32-1.74-2.32h2.44l1.04-2.32,1.04,2.32h2.44l-1.74,2.32.58,2.32ZM20.89,5.11c0,1.39-.97,2.59-2.32,2.9V3.48h2.32v1.63Z"/>
+                                    </svg>
+                                    <span className="strong">138</span>
+                                    امتیاز
+                                </div>
+                                <div className="item reg-date">
+                                    از
+                                    مهر 1399
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li className="player">
+                        <div className="avatar">
+                            <div className="img-container">
+                                <img src={AvatarImage} alt="avatar"/>
+                            </div>
+                            <div className="number">#1</div>
+                        </div>
+                        <ul className="player-info">
+                            <li className="head">
+                                <div className="name">
+                                    محمد خامی
+                                </div>
+                                <div className="level">
+                                    Lv.
+                                    <span className="lvl">8</span>
+                                    <div className="icon-container">
+                                        <img src={LevelIcon} alt="Level"/>
+                                    </div>
+
+                                </div>
+                            </li>
+                            <li className="foot">
+                                <div className="item">
+                                    <svg className="win-icon" xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 40.79 56.72">
+                                        <path id="Path_45" data-name="Path 45" className="cls-1"
+                                              d="M29.47,39.75l2.6-4.21,4.68-1.6.52-4.92,3.52-3.46-1.67-4.65,1.68-4.66-3.52-3.46-.52-4.92-4.69-1.6-2.59-4.21-4.92.59-4.16-2.66-4.17,2.66-4.91-.59-2.59,4.21-4.68,1.6-.52,4.92-3.52,3.46,1.67,4.65-1.67,4.65,3.52,3.46.52,4.92,4.68,1.6,2.6,4.21,4.91-.59,4.17,2.66,4.16-2.65,4.92.59ZM6.05,20.92c0-7.92,6.42-14.34,14.34-14.34s14.34,6.42,14.34,14.34-6.42,14.34-14.34,14.34c-7.92,0-14.34-6.43-14.34-14.34h0Z"/>
+                                        <path id="Path_46" data-name="Path 46" className="cls-1"
+                                              d="M20.39,9.9c-6.08,0-11.01,4.93-11.01,11.01,0,6.08,4.93,11.01,11.01,11.01,6.08,0,11.01-4.93,11.01-11.01h0c0-6.08-4.93-11.01-11.01-11.01ZM15.43,42.61l-5.85.7-3.08-5-1.05-.36L.93,52.08l8.14-.45,6.37,5.09,3.75-11.71-3.76-2.4ZM34.26,38.31l-3.08,5-5.85-.7-3.77,2.4,3.75,11.71,6.37-5.09,8.14.45-4.52-14.13-1.04.36Z"/>
+                                    </svg>
+                                    <span className="strong">23</span>
+                                    برد
+                                </div>
+                                <div className="item">
+
+                                    <svg className="score-icon" xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 23.21 23.21">
+                                        <path id="Path_48" data-name="Path 48" className="cls-1"
+                                              d="M22.05,1.16h-3.48V0H4.64v1.16H1.16C.56,1.13.04,1.59,0,2.2c0,.04,0,.08,0,.12v2.78c0,2.66,2,4.91,4.64,5.22v.12c-.02,3.28,2.26,6.13,5.46,6.85l-.81,2.44h-2.67c-.49.01-.91.34-1.04.81l-.93,2.67h13.92l-.93-2.67c-.13-.47-.56-.8-1.04-.81h-2.67l-.81-2.44c3.2-.72,5.47-3.57,5.45-6.85v-.12c2.65-.31,4.64-2.56,4.64-5.22v-2.78c.03-.61-.43-1.13-1.04-1.16-.04,0-.08,0-.13,0ZM4.64,8.01c-1.33-.34-2.28-1.53-2.32-2.9v-1.63h2.32v4.53ZM13.93,11.61l-2.32-1.28-2.32,1.27.58-2.32-1.74-2.32h2.44l1.04-2.32,1.04,2.32h2.44l-1.74,2.32.58,2.32ZM20.89,5.11c0,1.39-.97,2.59-2.32,2.9V3.48h2.32v1.63Z"/>
+                                    </svg>
+                                    <span className="strong">138</span>
+                                    امتیاز
+                                </div>
+                                <div className="item reg-date">
+                                    از
+                                    مهر 1399
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li className="player">
+                        <div className="avatar">
+                            <div className="img-container">
+                                <img src={AvatarImage} alt="avatar"/>
+                            </div>
+                            <div className="number">#1</div>
+                        </div>
+                        <ul className="player-info">
+                            <li className="head">
+                                <div className="name">
+                                    محمد خامی
+                                </div>
+                                <div className="level">
+                                    Lv.
+                                    <span className="lvl">8</span>
+                                    <div className="icon-container">
+                                        <img src={LevelIcon} alt="Level"/>
+                                    </div>
+
+                                </div>
+                            </li>
+                            <li className="foot">
+                                <div className="item">
+                                    <svg className="win-icon" xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 40.79 56.72">
+                                        <path id="Path_45" data-name="Path 45" className="cls-1"
+                                              d="M29.47,39.75l2.6-4.21,4.68-1.6.52-4.92,3.52-3.46-1.67-4.65,1.68-4.66-3.52-3.46-.52-4.92-4.69-1.6-2.59-4.21-4.92.59-4.16-2.66-4.17,2.66-4.91-.59-2.59,4.21-4.68,1.6-.52,4.92-3.52,3.46,1.67,4.65-1.67,4.65,3.52,3.46.52,4.92,4.68,1.6,2.6,4.21,4.91-.59,4.17,2.66,4.16-2.65,4.92.59ZM6.05,20.92c0-7.92,6.42-14.34,14.34-14.34s14.34,6.42,14.34,14.34-6.42,14.34-14.34,14.34c-7.92,0-14.34-6.43-14.34-14.34h0Z"/>
+                                        <path id="Path_46" data-name="Path 46" className="cls-1"
+                                              d="M20.39,9.9c-6.08,0-11.01,4.93-11.01,11.01,0,6.08,4.93,11.01,11.01,11.01,6.08,0,11.01-4.93,11.01-11.01h0c0-6.08-4.93-11.01-11.01-11.01ZM15.43,42.61l-5.85.7-3.08-5-1.05-.36L.93,52.08l8.14-.45,6.37,5.09,3.75-11.71-3.76-2.4ZM34.26,38.31l-3.08,5-5.85-.7-3.77,2.4,3.75,11.71,6.37-5.09,8.14.45-4.52-14.13-1.04.36Z"/>
+                                    </svg>
+                                    <span className="strong">23</span>
+                                    برد
+                                </div>
+                                <div className="item">
+
+                                    <svg className="score-icon" xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 23.21 23.21">
+                                        <path id="Path_48" data-name="Path 48" className="cls-1"
+                                              d="M22.05,1.16h-3.48V0H4.64v1.16H1.16C.56,1.13.04,1.59,0,2.2c0,.04,0,.08,0,.12v2.78c0,2.66,2,4.91,4.64,5.22v.12c-.02,3.28,2.26,6.13,5.46,6.85l-.81,2.44h-2.67c-.49.01-.91.34-1.04.81l-.93,2.67h13.92l-.93-2.67c-.13-.47-.56-.8-1.04-.81h-2.67l-.81-2.44c3.2-.72,5.47-3.57,5.45-6.85v-.12c2.65-.31,4.64-2.56,4.64-5.22v-2.78c.03-.61-.43-1.13-1.04-1.16-.04,0-.08,0-.13,0ZM4.64,8.01c-1.33-.34-2.28-1.53-2.32-2.9v-1.63h2.32v4.53ZM13.93,11.61l-2.32-1.28-2.32,1.27.58-2.32-1.74-2.32h2.44l1.04-2.32,1.04,2.32h2.44l-1.74,2.32.58,2.32ZM20.89,5.11c0,1.39-.97,2.59-2.32,2.9V3.48h2.32v1.63Z"/>
+                                    </svg>
+                                    <span className="strong">138</span>
+                                    امتیاز
+                                </div>
+                                <div className="item reg-date">
+                                    از
+                                    مهر 1399
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li className="more-players">
+                        <span className="arrow">
+                            <svg className="arrow-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26.59 36.47">
+                              <path
+                                  d="M14.46,35.99l11.61-11.6c.66-.63.69-1.68.06-2.34-.63-.66-1.68-.69-2.34-.06-.02.02-.04.04-.06.06l-8.77,8.78V1.66C14.95.74,14.21,0,13.3,0c-.92,0-1.66.74-1.66,1.66v29.15L2.86,22.04c-.63-.66-1.68-.69-2.34-.06s-.69,1.68-.06,2.34c.02.02.04.04.06.06l11.6,11.6c.65.65,1.7.65,2.34,0Z"/>
+                            </svg>
+                        </span>
+                        <span className="btn">
+
+                        مـشـاهـده <span className="strong">10</span> بـازیـکـن بـرتـر مــاه
+                        </span>
+
+                        <span className="arrow">
+                            <svg className="arrow-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26.59 36.47">
+                              <path
+                                  d="M14.46,35.99l11.61-11.6c.66-.63.69-1.68.06-2.34-.63-.66-1.68-.69-2.34-.06-.02.02-.04.04-.06.06l-8.77,8.78V1.66C14.95.74,14.21,0,13.3,0c-.92,0-1.66.74-1.66,1.66v29.15L2.86,22.04c-.63-.66-1.68-.69-2.34-.06s-.69,1.68-.06,2.34c.02.02.04.04.06.06l11.6,11.6c.65.65,1.7.65,2.34,0Z"/>
+                            </svg>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+    );
+}
+
+export default TopPlayers;
