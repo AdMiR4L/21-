@@ -3,7 +3,7 @@ import FeedImage from "../assets/Feed.png"
 import './Feed.css'
 function Feed(props) {
     return (
-        <div className="col-12 mt-3 mb-3">
+        <div className="col-12 mt-3 mb-3 d-none d-md-block">
             <section className="feedback">
                <div className="feed">
                    <ul className="content">

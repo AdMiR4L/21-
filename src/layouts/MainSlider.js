@@ -6,9 +6,11 @@ import {Autoplay, FreeMode, Pagination, Navigation} from "swiper/modules";
 import Slide from "../assets/delete/slide.jpg"
 import CalenderIcon from "../assets/icons/calender-icon.svg"
 import './MainSlider.css'
-import { useSwiper } from 'swiper/react';
+//import { useSwiper } from 'swiper/react';
+import ConvertToShamsiDate from "../components/ConverToShamsiDate";
+import React from "react";
 function MainSlider(props) {
-    const swiper = useSwiper();
+    // swiper = useSwiper();
     return (
         <div className="col-12 mt-3 mb-3">
             <section className="main-slider">
@@ -19,7 +21,8 @@ function MainSlider(props) {
                             <div>امــروز</div>
                         </li>
                         <li className="date">
-                            <div className="day">
+                            <ConvertToShamsiDate gregorianDate={new Date()} slider={1}/>
+                            {/*<div className="day">
                                 18
                             </div>
                             <div className="month">
@@ -27,7 +30,7 @@ function MainSlider(props) {
                             </div>
                             <div className="month">
                                 ماه
-                            </div>
+                            </div>*/}
                         </li>
                         <li className="year">
                             1403

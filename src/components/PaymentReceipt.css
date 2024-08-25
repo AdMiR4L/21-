@@ -25,13 +25,13 @@ ul {
   background: #555;
 }
 
-.section-top .header-more, .alert .form-errors li, #notification #description, .input-control, .input-label {
+.receipt .player-info .foot .item, .receipt .player-info .head .level, .section-top .header-more, .alert .form-errors li, #notification #description, .input-control, .input-label {
   font-size: 13px;
   font-weight: 300;
   color: #181D31;
 }
 
-.custom-modal .modal-title .modal-head {
+.receipt .player-info .head .name, .custom-modal .modal-title .modal-head {
   font-size: 15px;
   font-weight: 500;
 }
@@ -46,6 +46,16 @@ ul {
   font-weight: 400;
   text-decoration: none !important;
   color: #f7f7f7;
+}
+
+.receipt .payment-status, .receipt .cube-card {
+  background-color: #fff;
+  border-radius: 15px;
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.05);
+  -ms-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.05);
+  -o-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.05);
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.05);
 }
 
 .color-primary {
@@ -376,7 +386,7 @@ h1 {
 }
 /*============================*/
 /*============================*/
-.articles .article, .section-top .header-more {
+.section-top .header-more {
   background-color: #F9F9F9;
   border-radius: 20px;
   border: 1px solid #E9E9E9;
@@ -812,85 +822,252 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
-.articles {
-  padding: 0 15px;
+.receipt {
+  text-align: center;
 }
-.articles .article {
+.receipt .cube-card {
+  border: transparent !important;
+}
+.receipt .cube-card .cube-info {
+  background-color: #f7f7f7;
+}
+.receipt .cube-card .cube-info .event img {
+  width: unset !important;
+  height: 30px;
+}
+.receipt .mentions {
+  text-align: right;
+  margin-bottom: 25px;
+}
+.receipt .mentions .item {
+  font-family: iranyekan;
+  font-size: 12px;
+  font-weight: 400;
   position: relative;
-  border-radius: 20px;
-}
-.articles .article .img-container {
-  height: 160px;
-  border-radius: 20px 20px 20px 0;
-  overflow: hidden;
+  padding: 5px 20px 5px 10px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  background-color: #efefef;
 }
-.articles .article .img-container img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.articles .article .img-container .blank-image {
-  width: 50px;
-  fill: #b5b5b5;
-}
-.articles .article .content {
-  padding: 15px;
-  text-align: right;
-}
-.articles .article .content .head a h5 {
-  margin-top: 5px;
-  font-size: 16px;
+.receipt .mentions .item .color-primary {
+  font-size: 12px;
   font-weight: 600;
 }
-.articles .article .content .description {
-  font-family: iranyekan;
-  font-size: 12px;
-  color: #858585;
-  font-weight: 400;
+.receipt .mentions .item:before {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: #BC080E;
+  right: 5px;
+  border-radius: 50%;
 }
-.articles .article .content .footer .foot-items {
+.receipt .payment-status {
+  padding: 25px;
+  margin-top: 25px;
+}
+.receipt .payment-status .pay-head {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 25px;
+  margin-top: 10px;
+}
+.receipt .payment-status .pay-head .message {
+  font-weight: 600;
+  font-size: 18px;
+  margin-top: 15px;
+}
+.receipt .payment-status .icon-status-container {
+  padding: 15px;
+  border-radius: 50%;
+  background-color: #ffe0e0;
+  width: 75px;
+  height: 75px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.receipt .payment-status .icon-status-container.success {
+  background-color: #D1FFC4 !important;
+}
+.receipt .payment-status .icon-status-container .payment-status-icon {
+  width: 50px;
+}
+.receipt .payment-status .icon-status-container .payment-status-icon .circle {
+  fill: #BC080E;
+}
+.receipt .payment-status .icon-status-container .payment-status-icon .circle.success {
+  fill: #429434;
+}
+.receipt .payment-status .icon-status-container .payment-status-icon .path {
+  fill: #fff;
+}
+.receipt .payment-status .final-invoice {
+  font-family: iranyekan;
+  position: relative;
+  font-size: 13px;
+  font-weight: 400;
+  margin-top: 10px;
+  padding-top: 15px;
+  padding-right: 10px;
+  padding-left: 10px;
+  border-top: 2px dashed #efefef;
+}
+.receipt .payment-status .final-invoice:before {
+  content: "";
+  position: absolute;
+  top: -20px;
+  background-color: #f7f7f7;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  right: -50px;
+}
+.receipt .payment-status .final-invoice:after {
+  content: "";
+  position: absolute;
+  top: -20px;
+  background-color: #f7f7f7;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  left: -50px;
+}
+.receipt .payment-status .final-invoice .item {
   display: flex;
   justify-content: space-between;
-  background-color: #F3F3F3;
+  padding: 5px 0;
+}
+.receipt .payment-status .final-invoice .item .value {
+  font-size: 16px;
+  font-weight: 500;
+}
+.receipt .payment-status .invoice-notice {
+  font-family: iranyekan;
+  font-size: 11px;
+  font-weight: 300;
+  background-color: #f7f7f7;
   padding: 5px 15px;
+  border-radius: 15px;
+  margin-top: 10px;
+}
+.receipt .player-info {
+  margin-left: auto;
+  flex: 1;
+  margin-top: 10px;
+  padding-right: 10px;
+}
+.receipt .player-info .head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.receipt .player-info .head .name {
+  font-family: iranyekan;
+}
+.receipt .player-info .head .level {
+  font-family: sans-serif;
+  padding-left: 10px;
+}
+.receipt .player-info .head .level .lvl {
+  font-size: 18px;
+  font-weight: 700;
+}
+.receipt .player-info .head .level .icon-container {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  margin-right: 5px;
+  position: relative;
+  top: -5px;
+}
+.receipt .player-info .head .level .icon-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.receipt .player-info .foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.receipt .player-info .foot .item {
+  text-align: right;
+  font-family: iranyekan;
+  padding-left: 15px;
+}
+.receipt .player-info .foot .item:nth-last-child(1) {
+  padding-left: 0;
+}
+.receipt .player-info .foot .item.reg-date {
+  font-size: 11px;
+  background-color: #F3F3F3;
+  padding: 3px 15px;
   border-radius: 50px;
 }
-.articles .article .content .footer .foot-items .item {
-  color: #797979;
+.receipt .player-info .foot .item svg {
+  width: 20px;
+  height: 20px;
+  fill: #D2D2D2;
+}
+.receipt .player-info .foot .item svg.score-icon {
+  width: 17px;
+}
+.receipt .event-date {
+  border-top: 1px solid #efefef;
+  font-size: 14px;
   font-family: iranyekan;
-  font-size: 12px;
-  font-weight: 400;
-}
-.articles .article .content .footer .foot-items .item:nth-last-child(2) {
-  margin-right: 6px;
-}
-.articles .article .content .footer .foot-items .item.release {
-  margin-right: auto;
-}
-.articles .article .content .footer .foot-items .item svg {
-  width: 16px;
-  fill: #4A4A4A;
-  margin-right: 5px;
-}
-.articles .share {
-  background-color: #DCDCDC;
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 4px solid #fff;
-  position: absolute;
-  left: 25px;
-  transform: translateY(-16px);
-}
-.articles .share svg {
-  width: 12px;
+  justify-content: space-between;
+  padding: 20px 10px 5px 10px;
 }
 
-/*# sourceMappingURL=Articles.css.map */
+.invoice-btn {
+  display: flex;
+  justify-content: space-between;
+}
+.invoice-btn .item {
+  flex: 1;
+  font-family: iranyekan;
+  cursor: pointer;
+  padding: 15px;
+  border-radius: 15px;
+  font-size: 14px;
+  background-color: #efefef;
+}
+.invoice-btn .item .btn-icon {
+  height: 20px;
+  fill: #2A2A2A;
+  margin-left: 10px;
+}
+.invoice-btn .item:nth-last-child(1) {
+  margin-right: 20px;
+}
+
+.multi-chairs {
+  flex-direction: column;
+}
+.multi-chairs .item {
+  display: flex;
+  align-items: center;
+  padding: 5px 0;
+}
+.multi-chairs .item .input-container {
+  width: 100%;
+}
+.multi-chairs .item .input-container .error {
+  position: absolute;
+  font-size: 12px;
+  font-family: "iranyekan";
+  margin-top: 10px;
+  color: #BC080E;
+}
+.multi-chairs .item .chair-container .chair .choose {
+  bottom: unset;
+  border-radius: 50%;
+  padding: 3px 5px;
+  left: -15px;
+}
+
+/*# sourceMappingURL=PaymentReceipt.css.map */

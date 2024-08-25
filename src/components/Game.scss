@@ -764,6 +764,7 @@
 .payment-method{
   .item{
     margin-top: 10px;
+    cursor: pointer;
     display: flex;
     align-items: center;
     background-color: #fff;
@@ -810,8 +811,15 @@
   .arr{
     font-size: 25px;
     color: $light;
-    margin-right: auto;
-    padding-left: 5px;
+    margin-right: auto;;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    .spinner-container{
+      transform: translateY(7px) !important;
+    }
   }
 }
 .cube-info-modal{
@@ -1050,17 +1058,7 @@
     text-align: right;
     position: relative;
 
-    .angle-icon{
-      width: 18px;
-      fill: #a7a7a7;
-      position: absolute;
-      left: 15px;
-      transition: all 0.3s;
-      transform: rotate(0);
-      &.active{
-        transform: rotate(90deg);
-      }
-    }
+
   }
   .edit li {
     position: relative;
@@ -1134,7 +1132,7 @@
       align-items: center;
       font-size: 14px;
       background-color: #efefef;
-      padding: 5px 15px;
+      //padding: 5px 15px;
       border-radius: 15px;
       margin-left: 10px;
       margin-bottom: 10px;
@@ -1144,18 +1142,25 @@
       &.common-roles{
         display: flex;
         justify-content: space-between;
+        .name{ width: 100%;}
       }
       &.selected{
         background-color: #4e9f39;
+        color: #fff;
+        .counter-icon{
+          fill: #fff!important;
+        }
       }
       .name{
         display: flex;
         align-items: center;
+        padding: 5px 15px;
       }
       .counter{
         display: flex;
         margin-right: 10px;
         align-items: center;
+        padding: 5px 15px;
         .count{
           margin: 0 5px;
           font-size: 14px;
@@ -1197,12 +1202,33 @@
   }
 }
 .game-score-modal{
+  .modal-content{
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+  }
+
+  .sec-container{
+    margin-bottom: 15px;
+    position: relative;
+  }
+  .input-control{
+    text-align: right;
+    position: relative;
+    cursor: pointer;
+  }
+  .custom-select-input{
+    max-height: 250px;
+    overflow-y: auto;
+
+  }
   .head{
     font-size: 18px;
     font-weight: 500;
     margin-bottom: 15px;
     text-align: right;
     width: 100%;
+    padding-right: 5px;
   }
   .user-scores{
     .item{
@@ -1238,22 +1264,32 @@
           fill: #434343;
           cursor: pointer;
           z-index: 20;
-
+        }
+        .count{
+          font-family: iranyekan;
+          font-weight: 500;
         }
       }
     }
   }
   .win-side{
+    display: flex;
+    justify-content: space-between;
     .item{
+      flex: 1;
       display: inline-block;
       text-align: center;
-      width: calc(100% / 3 - 7px);
+      //width: calc(100% / 3 - 7px);
       padding: 5px 10px;
       margin-bottom: 10px;
       margin-left: 10px;
       background-color: #efefef;
       border-radius: 10px;
       cursor: pointer;
+      &.selected{
+        background-color: #4e9f39;
+        color: #fff;
+      }
       &:nth-last-child(1){
         margin-left: 0;
       }

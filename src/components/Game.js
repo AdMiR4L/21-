@@ -19,7 +19,7 @@ import Modal from "react-bootstrap/Modal";
 import ConvertToShamsiDate from "./ConverToShamsiDate";
 import toast from "react-hot-toast";
 
-function Game() {
+function Game(props) {
     const { id } = useParams();
 
     const [game, setGame] = useState();
@@ -43,6 +43,8 @@ function Game() {
     const [showSearchResults, setShowSearchResults] = useState(false);
     const [showGradeInput, setShowGradeInput] = useState(false);
     const [sendDataLoading, setSendDataLoading] = useState(false);
+
+    // Game Setting Modal
     const [showGameSettingModal, setShowGameSettingModal] = useState(false);
     const [selectedCharacters, setSelectedCharacters] = useState({});
     const [chosableCharacters, setChosableCharacters] = useState({});
@@ -51,10 +53,56 @@ function Game() {
 
 
 
-
+    // Game Score Modal
     const [showGameScoresModal, setShowGameScoresModal] = useState(false);
     const [usersGameScore, setUsersGameScore] = useState([]);
+    const [showMVPDropDown, setShowMVPDropDown] = useState(false);
+    const [MVPInput, setMVPInput] = useState();
+    const [winSide, setWinSide] = useState([false, false, false]);
 
+    const chooseWinSide = (index) => {
+        if (index === 2) {
+            // Toggle the third item
+            setWinSide(prevState => {
+                const newSelection = [...prevState];
+                newSelection[index] = !prevState[index];
+                return newSelection;
+            });
+        } else {
+            // For the first two items, allow only one to be selected
+            setWinSide(prevState => {
+                const newSelection = [false, false, ...prevState.slice(2)];
+                newSelection[index] = true;
+                return newSelection;
+            });
+        }
+        console.log(winSide)
+    };
+
+    function payWithZarinPal(){
+        setSendDataLoading(true)
+            const headers = {
+                'Content-Type': 'application/json',
+                'Authorization': "Bearer " + localStorage.authToken}
+            axios.post(process.env.REACT_APP_API+'game/payment/attempt',
+                {
+                    game_id : game.id ?? null,
+                    chair_no : selectedChairs ? JSON.stringify(selectedChairs) : null,
+                }, {headers : headers})
+                .then((response) => {
+                    if (response.data.status === 100) {
+                        // Redirect to ZarinPal for payment
+                         window.location.href = `https://www.zarinpal.com/pg/StartPay/${response.data.authority}`;
+                        //window.location.href = `https://sandbox.zarinpal.com/pg/StartPay/${response.data.authority}`;
+                    }
+                    else {
+                        console.log(response.data)
+                    }
+                })
+                .catch((error) =>{
+                  console.log(error)
+                });
+    }
 
 
     const [scenarioMafiaCount, setScenarioMafiaCount] = useState();
@@ -138,7 +186,7 @@ function Game() {
                 setGodInput(response.data.game.god_id ? response.data.game.god.name : "");
                 setGradeInput(response.data.game.grade);
                 setScenarios(response.data.scenarios);
-
+                setMVPInput(response.data.game.mvp);
                 if (response.data.game.game_scenario){
                     const citizen = response.data.game.scenario.characters.find(obj => obj.id === 16);
                     const mafia = response.data.game.scenario.characters.find(obj => obj.id === 5);
@@ -166,6 +214,36 @@ function Game() {
                     setGodInput(response.data.game.god)
                 if (response.data.histories)
                     setUsersCharacter(response.data.histories)
+                if (response.data.game.history)
+                    response.data.game.history.forEach(user => {
+                        setUsersGameScore(prevState => ({
+                            ...prevState,
+                            [user.user_id]: user.score,
+                        }));
+                    });
+                // Ensure win_side is defined and not null or undefined
+                if (response.data.game.win_side !== undefined && response.data.game.win_side !== null) {
+                    // Create a new array with all false values
+                    const newWinSide = [false, false, false];
+
+                    // Check if win_side is an array
+                    if (Array.isArray(response.data.game.win_side)) {
+                        // Update the relevant indices in the newWinSide array to true
+                        response.data.game.win_side.forEach(side => {
+                            if (side >= 0 && side < newWinSide.length) {
+                                newWinSide[side] = true;
+                            }
+                        });
+                    } else {
+                        // If win_side is a single value, update the relevant index to true
+                        if (response.data.game.win_side >= 0 && response.data.game.win_side < newWinSide.length) {
+                            newWinSide[response.data.game.win_side] = true;
+                        }
+                    }
+
+                    // Set the state with the updated array
+                    setWinSide(newWinSide);
+                }
                 setIsLoading(false)
             });
     }
@@ -378,27 +456,79 @@ function Game() {
     }
 
 
-    const assignRandomCharacterToReservedUsers = () => {
-        if (selectedCharacters.length > 0) {
-            const newAssignments = {};
-            reserves.forEach(reserve => {
-                const randomIndex = Math.floor(Math.random() * selectedCharacters.length);
-                const randomCharacter = selectedCharacters[randomIndex];
-                newAssignments[reserve.user.id] = randomCharacter.id;
-            });
-            setUsersCharacter(prevState => ({
-                ...prevState,
-                ...newAssignments
-            }));
-            console.log('Assigned random characters to reserved users:', newAssignments);
-        } else {
-            console.log("No characters are available to assign.");
+    function saveUsersScore (){
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer " + localStorage.authToken
         }
-    };
+        setSendDataLoading(true);
+        axios.post(process.env.REACT_APP_API+'game/scores',
+            {
+                scores : usersGameScore ?? null,
+                game_id : game.id ?? null,
+                mvp : MVPInput ?? null,
+                side : winSide ?? null,
+            }, {headers : headers})
+            .then((response) => {
+                toast.success(response.data);
+                setShowGameScoresModal(false);
+                setTimeout(() => {getGame()}, 500)
+                setSendDataLoading(false)
+            })
+            .catch((error) =>{
+                console.log(error)
+            });
+    }
+
+
+
+    function sendUsersCharacter() {
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer " + localStorage.authToken
+        }
+        setSendDataLoading(true);
+        axios.post(process.env.REACT_APP_API+'game/send/characters',
+            {
+                userCharacters : usersCharacter ?? null,
+                game_id : game.id ?? null,
+            }, {headers : headers})
+            .then((response) => {
+                toast.success(response.data);
+                setShowGameScoresModal(false);
+                setTimeout(() => {getGame()}, 500)
+                setSendDataLoading(false)
+            })
+            .catch((error) =>{
+                toast.error("لطفا قبل از ارسال نقش اطلاعات را ذخیره کنید")
+                console.log(error)
+            });
+    }
+
+
+
+    // const assignRandomCharacterToReservedUsers = () => {
+    //     if (selectedCharacters.length > 0) {
+    //         const newAssignments = {};
+    //         reserves.forEach(reserve => {
+    //             const randomIndex = Math.floor(Math.random() * selectedCharacters.length);
+    //             const randomCharacter = selectedCharacters[randomIndex];
+    //             newAssignments[reserve.user.id] = randomCharacter.id;
+    //         });
+    //         setUsersCharacter(prevState => ({
+    //             ...prevState,
+    //             ...newAssignments
+    //         }));
+    //         console.log('Assigned random characters to reserved users:', newAssignments);
+    //     } else {
+    //         console.log("No characters are available to assign.");
+    //     }
+    // };
 
 
     useEffect(() => {
         getGame()
+        document.title = '21+ | رزرو جایگاه'
     }, []);
 
 
@@ -557,47 +687,50 @@ function Game() {
                             </div>
                             :
                             <ul className="payment-method">
-                                <li>
-                                    <a href="/" className="item">
+                               {/* <li className="item">
+
                                         <div className="img-container">
                                             <img src={Sadad} alt="sadad"/>
                                         </div>
                                         <div className="content">
-                           <span className="head">
-                               پرداخت آنلاین بانک ملی
-                           </span>
-                                            <span className="notice">
-                               پرداخت توسط درگاه  آنلاین سداد، بانک ملی انجام میشود
-                           </span>
+                                       <span className="head">
+                                           پرداخت آنلاین بانک ملی
+                                       </span>
+                                                        <span className="notice">
+                                           پرداخت توسط درگاه  آنلاین سداد، بانک ملی انجام میشود
+                                       </span>
                                         </div>
                                         <div className="arr">
                                             <i className="fa-light fa-circle-arrow-left"></i>
                                         </div>
-                                    </a>
-                                </li>
+
+                                </li>*/}
 
 
-                                <li>
-                                    <a href="/" className="item">
+                                <li className="item" onClick={() => payWithZarinPal()}>
+
                                         <div className="img-container mt-0">
                                             <img src={ZarinPal} alt="zarinpal"/>
                                         </div>
                                         <div className="content">
-                           <span className="head">
-                               پرداخت با درگاه واسط زرین پال
-                           </span>
-                                            <span className="notice">
-                               پرداخت توسط درگاه واسط زرین پال انجام میشود
-                           </span>
+                                       <span className="head">
+                                           پرداخت با درگاه واسط زرین پال
+                                       </span>
+                                                        <span className="notice">
+                                           پرداخت توسط درگاه واسط زرین پال انجام میشود
+                                       </span>
                                         </div>
                                         <div className="arr">
-                                            <i className="fa-light fa-circle-arrow-left"></i>
+                                            {sendDataLoading ?
+                                                <div className="spinner-container">
+                                                    <div className="spinner"></div>
+                                                </div> : null}
                                         </div>
-                                    </a>
+
                                 </li>
 
-                                <li>
-                                    <a className="item" href="/">
+                                <li className="item">
+
                                         <div className="img-container">
                                             <img src={Paying} alt="paying"/>
                                         </div>
@@ -612,7 +745,7 @@ function Game() {
                                         <div className="arr">
                                             <i className="fa-light fa-circle-arrow-left"></i>
                                         </div>
-                                    </a>
+
                                 </li>
                             </ul>
                         }
@@ -738,33 +871,68 @@ function Game() {
 
                     </Modal.Header>
                     <Modal.Body>
-                        <div className="head">
-                            ساید برنده بازی
-                        </div>
-                        <ul className="win-side">
-                            <li className="item">مــافــیــا</li>
-                            <li className="item">شـــهـــــر</li>
-                            <li className="item">مـسـتــقــل</li>
-                        </ul>
-                        <div className="head">
-                            بهترین بازیکن
-                            <span className="notice mr-2">(MVP)</span>
-                        </div>
-                        <div className="input-control">انتخاب بهترین بازیکن</div>
-                        <div className="head">
-                            امتیازات کاربران
-                        </div>
-                        <ul className="user-scores">
-                            {reserves.map((item, index) => (
-                                <li className="item" key={index}>
-                                    <div className="avatar">
-                                        {item.user.photo_id ?
-                                            item.user.photo_id :
-                                            <img src={Avatar} alt="avatar"/>
-                                        }
+                        <div className="sec-container">
+                            <div className="head">
+                                ساید برنده بازی
+                            </div>
+                            <ul className="win-side">
+                                <li
+                                    onClick={() => chooseWinSide(0)}
+                                    className={`item ${winSide[0]  ? 'selected' : ''}`}>مــافــیــا</li>
+                                {game.scenario_id && game.scenario.characters.find(obj => obj.side === 2) ?
+                                    <li onClick={() => chooseWinSide(2)}
+                                        className={`item ${winSide[2]  ? 'selected' : ''}`}>مـسـتــقــل</li>
+                                    :null}
+                                    <li onClick={() => chooseWinSide(1)}
+                                        className={`item ${winSide[1]  ? 'selected' : ''}`}>شـــهـــــر</li>
+                                    </ul>
                                     </div>
-                                    <div className="name">{item.user.name + " " + item.user.family}</div>
-                                    <div className="counter">
+                                    <div className="sec-container">
+                            <div className="head">
+                                بهترین بازیکن
+                                <span className="notice mr-2">(MVP)</span>
+                            </div>
+                            <div onClick={() => setShowMVPDropDown(!showMVPDropDown)} className="input-control">
+                                {MVPInput && reserves.find(obj => obj.user_id === MVPInput)?
+                                    reserves.find(obj => obj.user_id === MVPInput).user.name+" "+reserves.find(obj => obj.user_id === MVPInput).user.family
+                                    : " انتخاب بهترین بازیکن"}
+                                <svg className={showMVPDropDown ? "active angle-icon" : "angle-icon"}
+                                     xmlns="http://www.w3.org/2000/svg"
+                                     viewBox="0 0 512 512">
+                                    <path
+                                        d="M256,0C114.84,0,0,114.84,0,256s114.84,256,256,256,256-114.84,256-256S397.16,0,256,0ZM335.08,271.08l-106.67,106.67c-4,4.01-9.42,6.26-15.08,6.25-5.66,0-11.09-2.24-15.08-6.25-8.34-8.34-8.34-21.82,0-30.17l91.58-91.58-91.58-91.58c-8.34-8.34-8.34-21.82,0-30.16s21.82-8.34,30.16,0l106.67,106.67c8.34,8.34,8.34,21.82,0,30.17h0Z"/>
+                                </svg>
+                            </div>
+                            {showMVPDropDown ?
+                                <ul className="custom-select-input">
+                                    {reserves.map((item, index) => (
+                                        <li
+                                            key={index}
+                                            className="item"
+                                            onClick={() => {
+                                                setMVPInput(item.user.id);
+                                                setShowMVPDropDown(!showMVPDropDown);
+                                            }}
+                                        >{item.user.name + " " + item.user.family}
+                                        </li>
+                                    ))}
+                                </ul> : null}
+                        </div>
+                        <div className="sec-container">
+                            <div className="head">
+                                امتیازات کاربران
+                            </div>
+                            <ul className="user-scores">
+                                {reserves.map((item, index) => (
+                                    <li className="item" key={index}>
+                                        <div className="avatar">
+                                            {item.user.photo_id ?
+                                                item.user.photo_id :
+                                                <img src={Avatar} alt="avatar"/>
+                                            }
+                                        </div>
+                                        <div className="name">{item.user.name + " " + item.user.family}</div>
+                                        <div className="counter">
                                            <span onClick={() => userScoreCounter(item.user.id, "-")}
                                                  className="count-btn">
                                                 <svg className="counter-icon" xmlns="http://www.w3.org/2000/svg"
@@ -773,19 +941,22 @@ function Game() {
                                                       d="M257,0C116.39,0,0,114.39,0,255s116.39,257,257,257,255-116.39,255-257S397.61,0,257,0ZM392,285H120c-16.54,0-30-13.46-30-30s13.46-30,30-30h272c16.53,0,30,13.46,30,30s-13.47,30-30,30Z"/>
                                                 </svg>
                                            </span>
-                                        <div className="count">{usersGameScore[item.user.id]}</div>
-                                        <span onClick={() => userScoreCounter(item.user.id, "+")} className="count-btn">
+                                            <div className="count">{usersGameScore[item.user.id]}</div>
+                                            <span onClick={() => userScoreCounter(item.user.id, "+")}
+                                                  className="count-btn">
                                             <svg className="counter-icon" xmlns="http://www.w3.org/2000/svg"
                                                  viewBox="0 0 512 512">
                                                 <path
                                                     d="M257,0C116.39,0,0,114.39,0,255s116.39,257,257,257,255-116.39,255-257S397.61,0,257,0ZM392,285h-106v106c0,16.53-13.46,30-30,30s-30-13.47-30-30v-106h-106c-16.54,0-30-13.46-30-30s13.46-30,30-30h106v-106c0-16.54,13.46-30,30-30s30,13.46,30,30v106h106c16.53,0,30,13.46,30,30s-13.47,30-30,30Z"/>
                                             </svg>
                                         </span>
-                                    </div>
-                                </li>
-                            ))
-                            }
-                        </ul>
+                                        </div>
+                                    </li>
+                                ))
+                                }
+                            </ul>
+                        </div>
+
                         {sendDataLoading ?
                             <span className="primary-btn twin-btn">
                                    <div className="loader-container">
@@ -794,7 +965,7 @@ function Game() {
                                    </div>
                                 </span>
                             :
-                            <li className="primary-btn twin-btn" onClick={() => saveUsersCharacter()}>
+                            <li className="primary-btn twin-btn" onClick={() => saveUsersScore()}>
                                 <svg className="game-setting-icons" xmlns="http://www.w3.org/2000/svg"
                                      viewBox="0 0 512.04 512.08">
                                     <path
@@ -1032,7 +1203,7 @@ function Game() {
                         </svg>
 
                     </Modal.Header>
-                    <Modal.Body>
+                    <Modal.Body className="prevent-select">
                         <div className="head game-modal-head">
                             انتخاب کارکتر های موجود در این بازی
                         </div>
@@ -1045,21 +1216,13 @@ function Game() {
                                             {game.scenario.characters.find(obj => obj.id === 16).name}
                                         </div>
                                         <div className="counter">
-                                           <span onClick={() => counter("citizen", "-")} className="count-btn">
-                                                <svg className="counter-icon" xmlns="http://www.w3.org/2000/svg"
-                                                     viewBox="0 0 512 512">
-                                                  <path
-                                                      d="M257,0C116.39,0,0,114.39,0,255s116.39,257,257,257,255-116.39,255-257S397.61,0,257,0ZM392,285H120c-16.54,0-30-13.46-30-30s13.46-30,30-30h272c16.53,0,30,13.46,30,30s-13.47,30-30,30Z"/>
-                                                </svg>
-                                           </span>
-                                            <div className="count">{scenarioCitizenCount}</div>
-                                            <span onClick={() => counter("citizen", "+")} className="count-btn">
-                                            <svg className="counter-icon" xmlns="http://www.w3.org/2000/svg"
-                                                 viewBox="0 0 512 512">
-                                                <path
-                                                    d="M257,0C116.39,0,0,114.39,0,255s116.39,257,257,257,255-116.39,255-257S397.61,0,257,0ZM392,285h-106v106c0,16.53-13.46,30-30,30s-30-13.47-30-30v-106h-106c-16.54,0-30-13.46-30-30s13.46-30,30-30h106v-106c0-16.54,13.46-30,30-30s30,13.46,30,30v106h106c16.53,0,30,13.46,30,30s-13.47,30-30,30Z"/>
+                                            <svg onClick={() => counter("citizen", "-")} className="counter-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                              <path d="M257,0C116.39,0,0,114.39,0,255s116.39,257,257,257,255-116.39,255-257S397.61,0,257,0ZM392,285H120c-16.54,0-30-13.46-30-30s13.46-30,30-30h272c16.53,0,30,13.46,30,30s-13.47,30-30,30Z"/>
                                             </svg>
-                                        </span>
+                                            <div className="count">{scenarioCitizenCount}</div>
+                                            <svg onClick={() => counter("citizen", "+")} className="counter-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                                <path d="M257,0C116.39,0,0,114.39,0,255s116.39,257,257,257,255-116.39,255-257S397.61,0,257,0ZM392,285h-106v106c0,16.53-13.46,30-30,30s-30-13.47-30-30v-106h-106c-16.54,0-30-13.46-30-30s13.46-30,30-30h106v-106c0-16.54,13.46-30,30-30s30,13.46,30,30v106h106c16.53,0,30,13.46,30,30s-13.47,30-30,30Z"/>
+                                            </svg>
                                         </div>
                                     </li> : null
                                 }
@@ -1070,21 +1233,21 @@ function Game() {
                                             {game.scenario.characters.find(obj => obj.id === 5).name}
                                         </div>
                                         <div className="counter">
-                                           <span onClick={() => counter("mafia", "-")} className="count-btn">
-                                                <svg className="counter-icon" xmlns="http://www.w3.org/2000/svg"
+
+                                                <svg onClick={() => counter("mafia", "-")} className="counter-icon" xmlns="http://www.w3.org/2000/svg"
                                                      viewBox="0 0 512 512">
                                                   <path
                                                       d="M257,0C116.39,0,0,114.39,0,255s116.39,257,257,257,255-116.39,255-257S397.61,0,257,0ZM392,285H120c-16.54,0-30-13.46-30-30s13.46-30,30-30h272c16.53,0,30,13.46,30,30s-13.47,30-30,30Z"/>
                                                 </svg>
-                                           </span>
+
                                             <div className="count">{scenarioMafiaCount}</div>
-                                            <span onClick={() => counter("mafia", "+")} className="count-btn">
-                                            <svg className="counter-icon" xmlns="http://www.w3.org/2000/svg"
+
+                                            <svg onClick={() => counter("mafia", "+")} className="counter-icon" xmlns="http://www.w3.org/2000/svg"
                                                  viewBox="0 0 512 512">
                                                 <path
                                                     d="M257,0C116.39,0,0,114.39,0,255s116.39,257,257,257,255-116.39,255-257S397.61,0,257,0ZM392,285h-106v106c0,16.53-13.46,30-30,30s-30-13.47-30-30v-106h-106c-16.54,0-30-13.46-30-30s13.46-30,30-30h106v-106c0-16.54,13.46-30,30-30s30,13.46,30,30v106h106c16.53,0,30,13.46,30,30s-13.47,30-30,30Z"/>
                                             </svg>
-                                        </span>
+
                                         </div>
                                     </li> : null
                                 }
@@ -1127,7 +1290,7 @@ function Game() {
                                         <ul className="user-character ">
                                             <li onClick={() => toggleSelectCharacterForUser(index)}
                                                 className="character input-control">
-                                                {usersCharacter.hasOwnProperty(reserve.user.id) && selectedCharacters.find(obj => obj.id === usersCharacter[reserve.user.id]) ?
+                                                {usersCharacter.hasOwnProperty(reserve.user.id) && Object(selectedCharacters).length && selectedCharacters.find(obj => obj.id === usersCharacter[reserve.user.id]) ?
                                                     selectedCharacters.find(obj => obj.id === usersCharacter[reserve.user.id]).name
                                                     : " انتخاب کارکتر"
                                                 }
@@ -1186,7 +1349,7 @@ function Game() {
                                         ذخیره تنظیمات
                                     </li>
                                 }
-                                <li className="primary-btn mt-2" onClick={() => editGame()}>
+                                <li className="primary-btn mt-2" onClick={() => sendUsersCharacter()}>
                                     <svg className="game-setting-icons" xmlns="http://www.w3.org/2000/svg"
                                          viewBox="0 0 512 469.33">
                                         <path
@@ -1206,7 +1369,7 @@ function Game() {
             }
 
             <div className="space-50"></div>
-            <Breadcrumb name="رویداد مافیا" location="/"/>
+            <Breadcrumb tag={game ? " شناسه "+game.id : null} name="رویداد مافیا" location="/"/>
             <div className="space-25"></div>
             {!isLoading ?
                 <div className="row">
@@ -1367,36 +1530,46 @@ function Game() {
 
 
                         </div>
-                        <ul className="admin-access">
-                            <li className="edit-btn" onClick={() => setShowEditModal(true)}>
-                                <svg className="edit-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512.01 512">
-                                    <path
-                                        d="M304,0H58.67C26.24,0,0,26.24,0,58.67v330.67c0,32.43,26.24,58.67,58.67,58.67h157.44l4.69-26.24c2.13-11.95,7.68-22.61,16.21-31.36l125.65-125.44V58.67c0-32.43-26.24-58.67-58.67-58.67ZM85.33,85.33h85.33c11.73,0,21.33,9.6,21.33,21.33s-9.6,21.33-21.33,21.33h-85.33c-11.73,0-21.33-9.6-21.33-21.33s9.6-21.33,21.33-21.33ZM192,298.67h-106.67c-11.73,0-21.33-9.6-21.33-21.33s9.6-21.33,21.33-21.33h106.67c11.73,0,21.33,9.6,21.33,21.33s-9.6,21.33-21.33,21.33ZM277.33,213.33H85.33c-11.73,0-21.33-9.6-21.33-21.33s9.6-21.33,21.33-21.33h192c11.73,0,21.33,9.6,21.33,21.33s-9.6,21.33-21.33,21.33ZM267.26,512c-8.81.02-15.98-7.1-16-15.92,0-.97.08-1.93.25-2.88l11.31-64.11c.57-3.23,2.12-6.21,4.44-8.53l158.4-158.38c19.46-19.5,38.57-14.23,49.02-3.78l26.39,26.39c14.58,14.58,14.58,38.22,0,52.8,0,0,0,0,0,0l-158.4,158.4c-2.31,2.33-5.3,3.88-8.53,4.44l-64.11,11.31c-.91.17-1.84.26-2.77.26ZM331.37,484.69h.21-.21Z"/>
-                                </svg>
-                                ویرایش این بازی
-                            </li>
-                            <li onClick={() => setShowGameSettingModal(!showGameSettingModal)} className="edit-btn">
-                                <svg className="edit-icon" xmlns="http://www.w3.org/2000/svg"
-                                     viewBox="0 0 473.02 473.02">
-                                    <path
-                                        d="M132.35,226.66h41.98c4.29-26.94,25.4-48.08,52.33-52.43v-41.88c-49.77,4.63-89.58,44.44-94.31,94.31ZM246.36,298.69v41.98c49.86-4.73,89.68-44.44,94.41-94.31h-41.98c-4.34,26.93-25.49,48.03-52.43,52.33ZM246.36,132.35v41.88c26.97,4.3,48.12,25.45,52.43,52.43h41.98c-4.73-49.86-44.54-89.68-94.41-94.31h0ZM174.33,246.36h-41.98c4.73,49.86,44.54,89.58,94.31,94.31v-41.98c-26.9-4.34-47.99-25.43-52.33-52.33Z"/>
-                                    <path
-                                        d="M464.84,202.71l-46.81-7.98c-4.53-20.2-12.42-39.32-23.55-56.96l27.4-38.93c2.79-3.9,2.33-9.25-1.08-12.61l-34-34c-3.39-3.37-8.7-3.83-12.61-1.08l-38.93,27.4c-17.51-11.02-36.77-18.99-56.96-23.55l-7.98-46.81c-.8-4.71-4.88-8.17-9.66-8.18h-48.19c-4.73,0-8.87,3.45-9.66,8.18l-8.08,46.81c-20.15,4.58-39.37,12.55-56.86,23.55l-38.93-27.4c-3.91-2.74-9.23-2.29-12.61,1.08l-34,34c-3.41,3.37-3.87,8.71-1.08,12.61l27.4,38.93c-11.05,17.51-19.05,36.77-23.65,56.96l-46.71,7.98c-4.73.79-8.28,4.93-8.28,9.76v48.09c0,4.73,3.55,8.87,8.28,9.66l46.71,8.08c4.63,20.1,12.52,39.22,23.65,56.86l-27.4,38.93c-2.76,3.94-2.37,9.26,1.08,12.61l34,34c3.35,3.45,8.67,3.94,12.61,1.08l38.93-27.4c17.64,11.14,36.76,19.02,56.86,23.65l8.08,46.81c.79,4.73,4.93,8.18,9.66,8.18h48.19c4.73,0,8.87-3.45,9.66-8.18l7.98-46.81c20.19-4.6,39.45-12.6,56.96-23.65l38.93,27.4c3.94,2.86,9.26,2.37,12.61-1.08l34-34c3.45-3.35,3.84-8.67,1.08-12.61l-27.4-38.93c11.14-17.64,19.02-36.76,23.55-56.86l46.81-8.08c4.73-.79,8.18-4.93,8.18-9.66v-48.09c.02-4.81-3.44-8.94-8.18-9.76h0ZM360.87,236.71c-.1,68.39-55.68,123.97-124.07,124.17h-.49c-68.39-.2-123.97-55.78-124.17-124.17v-.49c.2-68.39,55.78-123.97,124.17-124.07.1,0,.2-.1.2-.1.1,0,.2.1.3.1,68.39.1,123.97,55.68,124.07,124.07,0,.1.1.2.1.3s-.1.1-.1.2h0Z"/>
-                                </svg>
-                                تنظیمـات بــازی
-                            </li>
-                            <li className="edit-btn" onClick={() => setShowGameScoresModal(!showGameScoresModal)}>
-                                <svg className="edit-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 471.75">
-                                    <path
-                                        d="M445.04,246.25c12.77,0,25.05-3.69,35.87-10.96,17.94-12.13,30.4-34.13,30.88-57.01.56-11.63,0-23.95-1.7-37.68-.96-7.85-7.87-13.94-16.79-13.05-15.23,1.96-30.84,9.19-43.86,20.51-.61-5.06-1.42-10.09-2.43-15.08,14.44-7.15,25.6-18.64,31.37-32.97,8.36-20.07,5.74-44.85-6.87-64.69-7.02-11.06-14.57-21.21-22.44-30.2-5.46-6.23-14.9-6.87-21.15-1.41-13.56,11.85-22.7,29.05-26.44,49.88-3.38,19.99-.75,36.85,6.8,55.12,31.39,74.58,2.56,159.86-62.75,201.52-4.62,2.88-8.27,6.87-10.78,11.51h-63.77v-61.28l52.79,27.41c5.05,2.62,11.14,2.16,15.73-1.19,4.6-3.34,6.91-8.99,5.98-14.59l-12.52-75.35,54.42-53.6c4.04-3.98,5.49-9.91,3.73-15.31-1.76-5.4-6.41-9.35-12.03-10.21l-75.18-11.32-34.26-75.75c-4.86-10.75-22.47-10.75-27.33,0l-34.26,75.75-75.18,11.32c-5.62.86-10.27,4.81-12.03,10.21-1.75,5.4-.31,11.32,3.73,15.31l54.42,53.6-12.52,75.35c-.94,5.6,1.38,11.26,5.98,14.59,4.6,3.34,10.69,3.8,15.73,1.19l52.79-27.41v61.28h-64.24c-5.55-9.31-14.04-13.53-21.99-19.75-42.13-34.07-63.47-83.14-63.47-130.25,0-59.89,27.65-69.4,19.47-118.33-3.73-20.67-12.86-37.85-26.41-49.7-6.2-5.45-15.72-4.83-21.15,1.41-7.92,9.05-15.48,19.22-22.44,30.19-12.61,19.83-15.26,44.62-6.96,64.54,5.83,14.47,17.02,25.98,31.47,33.14-1.01,5-1.82,10.03-2.43,15.09-13.06-11.34-28.94-18.57-44.15-20.53-3.95-.43-7.97.59-11.12,3.05-3.15,2.45-5.19,6.06-5.67,10.02-1.68,13.74-2.23,26.07-1.71,37.41.63,23.72,13.53,45.78,31.31,57.38,10.41,7.18,22.73,10.85,35.61,10.85,3,0,6.05-.36,9.1-.77,1.9,4.63,3.8,9.26,6.04,13.73-13.49-1.74-30.37-1.32-46.9,6.88-7.62,3.78-10.52,13.06-6.62,20.43,5.26,10,11.53,21.56,18.98,31.65,12.71,18.55,33.6,31.3,58.29,31.3,14.93,0,29.29-5.72,41.13-15.99,1.84,1.31,3.56,2.6,3.87,3.23v105h-15c-8.29,0-15,6.71-15,15s6.71,15,15,15h240c8.29,0,15-6.71,15-15s-6.71-15-15-15h-15v-103.39c.18-.93.57-1.8.57-2.77,1.17-.75,2.18-1.66,3.33-2.43,31.21,27.53,75.39,19.08,100.01-14.87,7.03-10.71,13.9-20.9,19.2-32.42,3.4-7.37.31-16.11-6.97-19.72-13.69-6.78-29.23-8.77-47.17-6.57,2.32-4.62,4.62-9.25,6.57-14.05,2.85.36,5.69.71,8.5.71h0ZM286,411.75h-60c-8.29,0-15-6.71-15-15s6.71-15,15-15h60c8.29,0,15,6.71,15,15s-6.71,15-15,15Z"/>
-                                </svg>
-                                پنل امتیازات
-                            </li>
-                        </ul>
+
+                        {localStorage.authToken && localStorage.userDetails && JSON.parse(localStorage.userDetails).role == "Admin" ?
+                            <ul className="admin-access">
+                                <li className="edit-btn" onClick={() => setShowEditModal(true)}>
+                                    <svg className="edit-icon" xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 512.01 512">
+                                        <path
+                                            d="M304,0H58.67C26.24,0,0,26.24,0,58.67v330.67c0,32.43,26.24,58.67,58.67,58.67h157.44l4.69-26.24c2.13-11.95,7.68-22.61,16.21-31.36l125.65-125.44V58.67c0-32.43-26.24-58.67-58.67-58.67ZM85.33,85.33h85.33c11.73,0,21.33,9.6,21.33,21.33s-9.6,21.33-21.33,21.33h-85.33c-11.73,0-21.33-9.6-21.33-21.33s9.6-21.33,21.33-21.33ZM192,298.67h-106.67c-11.73,0-21.33-9.6-21.33-21.33s9.6-21.33,21.33-21.33h106.67c11.73,0,21.33,9.6,21.33,21.33s-9.6,21.33-21.33,21.33ZM277.33,213.33H85.33c-11.73,0-21.33-9.6-21.33-21.33s9.6-21.33,21.33-21.33h192c11.73,0,21.33,9.6,21.33,21.33s-9.6,21.33-21.33,21.33ZM267.26,512c-8.81.02-15.98-7.1-16-15.92,0-.97.08-1.93.25-2.88l11.31-64.11c.57-3.23,2.12-6.21,4.44-8.53l158.4-158.38c19.46-19.5,38.57-14.23,49.02-3.78l26.39,26.39c14.58,14.58,14.58,38.22,0,52.8,0,0,0,0,0,0l-158.4,158.4c-2.31,2.33-5.3,3.88-8.53,4.44l-64.11,11.31c-.91.17-1.84.26-2.77.26ZM331.37,484.69h.21-.21Z"/>
+                                    </svg>
+                                    ویرایش این بازی
+                                </li>
+                                <li onClick={() => setShowGameSettingModal(!showGameSettingModal)} className="edit-btn">
+                                    <svg className="edit-icon" xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 473.02 473.02">
+                                        <path
+                                            d="M132.35,226.66h41.98c4.29-26.94,25.4-48.08,52.33-52.43v-41.88c-49.77,4.63-89.58,44.44-94.31,94.31ZM246.36,298.69v41.98c49.86-4.73,89.68-44.44,94.41-94.31h-41.98c-4.34,26.93-25.49,48.03-52.43,52.33ZM246.36,132.35v41.88c26.97,4.3,48.12,25.45,52.43,52.43h41.98c-4.73-49.86-44.54-89.68-94.41-94.31h0ZM174.33,246.36h-41.98c4.73,49.86,44.54,89.58,94.31,94.31v-41.98c-26.9-4.34-47.99-25.43-52.33-52.33Z"/>
+                                        <path
+                                            d="M464.84,202.71l-46.81-7.98c-4.53-20.2-12.42-39.32-23.55-56.96l27.4-38.93c2.79-3.9,2.33-9.25-1.08-12.61l-34-34c-3.39-3.37-8.7-3.83-12.61-1.08l-38.93,27.4c-17.51-11.02-36.77-18.99-56.96-23.55l-7.98-46.81c-.8-4.71-4.88-8.17-9.66-8.18h-48.19c-4.73,0-8.87,3.45-9.66,8.18l-8.08,46.81c-20.15,4.58-39.37,12.55-56.86,23.55l-38.93-27.4c-3.91-2.74-9.23-2.29-12.61,1.08l-34,34c-3.41,3.37-3.87,8.71-1.08,12.61l27.4,38.93c-11.05,17.51-19.05,36.77-23.65,56.96l-46.71,7.98c-4.73.79-8.28,4.93-8.28,9.76v48.09c0,4.73,3.55,8.87,8.28,9.66l46.71,8.08c4.63,20.1,12.52,39.22,23.65,56.86l-27.4,38.93c-2.76,3.94-2.37,9.26,1.08,12.61l34,34c3.35,3.45,8.67,3.94,12.61,1.08l38.93-27.4c17.64,11.14,36.76,19.02,56.86,23.65l8.08,46.81c.79,4.73,4.93,8.18,9.66,8.18h48.19c4.73,0,8.87-3.45,9.66-8.18l7.98-46.81c20.19-4.6,39.45-12.6,56.96-23.65l38.93,27.4c3.94,2.86,9.26,2.37,12.61-1.08l34-34c3.45-3.35,3.84-8.67,1.08-12.61l-27.4-38.93c11.14-17.64,19.02-36.76,23.55-56.86l46.81-8.08c4.73-.79,8.18-4.93,8.18-9.66v-48.09c.02-4.81-3.44-8.94-8.18-9.76h0ZM360.87,236.71c-.1,68.39-55.68,123.97-124.07,124.17h-.49c-68.39-.2-123.97-55.78-124.17-124.17v-.49c.2-68.39,55.78-123.97,124.17-124.07.1,0,.2-.1.2-.1.1,0,.2.1.3.1,68.39.1,123.97,55.68,124.07,124.07,0,.1.1.2.1.3s-.1.1-.1.2h0Z"/>
+                                    </svg>
+                                    تنظیمـات بــازی
+                                </li>
+                                <li className="edit-btn" onClick={() => setShowGameScoresModal(!showGameScoresModal)}>
+                                    <svg className="edit-icon" xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 512 471.75">
+                                        <path
+                                            d="M445.04,246.25c12.77,0,25.05-3.69,35.87-10.96,17.94-12.13,30.4-34.13,30.88-57.01.56-11.63,0-23.95-1.7-37.68-.96-7.85-7.87-13.94-16.79-13.05-15.23,1.96-30.84,9.19-43.86,20.51-.61-5.06-1.42-10.09-2.43-15.08,14.44-7.15,25.6-18.64,31.37-32.97,8.36-20.07,5.74-44.85-6.87-64.69-7.02-11.06-14.57-21.21-22.44-30.2-5.46-6.23-14.9-6.87-21.15-1.41-13.56,11.85-22.7,29.05-26.44,49.88-3.38,19.99-.75,36.85,6.8,55.12,31.39,74.58,2.56,159.86-62.75,201.52-4.62,2.88-8.27,6.87-10.78,11.51h-63.77v-61.28l52.79,27.41c5.05,2.62,11.14,2.16,15.73-1.19,4.6-3.34,6.91-8.99,5.98-14.59l-12.52-75.35,54.42-53.6c4.04-3.98,5.49-9.91,3.73-15.31-1.76-5.4-6.41-9.35-12.03-10.21l-75.18-11.32-34.26-75.75c-4.86-10.75-22.47-10.75-27.33,0l-34.26,75.75-75.18,11.32c-5.62.86-10.27,4.81-12.03,10.21-1.75,5.4-.31,11.32,3.73,15.31l54.42,53.6-12.52,75.35c-.94,5.6,1.38,11.26,5.98,14.59,4.6,3.34,10.69,3.8,15.73,1.19l52.79-27.41v61.28h-64.24c-5.55-9.31-14.04-13.53-21.99-19.75-42.13-34.07-63.47-83.14-63.47-130.25,0-59.89,27.65-69.4,19.47-118.33-3.73-20.67-12.86-37.85-26.41-49.7-6.2-5.45-15.72-4.83-21.15,1.41-7.92,9.05-15.48,19.22-22.44,30.19-12.61,19.83-15.26,44.62-6.96,64.54,5.83,14.47,17.02,25.98,31.47,33.14-1.01,5-1.82,10.03-2.43,15.09-13.06-11.34-28.94-18.57-44.15-20.53-3.95-.43-7.97.59-11.12,3.05-3.15,2.45-5.19,6.06-5.67,10.02-1.68,13.74-2.23,26.07-1.71,37.41.63,23.72,13.53,45.78,31.31,57.38,10.41,7.18,22.73,10.85,35.61,10.85,3,0,6.05-.36,9.1-.77,1.9,4.63,3.8,9.26,6.04,13.73-13.49-1.74-30.37-1.32-46.9,6.88-7.62,3.78-10.52,13.06-6.62,20.43,5.26,10,11.53,21.56,18.98,31.65,12.71,18.55,33.6,31.3,58.29,31.3,14.93,0,29.29-5.72,41.13-15.99,1.84,1.31,3.56,2.6,3.87,3.23v105h-15c-8.29,0-15,6.71-15,15s6.71,15,15,15h240c8.29,0,15-6.71,15-15s-6.71-15-15-15h-15v-103.39c.18-.93.57-1.8.57-2.77,1.17-.75,2.18-1.66,3.33-2.43,31.21,27.53,75.39,19.08,100.01-14.87,7.03-10.71,13.9-20.9,19.2-32.42,3.4-7.37.31-16.11-6.97-19.72-13.69-6.78-29.23-8.77-47.17-6.57,2.32-4.62,4.62-9.25,6.57-14.05,2.85.36,5.69.71,8.5.71h0ZM286,411.75h-60c-8.29,0-15-6.71-15-15s6.71-15,15-15h60c8.29,0,15,6.71,15,15s-6.71,15-15,15Z"/>
+                                    </svg>
+                                    پنل امتیازات
+                                </li>
+                            </ul>:null
+                        }
+
                         <ul className="extra-chairs">
                             {Array.from({length: game.extra_capacity}).map((_, index) => {
-                                const chairNumber = index + 19;
-                                const isReserved = reserves.find((obj) => obj.chair_no === chairNumber.toString());
+                                const chairNumber = index + 15;
+                                //const isReserved = reserves.find((obj) => obj.chair_no === chairNumber.toString());
+                                const isReserved = reserves.some((obj) => {
+                                    const chairArray = JSON.parse(obj.chair_no); // Convert the chair_no string to an array
+                                    return obj.status === true && chairArray.includes(chairNumber);
+                                });
                                 if (isReserved)
                                     return (
                                         <li key={chairNumber} className="item">
@@ -1569,7 +1742,12 @@ function Game() {
                                 <ul className="chairs right-side">
                                     {Array.from({length: 7}).map((_, index) => {
                                         const chairNumber = index + 1;
-                                        const isReserved = reserves.find((obj) => obj.chair_no === chairNumber.toString());
+                                        //const isReserved = reserves.find((obj) => obj.chair_no === chairNumber.toString());
+                                        const isReserved = reserves.some((obj) => {
+                                            const chairArray = JSON.parse(obj.chair_no); // Convert the chair_no string to an array
+                                            //return obj.status === true && chairArray.includes(chairNumber);
+                                            return chairArray.includes(chairNumber);
+                                        });
                                         if (isReserved)
                                             return (
                                                 <li key={index} className="item">
@@ -1622,7 +1800,11 @@ function Game() {
                                 <ul className="chairs left-side">
                                     {Array.from({ length: 7 }).map((_, index) => {
                                             const chairNumber = index + 8;
-                                            const isReserved = reserves.find((obj) => obj.chair_no === chairNumber.toString());
+                                            //const isReserved = reserves.find((obj) => obj.chair_no === chairNumber.toString());
+                                        const isReserved = reserves.some((obj) => {
+                                            const chairArray = JSON.parse(obj.chair_no); // Convert the chair_no string to an array
+                                            return obj.status === true && chairArray.includes(chairNumber);
+                                        });
                                             if (isReserved)
                                                 return (
                                                     <li key={index} className="item">
@@ -1702,7 +1884,7 @@ function Game() {
                                     </li>
                                     {
                                         selectedChairs.length ?
-                                            <li className="reserve-btn-container" onClick={() => setShowReserveModal(true) }>
+                                            <li className="reserve-btn-container" onClick={() => localStorage.getItem("authToken") ? setShowReserveModal(true) : props.setloginModal(true) }>
                                                 <div className="reserve-btn">رزرو جایگاه انتخاب شده</div>
                                             </li>
                                             :

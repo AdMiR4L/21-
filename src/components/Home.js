@@ -9,9 +9,11 @@ import Feed from "../layouts/Feed";
 import Articles from "../layouts/Articles";
 import FAQ from "../layouts/FAQ";
 import Footer from "../layers/Footer";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 function Home(props) {
-
+    useEffect(() => {
+        document.title = '21+ SPORT Gaming Center'
+    }, []);
     return (
 
         <div className="App">

@@ -1,7 +1,7 @@
 import React from 'react';
 import jalaali from 'jalaali-js';
 
-const ConvertToShamsiDate = ({ gregorianDate, name }) => {
+const ConvertToShamsiDate = ({ gregorianDate, name, article, slider }) => {
     // Extract year, month, and day from the Gregorian date
     const date = new Date(gregorianDate);
     const gregorianYear = date.getFullYear();
@@ -27,16 +27,33 @@ const ConvertToShamsiDate = ({ gregorianDate, name }) => {
         return (
             <span className="date">{shamsiDay+" "+shamsiMonthName+" "+shamsiYear}</span>
         );
-    else
+    else if (article)
         return (
+          shamsiDay+" "+shamsiMonthName
+        );
+    else if (slider)
+        return (
+            <>
+                <div className="day">
+                    {shamsiDay}
+                </div>
+                <div className="month">
+                    {shamsiMonthName}
+                </div>
+                <div className="month">
+                    ماه
+                </div>
+            </>
+        )
+        else return (
             <div>
-            <span className="number">{shamsiYear}</span>
-            <span className="slash">/</span>
-            <span className="number">{shamsiMonth}</span>
-            <span className="slash">/</span>
-            <span className="number">{shamsiDay}</span>
-        </div>
-    );
+                <span className="number">{shamsiYear}</span>
+                <span className="slash">/</span>
+                <span className="number">{shamsiMonth}</span>
+                <span className="slash">/</span>
+                <span className="number">{shamsiDay}</span>
+            </div>
+        );
 };
 
 export default ConvertToShamsiDate;
