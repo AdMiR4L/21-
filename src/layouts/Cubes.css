@@ -916,6 +916,7 @@ input[type=number] {
 }
 .cube-info .cube-box .event .time {
   font-weight: 700;
+  font-size: 16px;
   font-family: iranyekan;
 }
 .cube-info .cube-box .event .time .start.cap {

@@ -100,6 +100,8 @@ function Game(props) {
                     }
                 })
                 .catch((error) =>{
+                    toast.error("پاسخی از بانک دریافت نشد، لطفا دوباره تلاش کنید")
+                    setSendDataLoading(false);
                   console.log(error)
                 });
     }
@@ -194,12 +196,24 @@ function Game(props) {
                     setScenarioMafiaCount(mafia ? mafia.pivot.count : "");
                     setSelectedCharacters(response.data.game.scenario.characters)
 
-                    setChosableCharacters(response.data.game.scenario.characters.map((character, index) => {
-                        return {
-                            ...character,
-                            count: character.pivot.count
-                        };
-                    }))
+                    if (response.data.game.game_characters){
+                        //setChosableCharacters(JSON.parse(response.data.game.game_characters))
+                        setSelectedCharacters(JSON.parse(response.data.game.game_characters))
+                        const citizen = JSON.parse(response.data.game.game_characters).find(obj => obj.id === 16);
+                        const mafia = JSON.parse(response.data.game.game_characters).find(obj => obj.id === 5);
+                        setScenarioCitizenCount(citizen ? citizen.count : "");
+                        setScenarioMafiaCount(mafia ? mafia.count : "");
+                        console.log("PARSE" , JSON.parse(response.data.game.game_characters))
+                        console.log("SELECTED" , response.data.game.scenario.characters)
+                    }
+                    else{
+                        setChosableCharacters(response.data.game.scenario.characters.map((character, index) => {
+                            return {
+                                ...character,
+                                count: character.pivot.count
+                            };
+                        }))
+                    }
                     setScenariosInput(response.data.game.scenario)
                     setShowCharacterDescription(
                         response.data.game.scenario.characters.reduce((acc, character) => {
@@ -252,7 +266,8 @@ function Game(props) {
         const headers = {
             'Content-Type': 'application/json',
             'Authorization': "Bearer " + localStorage.authToken}
-        setSendDataLoading(true)
+        setSendDataLoading(true);
+
         axios.post(process.env.REACT_APP_API+'game/edit',
             {
                     game_id : game.id ?? null,
@@ -271,6 +286,40 @@ function Game(props) {
                 console.log(error)
             });
         }
+
+
+    function changeGameCharacters() {
+        console.log(selectedCharacters);
+       const temp = selectedCharacters.map((character) => {
+           return {
+               ...character,
+               count: character.id === 16
+                   ? scenarioCitizenCount
+                   : character.id === 5
+                       ? scenarioMafiaCount
+                       : character.pivot.count
+           };
+       });
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer " + localStorage.authToken}
+        setSendDataLoading(true)
+        axios.post(process.env.REACT_APP_API+'game/change/characters',
+            {
+                game_id : game.id ?? null,
+                capacity : temp.length - 2 + scenarioMafiaCount + scenarioCitizenCount,
+                characters : JSON.stringify(temp),
+            }, {headers : headers})
+            .then((response) => {
+                toast.success(response.data);
+                setShowEditModal(false);
+                setTimeout(() => {getGame()}, 500)
+                setSendDataLoading(false)
+            })
+            .catch((error) =>{
+                console.log(error)
+            });
+    }
 
 
     function changeGrade(grade){
@@ -313,38 +362,29 @@ function Game(props) {
         });
     }
 
-    function selectCharacters (index){
+    // function selectCharacters (index){
+    //     console.log(selectedCharacters)
+    //     setSelectedCharacters((prevSelectedCharacters) => {
+    //         if (prevSelectedCharacters.includes(index))
+    //             return prevSelectedCharacters.filter(character => character !== index);
+    //          else
+    //             return [...prevSelectedCharacters, index];
+    //     });
+    // }
 
+    function selectCharacters(character) {
+        console.log(selectedCharacters);
         setSelectedCharacters((prevSelectedCharacters) => {
-            if (prevSelectedCharacters.includes(index))
-                return prevSelectedCharacters.filter(character => character !== index);
-             else
-                return [...prevSelectedCharacters, index];
+            if (prevSelectedCharacters.some(selectedCharacter => selectedCharacter.id === character.id)) {
+                // If the character is already selected, remove it from the selectedCharacters array
+                return prevSelectedCharacters.filter(selectedCharacter => selectedCharacter.id !== character.id);
+            } else {
+                // If the character is not selected, add it to the selectedCharacters array
+                return [...prevSelectedCharacters, character];
+            }
         });
     }
 
-    // const selectCharacters = (index) => {
-    //     console.log(usersCharacter)
-    //     setSelectedCharacters((prevSelectedCharacters) => {
-    //         // Check if the index is currently selected
-    //         const isSelected = prevSelectedCharacters.includes(index);
-    //
-    //         if (isSelected) {
-    //             // If selected, remove it
-    //             const newSelectedCharacters = prevSelectedCharacters.filter(character => character !== index);
-    //
-    //             // If the character is currently assigned to a user, remove the assignment
-    //             const updatedUsersCharacter = Object.fromEntries(
-    //                 Object.entries(usersCharacter).filter(([userId, characterId]) => characterId !== index)
-    //             );
-    //
-    //             setUsersCharacter(updatedUsersCharacter);
-    //             return newSelectedCharacters;
-    //         } else
-    //             return [...prevSelectedCharacters, index];
-    //
-    //     });
-    // };
 
     function shuffle(array) {
         for (let i = array.length - 1; i > 0; i--) {
@@ -539,7 +579,7 @@ function Game(props) {
             <div className="notification-message">
             </div>
             {!isLoading ?
-            <Modal show={showReserveModal} onHide={() => setShowReserveModal(!showReserveModal)} centered className="cube-info-modal">
+            <Modal show={showReserveModal} onHide={() => setShowReserveModal(!showReserveModal)} centered className="cube-info-modal custom-modal">
                 <Modal.Header>
                     <Modal.Title>
                         برنامه مافیا سالن
@@ -766,7 +806,7 @@ function Game(props) {
                 :
                 null}
             {!isLoading && game.scenario?
-                <Modal show={showScenarioModal} onHide={() => setShowScenarioModal(false)} centered className="scenario-modal">
+                <Modal show={showScenarioModal} onHide={() => setShowScenarioModal(false)} centered className="scenario-modal custom-modal">
                     <Modal.Header>
                         <Modal.Title>
                             سـنــاریـو
@@ -857,7 +897,7 @@ function Game(props) {
                 : null}
 
             {!isLoading?
-                <Modal show={showGameScoresModal} onHide={() => setShowGameScoresModal(false)} centered className="game-score-modal">
+                <Modal show={showGameScoresModal} onHide={() => setShowGameScoresModal(false)} centered className="game-score-modal custom-modal">
                     <Modal.Header>
                         <Modal.Title>
                             پنل امتیازات بازی
@@ -981,7 +1021,7 @@ function Game(props) {
                 : null}
 
             {!isLoading ?
-                <Modal show={showEditModal} onHide={() => setShowEditModal(false)} centered className="edit-game-modal">
+                <Modal show={showEditModal} onHide={() => setShowEditModal(false)} centered className="edit-game-modal custom-modal">
                     <Modal.Header>
                         <Modal.Title>
                             ویرایش این بازی
@@ -1190,12 +1230,12 @@ function Game(props) {
                 : null}
 
             {!isLoading?
-                <Modal show={showGameSettingModal} onHide={() => setShowGameSettingModal(false)} centered className="game-setting-modal">
+                <Modal show={showGameSettingModal} onHide={() => setShowGameSettingModal(false)} centered className="game-setting-modal  full-screen-modal-bellow-md">
                     <Modal.Header>
                         <Modal.Title>
                             تنظیمات این بازی
                         </Modal.Title>
-                        <svg onClick={() => setShowEditModal(false)}
+                        <svg onClick={() => setShowGameSettingModal(false)}
                              className="modal-cross-icon" xmlns="http://www.w3.org/2000/svg"
                              viewBox="0 0 211 211">
                             <path
@@ -1210,39 +1250,45 @@ function Game(props) {
                         {game.game_scenario ?
                             <ul className="edit choose-character-panel">
                                 {game.scenario.characters.find(obj => obj.id === 16) ?
-                                    <li className={`item common-roles ${selectedCharacters.includes(game.scenario.characters.find(obj => obj.id === 16)) ? 'selected' : ''}`}>
+                                    <li className={`item common-roles ${selectedCharacters.some(obj => obj.id === 16) ? 'selected' : ''}`}>
                                         <div className="name"
                                              onClick={() => selectCharacters(game.scenario.characters.find(obj => obj.id === 16))}>
                                             {game.scenario.characters.find(obj => obj.id === 16).name}
                                         </div>
                                         <div className="counter">
-                                            <svg onClick={() => counter("citizen", "-")} className="counter-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                                              <path d="M257,0C116.39,0,0,114.39,0,255s116.39,257,257,257,255-116.39,255-257S397.61,0,257,0ZM392,285H120c-16.54,0-30-13.46-30-30s13.46-30,30-30h272c16.53,0,30,13.46,30,30s-13.47,30-30,30Z"/>
+                                            <svg onClick={() => counter("citizen", "-")} className="counter-icon"
+                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                                <path
+                                                    d="M257,0C116.39,0,0,114.39,0,255s116.39,257,257,257,255-116.39,255-257S397.61,0,257,0ZM392,285H120c-16.54,0-30-13.46-30-30s13.46-30,30-30h272c16.53,0,30,13.46,30,30s-13.47,30-30,30Z"/>
                                             </svg>
                                             <div className="count">{scenarioCitizenCount}</div>
-                                            <svg onClick={() => counter("citizen", "+")} className="counter-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                                                <path d="M257,0C116.39,0,0,114.39,0,255s116.39,257,257,257,255-116.39,255-257S397.61,0,257,0ZM392,285h-106v106c0,16.53-13.46,30-30,30s-30-13.47-30-30v-106h-106c-16.54,0-30-13.46-30-30s13.46-30,30-30h106v-106c0-16.54,13.46-30,30-30s30,13.46,30,30v106h106c16.53,0,30,13.46,30,30s-13.47,30-30,30Z"/>
+                                            <svg onClick={() => counter("citizen", "+")} className="counter-icon"
+                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                                <path
+                                                    d="M257,0C116.39,0,0,114.39,0,255s116.39,257,257,257,255-116.39,255-257S397.61,0,257,0ZM392,285h-106v106c0,16.53-13.46,30-30,30s-30-13.47-30-30v-106h-106c-16.54,0-30-13.46-30-30s13.46-30,30-30h106v-106c0-16.54,13.46-30,30-30s30,13.46,30,30v106h106c16.53,0,30,13.46,30,30s-13.47,30-30,30Z"/>
                                             </svg>
                                         </div>
                                     </li> : null
                                 }
                                 {game.scenario.characters.find(obj => obj.id === 5) ?
-                                    <li className={`item common-roles ${selectedCharacters.includes(game.scenario.characters.find(obj => obj.id === 5)) ? 'selected' : ''}`}>
+                                    <li className={`item common-roles ${selectedCharacters.some(obj => obj.id === 5) ? 'selected' : ''}`}>
                                         <div className="name"
                                              onClick={() => selectCharacters(game.scenario.characters.find(obj => obj.id === 5))}>
                                             {game.scenario.characters.find(obj => obj.id === 5).name}
                                         </div>
                                         <div className="counter">
 
-                                                <svg onClick={() => counter("mafia", "-")} className="counter-icon" xmlns="http://www.w3.org/2000/svg"
-                                                     viewBox="0 0 512 512">
-                                                  <path
-                                                      d="M257,0C116.39,0,0,114.39,0,255s116.39,257,257,257,255-116.39,255-257S397.61,0,257,0ZM392,285H120c-16.54,0-30-13.46-30-30s13.46-30,30-30h272c16.53,0,30,13.46,30,30s-13.47,30-30,30Z"/>
-                                                </svg>
+                                            <svg onClick={() => counter("mafia", "-")} className="counter-icon"
+                                                 xmlns="http://www.w3.org/2000/svg"
+                                                 viewBox="0 0 512 512">
+                                                <path
+                                                    d="M257,0C116.39,0,0,114.39,0,255s116.39,257,257,257,255-116.39,255-257S397.61,0,257,0ZM392,285H120c-16.54,0-30-13.46-30-30s13.46-30,30-30h272c16.53,0,30,13.46,30,30s-13.47,30-30,30Z"/>
+                                            </svg>
 
                                             <div className="count">{scenarioMafiaCount}</div>
 
-                                            <svg onClick={() => counter("mafia", "+")} className="counter-icon" xmlns="http://www.w3.org/2000/svg"
+                                            <svg onClick={() => counter("mafia", "+")} className="counter-icon"
+                                                 xmlns="http://www.w3.org/2000/svg"
                                                  viewBox="0 0 512 512">
                                                 <path
                                                     d="M257,0C116.39,0,0,114.39,0,255s116.39,257,257,257,255-116.39,255-257S397.61,0,257,0ZM392,285h-106v106c0,16.53-13.46,30-30,30s-30-13.47-30-30v-106h-106c-16.54,0-30-13.46-30-30s13.46-30,30-30h106v-106c0-16.54,13.46-30,30-30s30,13.46,30,30v106h106c16.53,0,30,13.46,30,30s-13.47,30-30,30Z"/>
@@ -1255,7 +1301,7 @@ function Game(props) {
                                     if (character.id !== 16 && character.id !== 5)
                                         return (
                                             <li key={index} onClick={() => selectCharacters(character)}
-                                                className={`item ${selectedCharacters.includes(character) ? 'selected' : ''}`}>
+                                                className={`item ${selectedCharacters.some(obj => obj.id === character.id) ? 'selected' : ''}`}>
                                                 <div className="name">
                                                     {character.name}
                                                 </div>
@@ -1263,6 +1309,23 @@ function Game(props) {
                                         )
 
                                 })}
+                                {sendDataLoading ?
+                                    <span className="primary-btn mt-2 mb-3">
+                                   <div className="loader-container">
+                                       <div className="loader">
+                                       </div>
+                                   </div>
+                                </span>
+                                    :
+                                    <li className="primary-btn mt-2 mb-3" onClick={() => changeGameCharacters()}>
+                                        <svg className="game-setting-icons" xmlns="http://www.w3.org/2000/svg"
+                                             viewBox="0 0 512.04 512.08">
+                                            <path
+                                                d="M0,154.32c0-7.51,3.93-14.44,10.35-18.28L220.74,9.81c21.7-13.08,48.85-13.08,70.55,0l210.37,126.23c10.1,6.07,13.36,19.18,7.29,29.28-1.8,2.99-4.3,5.49-7.29,7.29l-210.37,126.23c-21.7,13.05-48.83,13.05-70.53,0L10.35,172.63C3.93,168.77,0,161.83,0,154.34v-.02ZM490.67,405.41h-42.67v-42.67c0-11.78-9.55-21.33-21.33-21.33s-21.33,9.55-21.33,21.33v42.67h-42.67c-11.78,0-21.33,9.55-21.33,21.33s9.55,21.33,21.33,21.33h42.67v42.67c0,11.78,9.55,21.33,21.33,21.33s21.33-9.55,21.33-21.33v-42.67h42.67c11.78,0,21.33-9.55,21.33-21.33s-9.55-21.33-21.33-21.33ZM266.99,467.58L32.32,326.78c-10.1-6.06-23.21-2.79-29.27,7.32-6.06,10.1-2.79,23.21,7.32,29.27l234.67,140.8c10.1,6.06,23.2,2.79,29.26-7.31,6.06-10.1,2.79-23.2-7.31-29.26v-.02ZM479.7,229.35l-223.68,134.21L32.32,229.35c-10.1-6.06-23.21-2.79-29.27,7.32s-2.79,23.21,7.32,29.27l234.67,140.8c6.76,4.06,15.21,4.06,21.97,0l234.67-140.8c10.1-6.06,13.38-19.17,7.32-29.27s-19.17-13.38-29.27-7.32h-.02Z"/>
+                                        </svg>
+                                        ذخیره نقش ها
+                                    </li>
+                                }
                             </ul>
                             :
                             <div className="empty">
@@ -1369,7 +1432,9 @@ function Game(props) {
             }
 
             <div className="space-50"></div>
-            <Breadcrumb tag={game ? " شناسه "+game.id : null} name="رویداد مافیا" location="/"/>
+            <div className="d-none d-md-block">
+                <Breadcrumb tag={game ? " شناسه "+game.id : null} name="رویداد مافیا" location="/"/>
+            </div>
             <div className="space-25"></div>
             {!isLoading ?
                 <div className="row">
@@ -1875,10 +1940,11 @@ function Game(props) {
                                         <div className="img-container">
                                             <img src={GoalIcon} alt="goal"/>
                                         </div>
-                                        <div className="txt">SEASON</div>
+                                        <div className="txt">SCENARIO</div>
                                         <div className="xp">
                                           {/*  <span className="notice">فصل</span>*/}
-                                            شاهد
+                                            {game.game_scenario?
+                                                game.scenario.name:"هنوز انتخاب نشده"}
 
                                         </div>
                                     </li>

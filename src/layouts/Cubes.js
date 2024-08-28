@@ -77,15 +77,24 @@ function Cubes() {
                 {
                     !isLoading ?
                         <div className="row">
-                            {Object.keys(groupedGames).map(salon => (
+                            {Object.keys(groupedGames).slice().reverse().map(salon => (
                                 <div className="col-lg-4" key={salon}>
                                     <div className="cube-card">
                                         <div className="head">
                                             <div className="right">
-                                                <div className="number">ســالـن {salon}</div>
+                                                <div className="number d-flex">
+                                                  <div>  طـبـقـه</div>
+                                                    <span className="pr-1">
+                                                        {salon === "1" ? "اول" :
+                                                            salon === "2" ? "دوم"
+                                                                : "سوم"}
+                                                    </span>
+                                                </div>
                                                 <div className="manager">
-                                                    گرداننده سالن :
-                                                    <span className="cube-god"> امین رضایی </span>
+                                                    <span className="cube-god">{salon === "1" ? "First" :
+                                                        salon === "2" ? "Second"
+                                                    : "Third"}</span>
+                                                    Floor
                                                 </div>
                                             </div>
                                             <div className="cube-num">
@@ -107,7 +116,7 @@ function Cubes() {
                                                                     <span className="dot">الی</span>
                                                                     <span
                                                                         className="end">{game.clock.split('-')[1]}</span>
-                                                                    <div className="notice">شــروع و پـایـان</div>
+                                                                    <div className="notice">شــروع و پـایـان رویـداد</div>
                                                                 </div>
                                                             </li>
                                                         </ul>

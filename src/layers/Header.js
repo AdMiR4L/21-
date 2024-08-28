@@ -221,7 +221,7 @@ class Header extends Component{
                     }
                 });
                 toast.success(response.data);
-                this.setState({isLoading : false})
+                this.setState({isLoading : false, showResetPassword : false})
                 setTimeout(()=> { this.props.setLoginModal(false)}, 300)
             })
             .catch((error) =>{
@@ -357,13 +357,13 @@ class Header extends Component{
                                                 <img src={UserIcon} alt="User"/>
                                             </li>
                                             :
-                                            <li onClick={() => this.props.setLoginModal(!this.props.loginModal)}
-                                                className="item">
-                                                <img src={UserIcon} alt="User"/>
-                                            </li>
-                                        /*<li className="item">
+                                            // <li onClick={() => this.props.setLoginModal(!this.props.loginModal)}
+                                            //     className="item">
+                                            //     <img src={UserIcon} alt="User"/>
+                                            // </li>
+                                        <li className="item">
                                             <Link to="dashboard"> <img src={UserIcon} alt="User"/></Link>
-                                        </li>*/
+                                        </li>
                                     }
                                 </ul>
 

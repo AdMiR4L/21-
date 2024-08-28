@@ -11,6 +11,7 @@ import Game from "./components/Game";
 import Dashboard from "./components/Dashboard";
 import NotFound from "./components/NotFound";
 import PaymentReceipt from "./components/PaymentReceipt";
+import UserInfo from "./components/UserInfo";
 function App() {
 
     const [user, setUser] = useState({
@@ -32,6 +33,7 @@ function App() {
                       <Route index element={<Home user={user} setUser={setUser} loginModal={loginModal} setloginModal={setLoginModal} />} />
                       <Route path="game/:id" element={<Game loginModal={loginModal} setloginModal={setLoginModal} />} />
                       <Route path="dashboard" element={<Dashboard />} />
+                      <Route path="dashboard/user/info" element={<UserInfo/>} />
                       <Route path="verify/zarinpal/:id" element={<PaymentReceipt />} />
                   </Route>
                   {/* Add a fallback route to catch unmatched routes */}
