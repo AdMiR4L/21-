@@ -1305,6 +1305,7 @@ input[type=number] {
 }
 .full-screen-modal-bellow-md .modal-dialog .modal-body {
   padding: 15px 30px;
+  overflow-y: auto;
 }
 .full-screen-modal-bellow-md .modal-dialog .modal-content {
   border-radius: 25px;

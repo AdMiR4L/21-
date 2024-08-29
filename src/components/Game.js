@@ -59,6 +59,8 @@ function Game(props) {
     const [showMVPDropDown, setShowMVPDropDown] = useState(false);
     const [MVPInput, setMVPInput] = useState();
     const [winSide, setWinSide] = useState([false, false, false]);
+    const [confirmPopUp, setConfirmPopUp] = useState(false);
+    const [userReserveIdForRemoving, setUserReserveIdForRemoving] = useState();
 
     const chooseWinSide = (index) => {
         if (index === 2) {
@@ -286,6 +288,29 @@ function Game(props) {
                 console.log(error)
             });
         }
+
+
+    function removeUserFromGame(id) {
+
+        console.log(id)
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer " + localStorage.authToken}
+        setSendDataLoading(true);
+        axios.post(process.env.REACT_APP_API+'game/user/remove',
+            {
+                reserve_id : userReserveIdForRemoving,
+            }, {headers : headers})
+            .then((response) => {
+                toast.success(response.data);
+                setTimeout(() => {getGame()}, 500)
+                setSendDataLoading(false)
+                setConfirmPopUp(false)
+            })
+            .catch((error) =>{
+                console.log(error)
+            });
+    }
 
 
     function changeGameCharacters() {
@@ -576,16 +601,32 @@ function Game(props) {
     return (
 
         <div className="container">
-            <div className="notification-message">
-            </div>
+            {confirmPopUp ?
+                <div className="confirm-popup-container">
+                    <div className="confirm-popup">
+                        <div className="message">
+                            آیا از حذف کاربر اطمینان دارید؟
+                            <div className="user">{reserves.find(obj => obj.id === userReserveIdForRemoving).user.name+" "+reserves.find(obj => obj.id === userReserveIdForRemoving).user.family}</div>
+                        </div>
+                        <ul className="confirm">
+                            <li className="item" onClick={() => setConfirmPopUp(false)}>خـیــر</li>
+                            <li className="item danger" onClick={() => removeUserFromGame}>بـلــه</li>
+                        </ul>
+                    </div>
+                </div>
+
+                : null
+            }
+
             {!isLoading ?
-            <Modal show={showReserveModal} onHide={() => setShowReserveModal(!showReserveModal)} centered className="cube-info-modal custom-modal">
-                <Modal.Header>
-                    <Modal.Title>
-                        برنامه مافیا سالن
-                        {game.salon}
-                    </Modal.Title>
-                    <svg onClick={() => setShowReserveModal(!showReserveModal)}
+                <Modal show={showReserveModal} onHide={() => setShowReserveModal(!showReserveModal)} centered
+                       className="cube-info-modal custom-modal">
+                    <Modal.Header>
+                        <Modal.Title>
+                            برنامه مافیا سالن
+                            {game.salon}
+                        </Modal.Title>
+                        <svg onClick={() => setShowReserveModal(!showReserveModal)}
                          className="modal-cross-icon" xmlns="http://www.w3.org/2000/svg"
                          viewBox="0 0 211 211">
                         <path
@@ -806,7 +847,7 @@ function Game(props) {
                 :
                 null}
             {!isLoading && game.scenario?
-                <Modal show={showScenarioModal} onHide={() => setShowScenarioModal(false)} centered className="scenario-modal custom-modal">
+                <Modal show={showScenarioModal} onHide={() => setShowScenarioModal(false)} centered className="scenario-modal full-screen-modal-bellow-md">
                     <Modal.Header>
                         <Modal.Title>
                             سـنــاریـو
@@ -897,7 +938,7 @@ function Game(props) {
                 : null}
 
             {!isLoading?
-                <Modal show={showGameScoresModal} onHide={() => setShowGameScoresModal(false)} centered className="game-score-modal custom-modal">
+                <Modal show={showGameScoresModal} onHide={() => setShowGameScoresModal(false)} centered className="game-score-modal full-screen-modal-bellow-md">
                     <Modal.Header>
                         <Modal.Title>
                             پنل امتیازات بازی
@@ -1235,7 +1276,7 @@ function Game(props) {
                         <Modal.Title>
                             تنظیمات این بازی
                         </Modal.Title>
-                        <svg onClick={() => setShowGameSettingModal(false)}
+                        <svg onClick={() => {setShowGameSettingModal(false); setConfirmPopUp(false)}}
                              className="modal-cross-icon" xmlns="http://www.w3.org/2000/svg"
                              viewBox="0 0 211 211">
                             <path
@@ -1343,10 +1384,22 @@ function Game(props) {
                                 reserves.map((reserve, index) => (
                                     <li className="user" key={index}>
                                         <div className="name">
-                                            <svg className="user-icons" xmlns="http://www.w3.org/2000/svg"
-                                                 viewBox="0 0 384 512">
+                                            {/*<svg className="user-delete" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14.88 14.88">
+
+                                                <path  d="M7.44,0C3.33,0,0,3.33,0,7.44s3.33,7.44,7.44,7.44,7.44-3.33,7.44-7.44C14.87,3.33,11.55,0,7.44,0ZM7.92,11.52h-3.6c-.4,0-.72-.32-.72-.72v-.48c0-1.29.94-2.39,2.22-2.6-1.08-.77-1.33-2.26-.57-3.34.77-1.08,2.26-1.33,3.34-.57,1.08.77,1.33,2.26.57,3.34-.45.63-1.18,1.01-1.96,1.01h-.96c-1.19,0-2.16.97-2.16,2.16v.48c0,.13.11.24.24.24h3.6c.13,0,.24.11.24.24s-.11.24-.24.24ZM11.21,10.84c-.09.09-.24.09-.34,0l-.85-.85-.85.85c-.1.09-.25.09-.34,0-.09-.09-.09-.24,0-.33l.85-.85-.85-.85c-.09-.1-.09-.25,0-.34.09-.09.24-.09.33,0l.85.85.85-.85c.1-.09.25-.09.34,0,.09.09.09.24,0,.33l-.85.85.85.85c.09.09.09.25,0,.34Z"/>
+                                                <circle cx="7.2" cy="5.76" r="1.92"/>
+                                            </svg>*/}
+                                            <svg onClick={() => {
+                                                setConfirmPopUp(true)
+                                                setUserReserveIdForRemoving(reserve.id)
+                                                console.log(reserves)
+                                                console.log(reserve.id)
+                                               //removeUserFromGame(reserve.id)
+                                            }}
+                                                 className="user-delete" xmlns="http://www.w3.org/2000/svg"
+                                                 viewBox="0 0 211 211">
                                                 <path
-                                                    d="M384,512h-42.67v-107.58c-.04-34.82-28.26-63.05-63.08-63.08H105.75c-34.82.04-63.05,28.26-63.08,63.08v107.58H0v-107.58c.07-58.37,47.37-105.68,105.75-105.75h172.5c58.37.07,105.68,47.37,105.75,105.75v107.58ZM192,256c-70.69,0-128-57.31-128-128S121.31,0,192,0s128,57.31,128,128c-.07,70.66-57.34,127.93-128,128ZM192,42.67c-47.13,0-85.33,38.21-85.33,85.33s38.21,85.33,85.33,85.33,85.33-38.21,85.33-85.33-38.21-85.33-85.33-85.33Z"/>
+                                                    d="M105.5,0C47.23,0,0,47.23,0,105.5s47.23,105.5,105.5,105.5,105.5-47.23,105.5-105.5C210.93,47.26,163.74.07,105.5,0ZM146.18,132.63c3.81,3.68,3.92,9.75.24,13.56-3.68,3.81-9.75,3.92-13.56.24-.08-.08-.16-.16-.24-.24l-27.12-27.13-27.12,27.13c-3.81,3.68-9.88,3.57-13.56-.24-3.59-3.72-3.59-9.61,0-13.33l27.12-27.13-27.12-27.13c-3.81-3.68-3.92-9.75-.24-13.56,3.68-3.81,9.75-3.92,13.56-.24.08.08.16.16.24.24l27.12,27.13,27.12-27.13c3.68-3.81,9.75-3.92,13.56-.24,3.81,3.68,3.92,9.75.24,13.56-.08.08-.16.16-.24.24l-27.12,27.13,27.12,27.13Z"/>
                                             </svg>
                                             {reserve.user.name + " " + reserve.user.family}
                                         </div>
@@ -1393,7 +1446,7 @@ function Game(props) {
                                         <path
                                             d="M429.18,262.25c-8.33-8.33-21.84-8.33-30.17,0-4,4-6.24,9.42-6.25,15.08v36.27c-27.38-8.66-52.52-23.22-73.64-42.67-13.09-11.18-32.75-9.68-43.99,3.35l-.53.6c-11.47,13.29-10,33.36,3.28,44.83.08.07.16.13.24.2,32.49,29.33,71.96,49.83,114.65,59.52v51.01c0,11.78,9.56,21.33,21.34,21.33,5.66,0,11.08-2.25,15.08-6.25l76.5-76.5c8.33-8.33,8.33-21.83,0-30.17l-76.5-76.61Z"/>
                                     </svg>
-                                    تقیسیم نقش ها
+                                    تقیسیم نقش
                                 </li>
                                 {sendDataLoading ?
                                     <span className="primary-btn twin-btn">

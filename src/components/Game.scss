@@ -1106,16 +1106,23 @@
       font-size: 14px;
       font-weight: 400;
       padding: 0 5px;
-      margin-bottom: 5px;
+      margin-bottom: 15px;
       font-family: iranyekan;
       display: inline-block;
       .name{
-        margin-bottom: 5px;
+        margin-bottom: 10px;
         padding-right: 5px;
+        display: flex;
+        align-items: center;
         .user-icons{
           width: 12px;
           margin-left: 5px;
           fill: #7d7d7d;
+        }
+        .user-delete{
+          width: 15px;
+          margin-left: 5px;
+          fill: $primary;
         }
       }
     }
@@ -1292,6 +1299,52 @@
       }
       &:nth-last-child(1){
         margin-left: 0;
+      }
+    }
+  }
+}
+.confirm-popup-container{
+  padding: 0 25px;
+  z-index: 9999;
+  position: fixed;
+  width: 100%;
+  right: 0;
+  bottom: 15px;
+  .confirm-popup{
+
+    display: block;
+    width: 100%;
+
+
+    border-radius: 20px;
+    background-color: $light;
+    padding: 15px;
+    border: 1px solid #efefef;
+    font-family: IRANYekan;
+    .message{
+      margin-bottom: 25px;
+      font-size: 14px;
+      font-weight: 400;
+      .user{
+        margin-top: 10px;
+        color: $primary;
+      }
+
+    }
+    .confirm{
+      display: flex;
+      justify-content: space-between;
+      .item{
+        background-color: #efefef;
+        cursor: pointer;
+        flex: 1;
+        border-radius: 50px;
+        margin: 0 10px;
+        padding: 10px 15px;
+        &.danger{
+          background-color: $primary;
+          color: #fff;
+        }
       }
     }
   }

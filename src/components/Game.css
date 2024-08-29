@@ -1797,18 +1797,25 @@ input[type=number] {
   font-size: 14px;
   font-weight: 400;
   padding: 0 5px;
-  margin-bottom: 5px;
+  margin-bottom: 15px;
   font-family: iranyekan;
   display: inline-block;
 }
 .game-setting-modal .users .user .name {
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   padding-right: 5px;
+  display: flex;
+  align-items: center;
 }
 .game-setting-modal .users .user .name .user-icons {
   width: 12px;
   margin-left: 5px;
   fill: #7d7d7d;
+}
+.game-setting-modal .users .user .name .user-delete {
+  width: 15px;
+  margin-left: 5px;
+  fill: #BC080E;
 }
 .game-setting-modal .edit.choose-character-panel {
   display: flex;
@@ -1974,6 +1981,49 @@ input[type=number] {
 }
 .game-score-modal .win-side .item:nth-last-child(1) {
   margin-left: 0;
+}
+
+.confirm-popup-container {
+  padding: 0 25px;
+  z-index: 9999;
+  position: fixed;
+  width: 100%;
+  right: 0;
+  bottom: 15px;
+}
+.confirm-popup-container .confirm-popup {
+  display: block;
+  width: 100%;
+  border-radius: 20px;
+  background-color: #f7f7f7;
+  padding: 15px;
+  border: 1px solid #efefef;
+  font-family: IRANYekan;
+}
+.confirm-popup-container .confirm-popup .message {
+  margin-bottom: 25px;
+  font-size: 14px;
+  font-weight: 400;
+}
+.confirm-popup-container .confirm-popup .message .user {
+  margin-top: 10px;
+  color: #BC080E;
+}
+.confirm-popup-container .confirm-popup .confirm {
+  display: flex;
+  justify-content: space-between;
+}
+.confirm-popup-container .confirm-popup .confirm .item {
+  background-color: #efefef;
+  cursor: pointer;
+  flex: 1;
+  border-radius: 50px;
+  margin: 0 10px;
+  padding: 10px 15px;
+}
+.confirm-popup-container .confirm-popup .confirm .item.danger {
+  background-color: #BC080E;
+  color: #fff;
 }
 
 /*# sourceMappingURL=Game.css.map */
