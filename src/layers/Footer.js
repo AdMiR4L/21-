@@ -278,8 +278,7 @@ function Footer(props) {
                 <li className="item">
                     <Link to="dashboard"
                           onClick={(event) => {
-                              console.log(localStorage)
-                              if (!localStorage.loggedIn) {
+                              if (!localStorage.authToken) {
                                   event.preventDefault(); // Prevent default navigation
                                   props.loginModal(true); // Open login modal
                               }

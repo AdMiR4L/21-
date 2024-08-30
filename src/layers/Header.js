@@ -351,7 +351,7 @@ class Header extends Component{
                                         <img src={ThemeIcon} alt="Theme"/>
                                     </li>
                                     {
-                                        !this.state.loggedIn ?
+                                        !localStorage.authToken ?
                                             <li onClick={() => this.props.setLoginModal(!this.props.loginModal)}
                                                 className="item">
                                                 <img src={UserIcon} alt="User"/>

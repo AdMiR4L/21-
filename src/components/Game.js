@@ -18,6 +18,7 @@ import {Link, useParams} from 'react-router-dom';
 import Modal from "react-bootstrap/Modal";
 import ConvertToShamsiDate from "./ConverToShamsiDate";
 import toast from "react-hot-toast";
+import Skeleton from "./Skeleton";
 
 function Game(props) {
     const { id } = useParams();
@@ -593,7 +594,8 @@ function Game(props) {
 
     useEffect(() => {
         getGame()
-        document.title = '21+ | رزرو جایگاه'
+        document.title = '21+ Game Reservation'
+        window.scrollTo(0, 0);
     }, []);
 
 
@@ -618,157 +620,157 @@ function Game(props) {
                 : null
             }
 
-            {!isLoading ?
-                <Modal show={showReserveModal} onHide={() => setShowReserveModal(!showReserveModal)} centered
-                       className="cube-info-modal custom-modal">
-                    <Modal.Header>
-                        <Modal.Title>
-                            برنامه مافیا سالن
-                            {game.salon}
-                        </Modal.Title>
-                        <svg onClick={() => setShowReserveModal(!showReserveModal)}
-                         className="modal-cross-icon" xmlns="http://www.w3.org/2000/svg"
-                         viewBox="0 0 211 211">
-                        <path
-                            d="M105.5,0C47.23,0,0,47.23,0,105.5s47.23,105.5,105.5,105.5,105.5-47.23,105.5-105.5C210.93,47.26,163.74.07,105.5,0ZM146.18,132.63c3.81,3.68,3.92,9.75.24,13.56-3.68,3.81-9.75,3.92-13.56.24-.08-.08-.16-.16-.24-.24l-27.12-27.13-27.12,27.13c-3.81,3.68-9.88,3.57-13.56-.24-3.59-3.72-3.59-9.61,0-13.33l27.12-27.13-27.12-27.13c-3.81-3.68-3.92-9.75-.24-13.56,3.68-3.81,9.75-3.92,13.56-.24.08.08.16.16.24.24l27.12,27.13,27.12-27.13c3.68-3.81,9.75-3.92,13.56-.24,3.81,3.68,3.92,9.75.24,13.56-.08.08-.16.16-.24.24l-27.12,27.13,27.12,27.13Z"/>
-                    </svg>
-                </Modal.Header>
-                <Modal.Body>
-                    <div className="modal-mafi">
-                        <div className="info modal-mafia-info">
-                            <ul className="mafia-info">
-                                <li className="item">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24.1 23.07">
-                                        <path
-                                            d="M10.76.8l-2.94,5.96-6.58.96c-.79.11-1.33.85-1.22,1.63.05.31.19.6.42.82l4.77,4.64-1.13,6.55c-.13.78.39,1.53,1.18,1.66.31.05.63,0,.91-.15l5.89-3.09,5.89,3.09c.7.37,1.58.1,1.95-.61.15-.28.2-.6.14-.91l-1.12-6.55,4.76-4.64c.57-.56.58-1.47.02-2.04-.22-.23-.51-.37-.82-.42l-6.58-.96L13.34.8c-.35-.71-1.22-1.01-1.93-.65-.28.14-.51.37-.65.65Z"/>
-                                    </svg>
-                                    <span className="attr">سطح </span>
-                                    <span></span>
-                                    <span className="val">بدون محدودیت</span>
-                                </li>
-                                <li className="item">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60.17 60.17">
-                                        <path
-                                            d="M51.57,60.17h6.45c1.19,0,2.15-.96,2.15-2.15v-6.45c0-1.19-.96-2.15-2.15-2.15s-2.15.96-2.15,2.15v4.3h-4.3c-1.19,0-2.15.96-2.15,2.15s.96,2.15,2.15,2.15ZM8.6,55.87h-4.3v-4.3c0-1.19-.96-2.15-2.15-2.15s-2.15.96-2.15,2.15v6.45c0,1.19.96,2.15,2.15,2.15h6.45c1.19,0,2.15-.96,2.15-2.15s-.96-2.15-2.15-2.15ZM10.74,51.57h38.68c1.19,0,2.15-.96,2.15-2.15,0-5.96-2.61-9.74-4.97-11.51-1.32-.98-2.63-1.39-3.62-1.39-2.28,0-3.99.65-5.7,1.47-1.91.92-3.81,2.11-7.19,2.11-3.55,0-5.84-1.19-7.81-2.12-1.77-.84-3.36-1.47-5.09-1.47-1,0-2.35.45-3.68,1.51-2.36,1.88-4.92,5.8-4.92,11.38,0,1.19.96,2.15,2.15,2.15ZM42.57,25.79h-25.69c.97,2.27,2.28,4.42,3.85,6.16,2.51,2.81,5.65,4.58,9,4.58s6.49-1.77,9-4.58c1.56-1.75,2.88-3.89,3.84-6.16h0ZM6.45,23.64h47.27c1.19,0,2.15-.96,2.15-2.15s-.96-2.15-2.15-2.15H6.45c-1.19,0-2.15.96-2.15,2.15s.96,2.15,2.15,2.15ZM15.04,17.19h29.36c-.14-8.35-6.69-15.04-14.68-15.04s-14.54,6.69-14.68,15.04ZM8.6,0H2.15C.96,0,0,.96,0,2.15v6.45c0,1.19.96,2.15,2.15,2.15s2.15-.96,2.15-2.15v-4.3h4.3c1.19,0,2.15-.96,2.15-2.15s-.96-2.15-2.15-2.15ZM51.57,4.3h4.3v4.3c0,1.19.96,2.15,2.15,2.15s2.15-.96,2.15-2.15V2.15c0-1.19-.96-2.15-2.15-2.15h-6.45c-1.19,0-2.15.96-2.15,2.15s.96,2.15,2.15,2.15Z"/>
-                                    </svg>
-                                    <span className="attr">شناسه رویداد</span>
-                                    <span className="val price"> {game.id}#</span>
-                                </li>
-                            </ul>
-                            <ul className="mafia-info">
-                                <li className="item">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 480">
-                                        <path
-                                            d="M479.82,144h-95.82c-35.35,0-64-28.65-64-64V0h-192C57.3,0,0,57.3,0,128v224c0,70.7,57.3,128,128,128h224c70.7,0,128-57.3,128-128v-203.14c0-1.62-.06-3.25-.18-4.86ZM216,336h-96c-8.84,0-16-7.16-16-16s7.16-16,16-16h96c8.84,0,16,7.16,16,16s-7.16,16-16,16ZM360,240H120c-8.84,0-16-7.16-16-16s7.16-16,16-16h240c8.84,0,16,7.16,16,16s-7.16,16-16,16Z"/>
-                                        <path
-                                            d="M384,112h84.32c-2.51-3.57-5.41-6.9-8.65-9.93l-90.92-84.86c-4.99-4.66-10.66-8.46-16.75-11.28v74.06c0,17.67,14.33,32,32,32Z"/>
-                                    </svg>
-                                    <span className="attr">سناریو </span>
-                                    <span></span>
-                                    <span className="val">
+            {!isLoading?
+                <>
+                    <Modal show={showReserveModal} onHide={() => setShowReserveModal(!showReserveModal)} centered className="cube-info-modal custom-modal">
+                        <Modal.Header>
+                            <Modal.Title>
+                                برنامه مافیا سالن
+                                {game.salon}
+                            </Modal.Title>
+                            <svg onClick={() => setShowReserveModal(!showReserveModal)}
+                                 className="modal-cross-icon" xmlns="http://www.w3.org/2000/svg"
+                                 viewBox="0 0 211 211">
+                                <path
+                                    d="M105.5,0C47.23,0,0,47.23,0,105.5s47.23,105.5,105.5,105.5,105.5-47.23,105.5-105.5C210.93,47.26,163.74.07,105.5,0ZM146.18,132.63c3.81,3.68,3.92,9.75.24,13.56-3.68,3.81-9.75,3.92-13.56.24-.08-.08-.16-.16-.24-.24l-27.12-27.13-27.12,27.13c-3.81,3.68-9.88,3.57-13.56-.24-3.59-3.72-3.59-9.61,0-13.33l27.12-27.13-27.12-27.13c-3.81-3.68-3.92-9.75-.24-13.56,3.68-3.81,9.75-3.92,13.56-.24.08.08.16.16.24.24l27.12,27.13,27.12-27.13c3.68-3.81,9.75-3.92,13.56-.24,3.81,3.68,3.92,9.75.24,13.56-.08.08-.16.16-.24.24l-27.12,27.13,27.12,27.13Z"/>
+                            </svg>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <div className="modal-mafi">
+                                <div className="info modal-mafia-info">
+                                    <ul className="mafia-info">
+                                        <li className="item">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24.1 23.07">
+                                                <path
+                                                    d="M10.76.8l-2.94,5.96-6.58.96c-.79.11-1.33.85-1.22,1.63.05.31.19.6.42.82l4.77,4.64-1.13,6.55c-.13.78.39,1.53,1.18,1.66.31.05.63,0,.91-.15l5.89-3.09,5.89,3.09c.7.37,1.58.1,1.95-.61.15-.28.2-.6.14-.91l-1.12-6.55,4.76-4.64c.57-.56.58-1.47.02-2.04-.22-.23-.51-.37-.82-.42l-6.58-.96L13.34.8c-.35-.71-1.22-1.01-1.93-.65-.28.14-.51.37-.65.65Z"/>
+                                            </svg>
+                                            <span className="attr">سطح </span>
+                                            <span></span>
+                                            <span className="val">بدون محدودیت</span>
+                                        </li>
+                                        <li className="item">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60.17 60.17">
+                                                <path
+                                                    d="M51.57,60.17h6.45c1.19,0,2.15-.96,2.15-2.15v-6.45c0-1.19-.96-2.15-2.15-2.15s-2.15.96-2.15,2.15v4.3h-4.3c-1.19,0-2.15.96-2.15,2.15s.96,2.15,2.15,2.15ZM8.6,55.87h-4.3v-4.3c0-1.19-.96-2.15-2.15-2.15s-2.15.96-2.15,2.15v6.45c0,1.19.96,2.15,2.15,2.15h6.45c1.19,0,2.15-.96,2.15-2.15s-.96-2.15-2.15-2.15ZM10.74,51.57h38.68c1.19,0,2.15-.96,2.15-2.15,0-5.96-2.61-9.74-4.97-11.51-1.32-.98-2.63-1.39-3.62-1.39-2.28,0-3.99.65-5.7,1.47-1.91.92-3.81,2.11-7.19,2.11-3.55,0-5.84-1.19-7.81-2.12-1.77-.84-3.36-1.47-5.09-1.47-1,0-2.35.45-3.68,1.51-2.36,1.88-4.92,5.8-4.92,11.38,0,1.19.96,2.15,2.15,2.15ZM42.57,25.79h-25.69c.97,2.27,2.28,4.42,3.85,6.16,2.51,2.81,5.65,4.58,9,4.58s6.49-1.77,9-4.58c1.56-1.75,2.88-3.89,3.84-6.16h0ZM6.45,23.64h47.27c1.19,0,2.15-.96,2.15-2.15s-.96-2.15-2.15-2.15H6.45c-1.19,0-2.15.96-2.15,2.15s.96,2.15,2.15,2.15ZM15.04,17.19h29.36c-.14-8.35-6.69-15.04-14.68-15.04s-14.54,6.69-14.68,15.04ZM8.6,0H2.15C.96,0,0,.96,0,2.15v6.45c0,1.19.96,2.15,2.15,2.15s2.15-.96,2.15-2.15v-4.3h4.3c1.19,0,2.15-.96,2.15-2.15s-.96-2.15-2.15-2.15ZM51.57,4.3h4.3v4.3c0,1.19.96,2.15,2.15,2.15s2.15-.96,2.15-2.15V2.15c0-1.19-.96-2.15-2.15-2.15h-6.45c-1.19,0-2.15.96-2.15,2.15s.96,2.15,2.15,2.15Z"/>
+                                            </svg>
+                                            <span className="attr">شناسه رویداد</span>
+                                            <span className="val price"> {game.id}#</span>
+                                        </li>
+                                    </ul>
+                                    <ul className="mafia-info">
+                                        <li className="item">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 480">
+                                                <path
+                                                    d="M479.82,144h-95.82c-35.35,0-64-28.65-64-64V0h-192C57.3,0,0,57.3,0,128v224c0,70.7,57.3,128,128,128h224c70.7,0,128-57.3,128-128v-203.14c0-1.62-.06-3.25-.18-4.86ZM216,336h-96c-8.84,0-16-7.16-16-16s7.16-16,16-16h96c8.84,0,16,7.16,16,16s-7.16,16-16,16ZM360,240H120c-8.84,0-16-7.16-16-16s7.16-16,16-16h240c8.84,0,16,7.16,16,16s-7.16,16-16,16Z"/>
+                                                <path
+                                                    d="M384,112h84.32c-2.51-3.57-5.41-6.9-8.65-9.93l-90.92-84.86c-4.99-4.66-10.66-8.46-16.75-11.28v74.06c0,17.67,14.33,32,32,32Z"/>
+                                            </svg>
+                                            <span className="attr">سناریو </span>
+                                            <span></span>
+                                            <span className="val">
                                         {game.game_scenario?
                                             game.scenario.name
                                             :
                                             "در انتظار"
                                         }
                                     </span>
-                                </li>
-                                <li className="item">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60.62 60.62">
-                                        <path
-                                            d="M30.31,0C13.57,0,0,13.57,0,30.31s13.57,30.31,30.31,30.31,30.31-13.57,30.31-30.31c0-16.74-13.57-30.31-30.31-30.31h0ZM40.52,40.52c-1.08,1.08-2.82,1.08-3.9,0l-8.26-8.26c-.52-.52-.81-1.22-.81-1.95V13.78c0-1.52,1.23-2.76,2.75-2.76s2.76,1.23,2.76,2.75h0v15.39l7.46,7.46c1.08,1.08,1.08,2.82,0,3.9h0Z"/>
-                                    </svg>
-                                    <span className="attr">زمان</span>
-                                    <span className="val price">{game.clock.split('-')[0]}</span>
-                                    <span className="notice pl-1">الی</span>
-                                    <span className="val price">{game.clock.split('-')[1]}</span>
-                                </li>
-                            </ul>
-                        </div>
-                        <div className="modal-divide-head">صندلی های انتخاب شده</div>
+                                        </li>
+                                        <li className="item">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60.62 60.62">
+                                                <path
+                                                    d="M30.31,0C13.57,0,0,13.57,0,30.31s13.57,30.31,30.31,30.31,30.31-13.57,30.31-30.31c0-16.74-13.57-30.31-30.31-30.31h0ZM40.52,40.52c-1.08,1.08-2.82,1.08-3.9,0l-8.26-8.26c-.52-.52-.81-1.22-.81-1.95V13.78c0-1.52,1.23-2.76,2.75-2.76s2.76,1.23,2.76,2.75h0v15.39l7.46,7.46c1.08,1.08,1.08,2.82,0,3.9h0Z"/>
+                                            </svg>
+                                            <span className="attr">زمان</span>
+                                            <span className="val price">{game.clock.split('-')[0]}</span>
+                                            <span className="notice pl-1">الی</span>
+                                            <span className="val price">{game.clock.split('-')[1]}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div className="modal-divide-head">صندلی های انتخاب شده</div>
 
-                        <ul className="selected-chairs extra-chairs">
-                            {selectedChairs.map((item) => {
-                                return <li key={item} className="item" onClick={() => {
-                                    handleChairClick(item);
-                                    console.log(selectedChairs);
-                                    if (selectedChairs.length <= 1) setShowReserveModal(false)
-                                }}>
-                                    <div className="chair-container">
-                                        <div className="tag">REMOVE</div>
-                                        <div
-                                            className="chair">
+                                <ul className="selected-chairs extra-chairs">
+                                    {selectedChairs.map((item) => {
+                                        return <li key={item} className="item" onClick={() => {
+                                            handleChairClick(item);
+                                            console.log(selectedChairs);
+                                            if (selectedChairs.length <= 1) setShowReserveModal(false)
+                                        }}>
+                                            <div className="chair-container">
+                                                <div className="tag">REMOVE</div>
+                                                <div
+                                                    className="chair">
                                           <span className="number">
                                             #<span className="key">{item}</span>
                                           </span>
-                                            <svg
-                                                className="chair-icon"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 31.53 42.55"
-                                            >
+                                                    <svg
+                                                        className="chair-icon"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        viewBox="0 0 31.53 42.55"
+                                                    >
+                                                        <path
+                                                            className="seat"
+                                                            d="M30.95,25.68h0c-.72-1.03-1.91-1.61-3.16-1.54-.28,0-.53.03-.77.09l-.8.18,1.73-6.72c.71-2.74-.55-5.57-3.07-6.87-5.71-3.02-12.53-3.02-18.24,0-2.51,1.3-3.78,4.13-3.07,6.87l1.73,6.7-.79-.17c-.35-.07-.71-.1-1.06-.09C1.54,24.14,0,25.69,0,27.6c0,.45.09.88.26,1.3,1.35,3.3,3.66,6.03,6.7,7.89l.46.29-3.03,4.11c-.13.18-.19.41-.15.64s.16.43.35.56c.38.28.92.2,1.2-.18l3.2-4.34.36.15c2.03.84,4.17,1.26,6.36,1.26h.04c2.25,0,4.39-.42,6.42-1.26l.36-.15,3.21,4.34c.14.18.34.3.57.33.23.03.46-.03.64-.17.38-.28.46-.82.18-1.2l-3.03-4.1.46-.28c3.04-1.87,5.35-4.6,6.7-7.89.44-1.06.31-2.26-.32-3.21ZM5.26,17.26c-.51-1.96.38-3.97,2.18-4.9,5.21-2.77,11.43-2.77,16.65,0,1.8.92,2.69,2.94,2.18,4.9l-2.42,9.37-.15.11c-2.37,1.65-5.15,2.47-7.93,2.47-2.78,0-5.56-.82-7.93-2.47l-.15-.11-2.42-9.37ZM29.67,28.24c-2.31,5.65-7.76,9.31-13.86,9.31h-.02c-6.17,0-11.61-3.65-13.93-9.3-.17-.42-.17-.89,0-1.31s.51-.75.93-.92c.21-.09.39-.14.65-.13.59-.09,1.25.16,1.68.67,1.69,2.13,5.72,4.4,10.63,4.4s8.95-2.27,10.62-4.39c.32-.42.82-.68,1.37-.68.62-.1,1.32.18,1.74.74.34.49.4,1.09.19,1.62Z"
+                                                        />
+                                                        <g>
+                                                            <path className="mark"
+                                                                  d="M6.56,9.2c0,.38,0,.77.06,1.15l.17,1.03c.46,1.91,1.53,3.63,3.05,4.89.06.06.17.11.23.17.53.41,1.11.76,1.72,1.04l.34.17c.5.23,1.02.41,1.55.52.29.06.52.12.8.17.42.05.84.07,1.26.06,5.08,0,9.2-4.12,9.2-9.19C24.95,4.12,20.83,0,15.75,0,10.67,0,6.56,4.12,6.56,9.19c0,0,0,0,0,0"></path>
+                                                            <path className="check"
+                                                                  d="M11.79,11.78c-.35.37-.35.95,0,1.32.16.17.39.28.63.29.24,0,.47-.11.63-.29l2.7-2.65,2.64,2.64c.31.35.84.38,1.18.08.03-.02.05-.05.08-.08.35-.37.35-.95,0-1.32l-2.64-2.64,2.64-2.64c.37-.37.36-.96,0-1.32s-.96-.36-1.32,0h0l-2.64,2.64-2.59-2.64c-.35-.38-.94-.41-1.32-.07-.38.35-.41.94-.07,1.32.02.02.05.05.07.07l2.64,2.64-2.64,2.64Z"></path>
+                                                        </g>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    })
+                                    }
+                                </ul>
+                                <ul className="invoice">
+                                    <li className="fee">
+
+                                        <div className="attr">
+                                            <svg className="invoice-icon" xmlns="http://www.w3.org/2000/svg"
+                                                 viewBox="0 0 512 351.33">
                                                 <path
-                                                    className="seat"
-                                                    d="M30.95,25.68h0c-.72-1.03-1.91-1.61-3.16-1.54-.28,0-.53.03-.77.09l-.8.18,1.73-6.72c.71-2.74-.55-5.57-3.07-6.87-5.71-3.02-12.53-3.02-18.24,0-2.51,1.3-3.78,4.13-3.07,6.87l1.73,6.7-.79-.17c-.35-.07-.71-.1-1.06-.09C1.54,24.14,0,25.69,0,27.6c0,.45.09.88.26,1.3,1.35,3.3,3.66,6.03,6.7,7.89l.46.29-3.03,4.11c-.13.18-.19.41-.15.64s.16.43.35.56c.38.28.92.2,1.2-.18l3.2-4.34.36.15c2.03.84,4.17,1.26,6.36,1.26h.04c2.25,0,4.39-.42,6.42-1.26l.36-.15,3.21,4.34c.14.18.34.3.57.33.23.03.46-.03.64-.17.38-.28.46-.82.18-1.2l-3.03-4.1.46-.28c3.04-1.87,5.35-4.6,6.7-7.89.44-1.06.31-2.26-.32-3.21ZM5.26,17.26c-.51-1.96.38-3.97,2.18-4.9,5.21-2.77,11.43-2.77,16.65,0,1.8.92,2.69,2.94,2.18,4.9l-2.42,9.37-.15.11c-2.37,1.65-5.15,2.47-7.93,2.47-2.78,0-5.56-.82-7.93-2.47l-.15-.11-2.42-9.37ZM29.67,28.24c-2.31,5.65-7.76,9.31-13.86,9.31h-.02c-6.17,0-11.61-3.65-13.93-9.3-.17-.42-.17-.89,0-1.31s.51-.75.93-.92c.21-.09.39-.14.65-.13.59-.09,1.25.16,1.68.67,1.69,2.13,5.72,4.4,10.63,4.4s8.95-2.27,10.62-4.39c.32-.42.82-.68,1.37-.68.62-.1,1.32.18,1.74.74.34.49.4,1.09.19,1.62Z"
-                                                />
-                                                <g>
-                                                    <path className="mark"
-                                                          d="M6.56,9.2c0,.38,0,.77.06,1.15l.17,1.03c.46,1.91,1.53,3.63,3.05,4.89.06.06.17.11.23.17.53.41,1.11.76,1.72,1.04l.34.17c.5.23,1.02.41,1.55.52.29.06.52.12.8.17.42.05.84.07,1.26.06,5.08,0,9.2-4.12,9.2-9.19C24.95,4.12,20.83,0,15.75,0,10.67,0,6.56,4.12,6.56,9.19c0,0,0,0,0,0"></path>
-                                                    <path className="check"
-                                                          d="M11.79,11.78c-.35.37-.35.95,0,1.32.16.17.39.28.63.29.24,0,.47-.11.63-.29l2.7-2.65,2.64,2.64c.31.35.84.38,1.18.08.03-.02.05-.05.08-.08.35-.37.35-.95,0-1.32l-2.64-2.64,2.64-2.64c.37-.37.36-.96,0-1.32s-.96-.36-1.32,0h0l-2.64,2.64-2.59-2.64c-.35-.38-.94-.41-1.32-.07-.38.35-.41.94-.07,1.32.02.02.05.05.07.07l2.64,2.64-2.64,2.64Z"></path>
-                                                </g>
+                                                    d="M497,126.4c8.28,0,15-6.72,15-15v-37.44c0-46.31-27.65-73.96-73.96-73.96h-86.7v47.13c-.74,19.88-29.27,19.87-30,0V0H73.96C27.65,0,0,27.65,0,73.97v37.44c0,8.28,6.72,15,15,15,65.28,2.48,65.25,96.07,0,98.53-8.28,0-15,6.72-15,15v37.44c0,46.31,27.65,73.96,73.96,73.96h247.37v-47.13c.74-19.88,29.27-19.87,30,0v47.13h86.7c46.31,0,73.96-27.65,73.96-73.96v-37.44c0-8.28-6.72-15-15-15-65.27-2.48-65.25-96.07,0-98.53h0ZM351.33,239.93c-.74,19.88-29.27,19.87-30,0v-32.13c.74-19.88,29.27-19.87,30,0v32.13ZM351.33,143.53c-.74,19.88-29.27,19.87-30,0v-32.13c.74-19.88,29.27-19.87,30,0v32.13Z"/>
                                             </svg>
+                                            قیمت هر تیکت
                                         </div>
-                                    </div>
-                                </li>
-                            })
-                            }
-                        </ul>
-                        <ul className="invoice">
-                            <li className="fee">
-
-                                <div className="attr">
-                                    <svg className="invoice-icon" xmlns="http://www.w3.org/2000/svg"
-                                         viewBox="0 0 512 351.33">
-                                        <path
-                                            d="M497,126.4c8.28,0,15-6.72,15-15v-37.44c0-46.31-27.65-73.96-73.96-73.96h-86.7v47.13c-.74,19.88-29.27,19.87-30,0V0H73.96C27.65,0,0,27.65,0,73.97v37.44c0,8.28,6.72,15,15,15,65.28,2.48,65.25,96.07,0,98.53-8.28,0-15,6.72-15,15v37.44c0,46.31,27.65,73.96,73.96,73.96h247.37v-47.13c.74-19.88,29.27-19.87,30,0v47.13h86.7c46.31,0,73.96-27.65,73.96-73.96v-37.44c0-8.28-6.72-15-15-15-65.27-2.48-65.25-96.07,0-98.53h0ZM351.33,239.93c-.74,19.88-29.27,19.87-30,0v-32.13c.74-19.88,29.27-19.87,30,0v32.13ZM351.33,143.53c-.74,19.88-29.27,19.87-30,0v-32.13c.74-19.88,29.27-19.87,30,0v32.13Z"/>
-                                    </svg>
-                                    قیمت هر تیکت
-                                </div>
-                                <span className="val">{new Intl.NumberFormat('en-US').format(game.price)}</span>
-                                <span className="notice pr-1">تومان</span>
-                            </li>
+                                        <span className="val">{new Intl.NumberFormat('en-US').format(game.price)}</span>
+                                        <span className="notice pr-1">تومان</span>
+                                    </li>
 
 
-                            <li className="total">
-                                <div className="attr">مجموع پـرداختی</div>
-                                <span
-                                    className="val price">{new Intl.NumberFormat('en-US').format(game.price * selectedChairs.length)}</span>
-                                <span className="notice pr-2">تومان</span>
-                            </li>
-                        </ul>
+                                    <li className="total">
+                                        <div className="attr">مجموع پـرداختی</div>
+                                        <span
+                                            className="val price">{new Intl.NumberFormat('en-US').format(game.price * selectedChairs.length)}</span>
+                                        <span className="notice pr-2">تومان</span>
+                                    </li>
+                                </ul>
 
-                        {game.price === 0 ?
-                            <div className="payment-method">
-                                <a href="/" className="item">
-                                    <div className="img-container">
-                                        <img src={Gift} alt="paying"/>
-                                    </div>
-                                    <div className="content">
+                                {game.price === 0 ?
+                                    <div className="payment-method">
+                                        <a href="/" className="item">
+                                            <div className="img-container">
+                                                <img src={Gift} alt="paying"/>
+                                            </div>
+                                            <div className="content">
                                    <span className="head">
                                       ثبت نام رایگان
                                    </span>
-                                        <span className="notice">
+                                                <span className="notice">
                                        شرکت در این رویداد رایگان است!
                                    </span>
+                                            </div>
+                                            <div className="arr">
+                                                <i className="fa-light fa-circle-arrow-left"></i>
+                                            </div>
+                                        </a>
                                     </div>
-                                    <div className="arr">
-                                        <i className="fa-light fa-circle-arrow-left"></i>
-                                    </div>
-                                </a>
-                            </div>
-                            :
-                            <ul className="payment-method">
-                               {/* <li className="item">
+                                    :
+                                    <ul className="payment-method">
+                                        {/* <li className="item">
 
                                         <div className="img-container">
                                             <img src={Sadad} alt="sadad"/>
@@ -788,232 +790,228 @@ function Game(props) {
                                 </li>*/}
 
 
-                                <li className="item" onClick={() => payWithZarinPal()}>
+                                        <li className="item" onClick={() => payWithZarinPal()}>
 
-                                        <div className="img-container mt-0">
-                                            <img src={ZarinPal} alt="zarinpal"/>
-                                        </div>
-                                        <div className="content">
+                                            <div className="img-container mt-0">
+                                                <img src={ZarinPal} alt="zarinpal"/>
+                                            </div>
+                                            <div className="content">
                                        <span className="head">
                                            پرداخت با درگاه واسط زرین پال
                                        </span>
-                                                        <span className="notice">
+                                                <span className="notice">
                                            پرداخت توسط درگاه واسط زرین پال انجام میشود
                                        </span>
-                                        </div>
-                                        <div className="arr">
-                                            {sendDataLoading ?
-                                                <div className="spinner-container">
-                                                    <div className="spinner"></div>
-                                                </div> : null}
-                                        </div>
+                                            </div>
+                                            <div className="arr">
+                                                {sendDataLoading ?
+                                                    <div className="spinner-container">
+                                                        <div className="spinner"></div>
+                                                    </div> : null}
+                                            </div>
 
-                                </li>
+                                        </li>
 
-                                <li className="item">
+                                        <li className="item">
 
-                                        <div className="img-container">
-                                            <img src={Paying} alt="paying"/>
-                                        </div>
-                                        <div className="content">
+                                            <div className="img-container">
+                                                <img src={Paying} alt="paying"/>
+                                            </div>
+                                            <div className="content">
                                <span className="head">
                                    پرداخت حضوری
                                </span>
-                                            <span className="notice">
+                                                <span className="notice">
                                    پرداخت توسط شما هنگام ورود به مجموعه انجام خواهد شد
                                </span>
-                                        </div>
-                                        <div className="arr">
-                                            <i className="fa-light fa-circle-arrow-left"></i>
-                                        </div>
-
-                                </li>
-                            </ul>
-                        }
-
-
-                    </div>
-
-                </Modal.Body>
-
-                <Modal.Footer>
-                    <div className="content">
-                        <span> لطفا قبل از اقدام به پرداخت </span>
-                        <Link className="color-primary" to="/">قوانین و مقررات</Link>
-                        <span>را مطالعه فرمایید</span>
-                    </div>
-                </Modal.Footer>
-            </Modal>
-                :
-                null}
-            {!isLoading && game.scenario?
-                <Modal show={showScenarioModal} onHide={() => setShowScenarioModal(false)} centered className="scenario-modal full-screen-modal-bellow-md">
-                    <Modal.Header>
-                        <Modal.Title>
-                            سـنــاریـو
-                            {game.scenario.name}
-                        </Modal.Title>
-                        <svg onClick={() => setShowScenarioModal(false)}
-                             className="modal-cross-icon" xmlns="http://www.w3.org/2000/svg"
-                             viewBox="0 0 211 211">
-                            <path
-                                d="M105.5,0C47.23,0,0,47.23,0,105.5s47.23,105.5,105.5,105.5,105.5-47.23,105.5-105.5C210.93,47.26,163.74.07,105.5,0ZM146.18,132.63c3.81,3.68,3.92,9.75.24,13.56-3.68,3.81-9.75,3.92-13.56.24-.08-.08-.16-.16-.24-.24l-27.12-27.13-27.12,27.13c-3.81,3.68-9.88,3.57-13.56-.24-3.59-3.72-3.59-9.61,0-13.33l27.12-27.13-27.12-27.13c-3.81-3.68-3.92-9.75-.24-13.56,3.68-3.81,9.75-3.92,13.56-.24.08.08.16.16.24.24l27.12,27.13,27.12-27.13c3.68-3.81,9.75-3.92,13.56-.24,3.81,3.68,3.92,9.75.24,13.56-.08.08-.16.16-.24.24l-27.12,27.13,27.12,27.13Z"/>
-                        </svg>
-
-                    </Modal.Header>
-                    <Modal.Body>
-                        <div className="scenario-content">
-                            <ul className="scenario-characters">
-                                <li className="head positive">
-                                    نقش های مثبت این سناریو
-                                </li>
-                                {game.scenario.characters.map((character, index) => (
-                                    character.side === 1 ?
-                                        <li key={index}  onClick={() => toggleDescription(character.id)} className="item">
-                                            <div className="img-container">
-                                                {character.pivot.count > 1 ?
-                                                    <span className="count">
-                                                        {character.pivot.count}
-                                                        <span className="notice">X</span></span>
-                                                    : null}
-                                                <div className="img">
-                                                    <img src={character.photo_id ? character.photo_id : Avatar}
-                                                         alt={character.name}/>
-                                                </div>
                                             </div>
-                                            <div className="name">
-                                                {character.name}
-                                                {showCharacterDescription[character.id]?
-                                                    <span className="circle"></span>
-                                                :null}
+                                            <div className="arr">
+                                                <i className="fa-light fa-circle-arrow-left"></i>
                                             </div>
-                                            {showCharacterDescription[character.id] ?
-                                                <div className="description">
-                                                    {character.description}
-                                                </div>:null
-                                            }
+
                                         </li>
-                                        : null
-                                ))}
-                                <li className="head negative">
-                                    نقش های منفی این سناریو
-                                </li>
-                                {game.scenario.characters.map((character, index) => (
-                                    character.side === 0 ?
-                                        <li onClick={() => toggleDescription(character.id)} key={index} className="item">
-                                            <div className="img-container">
-                                                {character.pivot.count > 1 ?
-                                                    <span className="count">
-                                                        {character.pivot.count}
-                                                        <span className="notice">X</span></span>
-                                                    : null}
-                                                <div className="img">
-                                                    <img src={character.photo_id ? character.photo_id : Avatar}
-                                                         alt={character.name}/>
-                                                </div>
-                                            </div>
-                                            <div className="name">
-                                                {character.name}
-                                                {showCharacterDescription[character.id]?
-                                                    <span className="circle"></span>
-                                                    :null}
-                                            </div>
-                                            {showCharacterDescription[character.id] ?
-                                                <div className="description">
-                                                    {character.description}
-                                                </div>:null
-                                            }
-                                        </li>
-                                        : null
-                                ))}
-
-                            </ul>
-                        </div>
+                                    </ul>
+                                }
 
 
-                    </Modal.Body>
-
-
-                </Modal>
-                : null}
-
-            {!isLoading?
-                <Modal show={showGameScoresModal} onHide={() => setShowGameScoresModal(false)} centered className="game-score-modal full-screen-modal-bellow-md">
-                    <Modal.Header>
-                        <Modal.Title>
-                            پنل امتیازات بازی
-                        </Modal.Title>
-                        <svg onClick={() => setShowGameScoresModal(false)}
-                             className="modal-cross-icon" xmlns="http://www.w3.org/2000/svg"
-                             viewBox="0 0 211 211">
-                            <path
-                                d="M105.5,0C47.23,0,0,47.23,0,105.5s47.23,105.5,105.5,105.5,105.5-47.23,105.5-105.5C210.93,47.26,163.74.07,105.5,0ZM146.18,132.63c3.81,3.68,3.92,9.75.24,13.56-3.68,3.81-9.75,3.92-13.56.24-.08-.08-.16-.16-.24-.24l-27.12-27.13-27.12,27.13c-3.81,3.68-9.88,3.57-13.56-.24-3.59-3.72-3.59-9.61,0-13.33l27.12-27.13-27.12-27.13c-3.81-3.68-3.92-9.75-.24-13.56,3.68-3.81,9.75-3.92,13.56-.24.08.08.16.16.24.24l27.12,27.13,27.12-27.13c3.68-3.81,9.75-3.92,13.56-.24,3.81,3.68,3.92,9.75.24,13.56-.08.08-.16.16-.24.24l-27.12,27.13,27.12,27.13Z"/>
-                        </svg>
-
-                    </Modal.Header>
-                    <Modal.Body>
-                        <div className="sec-container">
-                            <div className="head">
-                                ساید برنده بازی
                             </div>
-                            <ul className="win-side">
-                                <li
-                                    onClick={() => chooseWinSide(0)}
-                                    className={`item ${winSide[0]  ? 'selected' : ''}`}>مــافــیــا</li>
-                                {game.scenario_id && game.scenario.characters.find(obj => obj.side === 2) ?
-                                    <li onClick={() => chooseWinSide(2)}
-                                        className={`item ${winSide[2]  ? 'selected' : ''}`}>مـسـتــقــل</li>
-                                    :null}
+
+                        </Modal.Body>
+
+                        <Modal.Footer>
+                            <div className="content">
+                                <span> لطفا قبل از اقدام به پرداخت </span>
+                                <Link className="color-primary" to="/">قوانین و مقررات</Link>
+                                <span>را مطالعه فرمایید</span>
+                            </div>
+                        </Modal.Footer>
+                    </Modal>
+                    {game.game_scenario?
+                        <Modal show={showScenarioModal} onHide={() => setShowScenarioModal(false)} centered className="scenario-modal full-screen-modal-bellow-md">
+                            <Modal.Header>
+                                <Modal.Title>
+                                    سـنــاریـو
+                                    {game.scenario.name}
+                                </Modal.Title>
+                                <svg onClick={() => setShowScenarioModal(false)}
+                                     className="modal-cross-icon" xmlns="http://www.w3.org/2000/svg"
+                                     viewBox="0 0 211 211">
+                                    <path
+                                        d="M105.5,0C47.23,0,0,47.23,0,105.5s47.23,105.5,105.5,105.5,105.5-47.23,105.5-105.5C210.93,47.26,163.74.07,105.5,0ZM146.18,132.63c3.81,3.68,3.92,9.75.24,13.56-3.68,3.81-9.75,3.92-13.56.24-.08-.08-.16-.16-.24-.24l-27.12-27.13-27.12,27.13c-3.81,3.68-9.88,3.57-13.56-.24-3.59-3.72-3.59-9.61,0-13.33l27.12-27.13-27.12-27.13c-3.81-3.68-3.92-9.75-.24-13.56,3.68-3.81,9.75-3.92,13.56-.24.08.08.16.16.24.24l27.12,27.13,27.12-27.13c3.68-3.81,9.75-3.92,13.56-.24,3.81,3.68,3.92,9.75.24,13.56-.08.08-.16.16-.24.24l-27.12,27.13,27.12,27.13Z"/>
+                                </svg>
+
+                            </Modal.Header>
+                            <Modal.Body>
+                                <div className="scenario-content">
+                                    <ul className="scenario-characters">
+                                        <li className="head positive">
+                                            نقش های مثبت این سناریو
+                                        </li>
+                                        {game.scenario.characters.map((character, index) => (
+                                            character.side === 1 ?
+                                                <li key={index}  onClick={() => toggleDescription(character.id)} className="item">
+                                                    <div className="img-container">
+                                                        {character.pivot.count > 1 ?
+                                                            <span className="count">
+                                                        {character.pivot.count}
+                                                                <span className="notice">X</span></span>
+                                                            : null}
+                                                        <div className="img">
+                                                            <img src={character.photo_id ? character.photo_id : Avatar}
+                                                                 alt={character.name}/>
+                                                        </div>
+                                                    </div>
+                                                    <div className="name">
+                                                        {character.name}
+                                                        {showCharacterDescription[character.id]?
+                                                            <span className="circle"></span>
+                                                            :null}
+                                                    </div>
+                                                    {showCharacterDescription[character.id] ?
+                                                        <div className="description">
+                                                            {character.description}
+                                                        </div>:null
+                                                    }
+                                                </li>
+                                                : null
+                                        ))}
+                                        <li className="head negative">
+                                            نقش های منفی این سناریو
+                                        </li>
+                                        {game.scenario.characters.map((character, index) => (
+                                            character.side === 0 ?
+                                                <li onClick={() => toggleDescription(character.id)} key={index} className="item">
+                                                    <div className="img-container">
+                                                        {character.pivot.count > 1 ?
+                                                            <span className="count">
+                                                        {character.pivot.count}
+                                                                <span className="notice">X</span></span>
+                                                            : null}
+                                                        <div className="img">
+                                                            <img src={character.photo_id ? character.photo_id : Avatar}
+                                                                 alt={character.name}/>
+                                                        </div>
+                                                    </div>
+                                                    <div className="name">
+                                                        {character.name}
+                                                        {showCharacterDescription[character.id]?
+                                                            <span className="circle"></span>
+                                                            :null}
+                                                    </div>
+                                                    {showCharacterDescription[character.id] ?
+                                                        <div className="description">
+                                                            {character.description}
+                                                        </div>:null
+                                                    }
+                                                </li>
+                                                : null
+                                        ))}
+
+                                    </ul>
+                                </div>
+
+
+                            </Modal.Body>
+
+
+                        </Modal>
+                    :null}
+                    <Modal show={showGameScoresModal} onHide={() => setShowGameScoresModal(false)} centered className="game-score-modal full-screen-modal-bellow-md">
+                        <Modal.Header>
+                            <Modal.Title>
+                                پنل امتیازات بازی
+                            </Modal.Title>
+                            <svg onClick={() => setShowGameScoresModal(false)}
+                                 className="modal-cross-icon" xmlns="http://www.w3.org/2000/svg"
+                                 viewBox="0 0 211 211">
+                                <path
+                                    d="M105.5,0C47.23,0,0,47.23,0,105.5s47.23,105.5,105.5,105.5,105.5-47.23,105.5-105.5C210.93,47.26,163.74.07,105.5,0ZM146.18,132.63c3.81,3.68,3.92,9.75.24,13.56-3.68,3.81-9.75,3.92-13.56.24-.08-.08-.16-.16-.24-.24l-27.12-27.13-27.12,27.13c-3.81,3.68-9.88,3.57-13.56-.24-3.59-3.72-3.59-9.61,0-13.33l27.12-27.13-27.12-27.13c-3.81-3.68-3.92-9.75-.24-13.56,3.68-3.81,9.75-3.92,13.56-.24.08.08.16.16.24.24l27.12,27.13,27.12-27.13c3.68-3.81,9.75-3.92,13.56-.24,3.81,3.68,3.92,9.75.24,13.56-.08.08-.16.16-.24.24l-27.12,27.13,27.12,27.13Z"/>
+                            </svg>
+
+                        </Modal.Header>
+                        <Modal.Body>
+                            <div className="sec-container">
+                                <div className="head">
+                                    ساید برنده بازی
+                                </div>
+                                <ul className="win-side">
+                                    <li
+                                        onClick={() => chooseWinSide(0)}
+                                        className={`item ${winSide[0]  ? 'selected' : ''}`}>مــافــیــا</li>
+                                    {game.scenario_id && game.scenario.characters.find(obj => obj.side === 2) ?
+                                        <li onClick={() => chooseWinSide(2)}
+                                            className={`item ${winSide[2]  ? 'selected' : ''}`}>مـسـتــقــل</li>
+                                        :null}
                                     <li onClick={() => chooseWinSide(1)}
                                         className={`item ${winSide[1]  ? 'selected' : ''}`}>شـــهـــــر</li>
-                                    </ul>
-                                    </div>
-                                    <div className="sec-container">
-                            <div className="head">
-                                بهترین بازیکن
-                                <span className="notice mr-2">(MVP)</span>
+                                </ul>
                             </div>
-                            <div onClick={() => setShowMVPDropDown(!showMVPDropDown)} className="input-control">
-                                {MVPInput && reserves.find(obj => obj.user_id === MVPInput)?
-                                    reserves.find(obj => obj.user_id === MVPInput).user.name+" "+reserves.find(obj => obj.user_id === MVPInput).user.family
-                                    : " انتخاب بهترین بازیکن"}
-                                <svg className={showMVPDropDown ? "active angle-icon" : "angle-icon"}
-                                     xmlns="http://www.w3.org/2000/svg"
-                                     viewBox="0 0 512 512">
-                                    <path
-                                        d="M256,0C114.84,0,0,114.84,0,256s114.84,256,256,256,256-114.84,256-256S397.16,0,256,0ZM335.08,271.08l-106.67,106.67c-4,4.01-9.42,6.26-15.08,6.25-5.66,0-11.09-2.24-15.08-6.25-8.34-8.34-8.34-21.82,0-30.17l91.58-91.58-91.58-91.58c-8.34-8.34-8.34-21.82,0-30.16s21.82-8.34,30.16,0l106.67,106.67c8.34,8.34,8.34,21.82,0,30.17h0Z"/>
-                                </svg>
+                            <div className="sec-container">
+                                <div className="head">
+                                    بهترین بازیکن
+                                    <span className="notice mr-2">(MVP)</span>
+                                </div>
+                                <div onClick={() => setShowMVPDropDown(!showMVPDropDown)} className="input-control">
+                                    {MVPInput && reserves.find(obj => obj.user_id === MVPInput)?
+                                        reserves.find(obj => obj.user_id === MVPInput).user.name+" "+reserves.find(obj => obj.user_id === MVPInput).user.family
+                                        : " انتخاب بهترین بازیکن"}
+                                    <svg className={showMVPDropDown ? "active angle-icon" : "angle-icon"}
+                                         xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 512 512">
+                                        <path
+                                            d="M256,0C114.84,0,0,114.84,0,256s114.84,256,256,256,256-114.84,256-256S397.16,0,256,0ZM335.08,271.08l-106.67,106.67c-4,4.01-9.42,6.26-15.08,6.25-5.66,0-11.09-2.24-15.08-6.25-8.34-8.34-8.34-21.82,0-30.17l91.58-91.58-91.58-91.58c-8.34-8.34-8.34-21.82,0-30.16s21.82-8.34,30.16,0l106.67,106.67c8.34,8.34,8.34,21.82,0,30.17h0Z"/>
+                                    </svg>
+                                </div>
+                                {showMVPDropDown ?
+                                    <ul className="custom-select-input">
+                                        {reserves.map((item, index) => (
+                                            <li
+                                                key={index}
+                                                className="item"
+                                                onClick={() => {
+                                                    setMVPInput(item.user.id);
+                                                    setShowMVPDropDown(!showMVPDropDown);
+                                                }}
+                                            >{item.user.name + " " + item.user.family}
+                                            </li>
+                                        ))}
+                                    </ul> : null}
                             </div>
-                            {showMVPDropDown ?
-                                <ul className="custom-select-input">
+                            <div className="sec-container">
+                                <div className="head">
+                                    امتیازات کاربران
+                                </div>
+                                <ul className="user-scores">
                                     {reserves.map((item, index) => (
-                                        <li
-                                            key={index}
-                                            className="item"
-                                            onClick={() => {
-                                                setMVPInput(item.user.id);
-                                                setShowMVPDropDown(!showMVPDropDown);
-                                            }}
-                                        >{item.user.name + " " + item.user.family}
-                                        </li>
-                                    ))}
-                                </ul> : null}
-                        </div>
-                        <div className="sec-container">
-                            <div className="head">
-                                امتیازات کاربران
-                            </div>
-                            <ul className="user-scores">
-                                {reserves.map((item, index) => (
-                                    <li className="item" key={index}>
-                                        <div className="avatar">
-                                            {item.user.photo_id ?
-                                                item.user.photo_id :
-                                                <img src={Avatar} alt="avatar"/>
-                                            }
-                                        </div>
-                                        <div className="name">{item.user.name + " " + item.user.family}</div>
-                                        <div className="counter">
+                                        <li className="item" key={index}>
+                                            <div className="avatar">
+                                                {item.user.photo_id ?
+                                                    item.user.photo_id :
+                                                    <img src={Avatar} alt="avatar"/>
+                                                }
+                                            </div>
+                                            <div className="name">{item.user.name + " " + item.user.family}</div>
+                                            <div className="counter">
                                            <span onClick={() => userScoreCounter(item.user.id, "-")}
                                                  className="count-btn">
                                                 <svg className="counter-icon" xmlns="http://www.w3.org/2000/svg"
@@ -1022,176 +1020,173 @@ function Game(props) {
                                                       d="M257,0C116.39,0,0,114.39,0,255s116.39,257,257,257,255-116.39,255-257S397.61,0,257,0ZM392,285H120c-16.54,0-30-13.46-30-30s13.46-30,30-30h272c16.53,0,30,13.46,30,30s-13.47,30-30,30Z"/>
                                                 </svg>
                                            </span>
-                                            <div className="count">{usersGameScore[item.user.id]}</div>
-                                            <span onClick={() => userScoreCounter(item.user.id, "+")}
-                                                  className="count-btn">
+                                                <div className="count">{usersGameScore[item.user.id]}</div>
+                                                <span onClick={() => userScoreCounter(item.user.id, "+")}
+                                                      className="count-btn">
                                             <svg className="counter-icon" xmlns="http://www.w3.org/2000/svg"
                                                  viewBox="0 0 512 512">
                                                 <path
                                                     d="M257,0C116.39,0,0,114.39,0,255s116.39,257,257,257,255-116.39,255-257S397.61,0,257,0ZM392,285h-106v106c0,16.53-13.46,30-30,30s-30-13.47-30-30v-106h-106c-16.54,0-30-13.46-30-30s13.46-30,30-30h106v-106c0-16.54,13.46-30,30-30s30,13.46,30,30v106h106c16.53,0,30,13.46,30,30s-13.47,30-30,30Z"/>
                                             </svg>
                                         </span>
-                                        </div>
-                                    </li>
-                                ))
-                                }
-                            </ul>
-                        </div>
+                                            </div>
+                                        </li>
+                                    ))
+                                    }
+                                </ul>
+                            </div>
 
-                        {sendDataLoading ?
-                            <span className="primary-btn twin-btn">
+                            {sendDataLoading ?
+                                <span className="primary-btn twin-btn">
                                    <div className="loader-container">
                                        <div className="loader">
                                        </div>
                                    </div>
                                 </span>
-                            :
-                            <li className="primary-btn twin-btn" onClick={() => saveUsersScore()}>
-                                <svg className="game-setting-icons" xmlns="http://www.w3.org/2000/svg"
-                                     viewBox="0 0 512.04 512.08">
-                                    <path
-                                        d="M0,154.32c0-7.51,3.93-14.44,10.35-18.28L220.74,9.81c21.7-13.08,48.85-13.08,70.55,0l210.37,126.23c10.1,6.07,13.36,19.18,7.29,29.28-1.8,2.99-4.3,5.49-7.29,7.29l-210.37,126.23c-21.7,13.05-48.83,13.05-70.53,0L10.35,172.63C3.93,168.77,0,161.83,0,154.34v-.02ZM490.67,405.41h-42.67v-42.67c0-11.78-9.55-21.33-21.33-21.33s-21.33,9.55-21.33,21.33v42.67h-42.67c-11.78,0-21.33,9.55-21.33,21.33s9.55,21.33,21.33,21.33h42.67v42.67c0,11.78,9.55,21.33,21.33,21.33s21.33-9.55,21.33-21.33v-42.67h42.67c11.78,0,21.33-9.55,21.33-21.33s-9.55-21.33-21.33-21.33ZM266.99,467.58L32.32,326.78c-10.1-6.06-23.21-2.79-29.27,7.32-6.06,10.1-2.79,23.21,7.32,29.27l234.67,140.8c10.1,6.06,23.2,2.79,29.26-7.31,6.06-10.1,2.79-23.2-7.31-29.26v-.02ZM479.7,229.35l-223.68,134.21L32.32,229.35c-10.1-6.06-23.21-2.79-29.27,7.32s-2.79,23.21,7.32,29.27l234.67,140.8c6.76,4.06,15.21,4.06,21.97,0l234.67-140.8c10.1-6.06,13.38-19.17,7.32-29.27s-19.17-13.38-29.27-7.32h-.02Z"/>
-                                </svg>
-                                ذخیره تنظیمات
-                            </li>
-                        }
-                    </Modal.Body>
-
-
-                </Modal>
-                : null}
-
-            {!isLoading ?
-                <Modal show={showEditModal} onHide={() => setShowEditModal(false)} centered className="edit-game-modal custom-modal">
-                    <Modal.Header>
-                        <Modal.Title>
-                            ویرایش این بازی
-                        </Modal.Title>
-                        <svg onClick={() => setShowEditModal(false)}
-                             className="modal-cross-icon" xmlns="http://www.w3.org/2000/svg"
-                             viewBox="0 0 211 211">
-                            <path
-                                d="M105.5,0C47.23,0,0,47.23,0,105.5s47.23,105.5,105.5,105.5,105.5-47.23,105.5-105.5C210.93,47.26,163.74.07,105.5,0ZM146.18,132.63c3.81,3.68,3.92,9.75.24,13.56-3.68,3.81-9.75,3.92-13.56.24-.08-.08-.16-.16-.24-.24l-27.12-27.13-27.12,27.13c-3.81,3.68-9.88,3.57-13.56-.24-3.59-3.72-3.59-9.61,0-13.33l27.12-27.13-27.12-27.13c-3.81-3.68-3.92-9.75-.24-13.56,3.68-3.81,9.75-3.92,13.56-.24.08.08.16.16.24.24l27.12,27.13,27.12-27.13c3.68-3.81,9.75-3.92,13.56-.24,3.81,3.68,3.92,9.75.24,13.56-.08.08-.16.16-.24.24l-27.12,27.13,27.12,27.13Z"/>
-                        </svg>
-
-                    </Modal.Header>
-                    <Modal.Body>
-                        <ul className="edit">
-                            <li>
-                                <div className="head">
-                                    انتخاب سناریو این بازی
-                                </div>
-                                <div className="input-control"
-                                     onClick={() => setShowScenariosInput(!showScenariosInput)}>
-                                    {scenariosInput.name ? scenariosInput.name : "لطفا سناریو این بازی را انتخاب کنید"}
-                                    <svg className={showScenariosInput ? "active angle-icon" : "angle-icon"}
-                                         xmlns="http://www.w3.org/2000/svg"
-                                         viewBox="0 0 512 512">
+                                :
+                                <li className="primary-btn twin-btn" onClick={() => saveUsersScore()}>
+                                    <svg className="game-setting-icons" xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 512.04 512.08">
                                         <path
-                                            d="M256,0C114.84,0,0,114.84,0,256s114.84,256,256,256,256-114.84,256-256S397.16,0,256,0ZM335.08,271.08l-106.67,106.67c-4,4.01-9.42,6.26-15.08,6.25-5.66,0-11.09-2.24-15.08-6.25-8.34-8.34-8.34-21.82,0-30.17l91.58-91.58-91.58-91.58c-8.34-8.34-8.34-21.82,0-30.16s21.82-8.34,30.16,0l106.67,106.67c8.34,8.34,8.34,21.82,0,30.17h0Z"/>
+                                            d="M0,154.32c0-7.51,3.93-14.44,10.35-18.28L220.74,9.81c21.7-13.08,48.85-13.08,70.55,0l210.37,126.23c10.1,6.07,13.36,19.18,7.29,29.28-1.8,2.99-4.3,5.49-7.29,7.29l-210.37,126.23c-21.7,13.05-48.83,13.05-70.53,0L10.35,172.63C3.93,168.77,0,161.83,0,154.34v-.02ZM490.67,405.41h-42.67v-42.67c0-11.78-9.55-21.33-21.33-21.33s-21.33,9.55-21.33,21.33v42.67h-42.67c-11.78,0-21.33,9.55-21.33,21.33s9.55,21.33,21.33,21.33h42.67v42.67c0,11.78,9.55,21.33,21.33,21.33s21.33-9.55,21.33-21.33v-42.67h42.67c11.78,0,21.33-9.55,21.33-21.33s-9.55-21.33-21.33-21.33ZM266.99,467.58L32.32,326.78c-10.1-6.06-23.21-2.79-29.27,7.32-6.06,10.1-2.79,23.21,7.32,29.27l234.67,140.8c10.1,6.06,23.2,2.79,29.26-7.31,6.06-10.1,2.79-23.2-7.31-29.26v-.02ZM479.7,229.35l-223.68,134.21L32.32,229.35c-10.1-6.06-23.21-2.79-29.27,7.32s-2.79,23.21,7.32,29.27l234.67,140.8c6.76,4.06,15.21,4.06,21.97,0l234.67-140.8c10.1-6.06,13.38-19.17,7.32-29.27s-19.17-13.38-29.27-7.32h-.02Z"/>
                                     </svg>
-                                </div>
-                                {showScenariosInput ?
-                                    <ul className="custom-select-input">
-                                        {scenarios.map((scenario, index) => (
-                                            <li
-                                                key={index}
-                                                className="item"
-                                                onClick={() => {
-                                                    setScenariosInput({id: scenario.id, name: scenario.name});
-                                                    setShowScenariosInput(!showScenariosInput);
-                                                }}
-                                            >{scenario.name}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                    : null}
-                            </li>
-                            <li className="position-relative">
-                                <div className="head">
-                                    گرداننده این رویداد
-                                </div>
-                                {userSearchLoading ?
-                                    <div className="spinner-container">
-                                        <div className="spinner"></div>
-                                    </div> : null}
-                                {godInput.family ?
-                                    <div className="level">
-                                        Lv.
-                                        <span className="lvl">{godInput.level}</span>
-                                        <div className="icon-container">
-                                            <img src={LevelIcon} alt="Level"/>
-                                        </div>
+                                    ذخیره تنظیمات
+                                </li>
+                            }
+                        </Modal.Body>
 
+
+                    </Modal>
+                    <Modal show={showEditModal} onHide={() => setShowEditModal(false)} centered className="edit-game-modal custom-modal">
+                        <Modal.Header>
+                            <Modal.Title>
+                                ویرایش این بازی
+                            </Modal.Title>
+                            <svg onClick={() => setShowEditModal(false)}
+                                 className="modal-cross-icon" xmlns="http://www.w3.org/2000/svg"
+                                 viewBox="0 0 211 211">
+                                <path
+                                    d="M105.5,0C47.23,0,0,47.23,0,105.5s47.23,105.5,105.5,105.5,105.5-47.23,105.5-105.5C210.93,47.26,163.74.07,105.5,0ZM146.18,132.63c3.81,3.68,3.92,9.75.24,13.56-3.68,3.81-9.75,3.92-13.56.24-.08-.08-.16-.16-.24-.24l-27.12-27.13-27.12,27.13c-3.81,3.68-9.88,3.57-13.56-.24-3.59-3.72-3.59-9.61,0-13.33l27.12-27.13-27.12-27.13c-3.81-3.68-3.92-9.75-.24-13.56,3.68-3.81,9.75-3.92,13.56-.24.08.08.16.16.24.24l27.12,27.13,27.12-27.13c3.68-3.81,9.75-3.92,13.56-.24,3.81,3.68,3.92,9.75.24,13.56-.08.08-.16.16-.24.24l-27.12,27.13,27.12,27.13Z"/>
+                            </svg>
+
+                        </Modal.Header>
+                        <Modal.Body>
+                            <ul className="edit">
+                                <li>
+                                    <div className="head">
+                                        انتخاب سناریو این بازی
                                     </div>
-                                    : null}
-                                <input
-                                    id="god"
-                                    className="input-control"
-                                    type="text"
-                                    placeholder="نام یا نام کاربری یا شماره همراه"
-                                    value={godInput.family ? godInput.name + " " + godInput.family : godInput.name}
-                                    onChange={(e) => searchUser(e.target.value)}/>
-                                {showSearchResults ? (
-                                    <ul className="custom-select-input user-select-input">
-                                        {userSearchResults.map((user, index) => (
-                                            <li
-                                                key={user.id} // Assuming each user has a unique ID
-                                                className="item"
-                                                onClick={() => {
-                                                    setGodInput(user);
-                                                    setShowSearchResults(!showSearchResults);
-                                                }}
-                                            >
-                                                <ul className="users">
-                                                    <li className="user-item">
-                                                        <svg className="user-icons" xmlns="http://www.w3.org/2000/svg"
-                                                             viewBox="0 0 384 512">
-                                                            <path
-                                                                d="M384,512h-42.67v-107.58c-.04-34.82-28.26-63.05-63.08-63.08H105.75c-34.82.04-63.05,28.26-63.08,63.08v107.58H0v-107.58c.07-58.37,47.37-105.68,105.75-105.75h172.5c58.37.07,105.68,47.37,105.75,105.75v107.58ZM192,256c-70.69,0-128-57.31-128-128S121.31,0,192,0s128,57.31,128,128c-.07,70.66-57.34,127.93-128,128ZM192,42.67c-47.13,0-85.33,38.21-85.33,85.33s38.21,85.33,85.33,85.33,85.33-38.21,85.33-85.33-38.21-85.33-85.33-85.33Z"/>
-                                                        </svg>
-                                                        {user.name + " " + user.family}
-                                                    </li>
+                                    <div className="input-control"
+                                         onClick={() => setShowScenariosInput(!showScenariosInput)}>
+                                        {scenariosInput.name ? scenariosInput.name : "لطفا سناریو این بازی را انتخاب کنید"}
+                                        <svg className={showScenariosInput ? "active angle-icon" : "angle-icon"}
+                                             xmlns="http://www.w3.org/2000/svg"
+                                             viewBox="0 0 512 512">
+                                            <path
+                                                d="M256,0C114.84,0,0,114.84,0,256s114.84,256,256,256,256-114.84,256-256S397.16,0,256,0ZM335.08,271.08l-106.67,106.67c-4,4.01-9.42,6.26-15.08,6.25-5.66,0-11.09-2.24-15.08-6.25-8.34-8.34-8.34-21.82,0-30.17l91.58-91.58-91.58-91.58c-8.34-8.34-8.34-21.82,0-30.16s21.82-8.34,30.16,0l106.67,106.67c8.34,8.34,8.34,21.82,0,30.17h0Z"/>
+                                        </svg>
+                                    </div>
+                                    {showScenariosInput ?
+                                        <ul className="custom-select-input">
+                                            {scenarios.map((scenario, index) => (
+                                                <li
+                                                    key={index}
+                                                    className="item"
+                                                    onClick={() => {
+                                                        setScenariosInput({id: scenario.id, name: scenario.name});
+                                                        setShowScenariosInput(!showScenariosInput);
+                                                    }}
+                                                >{scenario.name}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                        : null}
+                                </li>
+                                <li className="position-relative">
+                                    <div className="head">
+                                        گرداننده این رویداد
+                                    </div>
+                                    {userSearchLoading ?
+                                        <div className="spinner-container">
+                                            <div className="spinner"></div>
+                                        </div> : null}
+                                    {godInput.family ?
+                                        <div className="level">
+                                            Lv.
+                                            <span className="lvl">{godInput.level}</span>
+                                            <div className="icon-container">
+                                                <img src={LevelIcon} alt="Level"/>
+                                            </div>
 
-                                                    <li className="user-item">
+                                        </div>
+                                        : null}
+                                    <input
+                                        id="god"
+                                        className="input-control"
+                                        type="text"
+                                        placeholder="نام یا نام کاربری یا شماره همراه"
+                                        value={godInput.family ? godInput.name + " " + godInput.family : godInput.name}
+                                        onChange={(e) => searchUser(e.target.value)}/>
+                                    {showSearchResults ? (
+                                        <ul className="custom-select-input user-select-input">
+                                            {userSearchResults.map((user, index) => (
+                                                <li
+                                                    key={user.id} // Assuming each user has a unique ID
+                                                    className="item"
+                                                    onClick={() => {
+                                                        setGodInput(user);
+                                                        setShowSearchResults(!showSearchResults);
+                                                    }}
+                                                >
+                                                    <ul className="users">
+                                                        <li className="user-item">
+                                                            <svg className="user-icons" xmlns="http://www.w3.org/2000/svg"
+                                                                 viewBox="0 0 384 512">
+                                                                <path
+                                                                    d="M384,512h-42.67v-107.58c-.04-34.82-28.26-63.05-63.08-63.08H105.75c-34.82.04-63.05,28.26-63.08,63.08v107.58H0v-107.58c.07-58.37,47.37-105.68,105.75-105.75h172.5c58.37.07,105.68,47.37,105.75,105.75v107.58ZM192,256c-70.69,0-128-57.31-128-128S121.31,0,192,0s128,57.31,128,128c-.07,70.66-57.34,127.93-128,128ZM192,42.67c-47.13,0-85.33,38.21-85.33,85.33s38.21,85.33,85.33,85.33,85.33-38.21,85.33-85.33-38.21-85.33-85.33-85.33Z"/>
+                                                            </svg>
+                                                            {user.name + " " + user.family}
+                                                        </li>
 
-                                                        <svg className="user-icons" xmlns="http://www.w3.org/2000/svg"
-                                                             viewBox="0 0 341.33 512">
-                                                            <path
-                                                                d="M234.67,512H106.67c-58.82,0-106.67-47.85-106.67-106.67V106.67C0,47.85,47.85,0,106.67,0h128c58.82,0,106.67,47.85,106.67,106.67v298.67c0,58.82-47.85,106.67-106.67,106.67ZM106.67,42.67c-35.29,0-64,28.71-64,64v298.67c0,35.29,28.71,64,64,64h128c35.29,0,64-28.71,64-64V106.67c0-35.29-28.71-64-64-64H106.67ZM213.33,405.33c0-11.78-9.55-21.33-21.33-21.33h-42.67c-11.78,0-21.33,9.55-21.33,21.33s9.55,21.33,21.33,21.33h42.67c11.78,0,21.33-9.55,21.33-21.33Z"/>
-                                                        </svg>
-                                                        {user.phone}
-                                                    </li>
-                                                </ul>
+                                                        <li className="user-item">
 
-                                            </li>
-                                        ))}
-                                        {userSearchResults.length <= 0 ?
-                                            <li className="item">کاربری یافت نشد!</li>
-                                            : null}
-                                    </ul>
-                                ) : null}
-                            </li>
-                            <li>
-                                <div className="head">
-                                    قیمت هـر تیکت
-                                </div>
-                                <input
-                                    className="input-control"
-                                    type="text"
-                                    placeholder="قیمت هر تیکت"
-                                    value={priceInput}
-                                    onChange={(e) => setPriceInput(e.target.value)}/>
-                            </li>
-                            <li>
-                                <div className="head">
-                                    سطوح مجاز به بازی
-                                </div>
-                                <div onClick={() => setShowGradeInput(!showGradeInput)}
-                                     className="input-control">{["A", "B", "C", "D", "21"].every(substring => gradeInput.indexOf(substring) !== -1) ? "بدون محدودیت" : gradeInput}</div>
-                                {showGradeInput ?
-                                    <ul className="custom-select-input grade-select-input">
-                                        <li onClick={() => changeGrade("21")} className="item">
+                                                            <svg className="user-icons" xmlns="http://www.w3.org/2000/svg"
+                                                                 viewBox="0 0 341.33 512">
+                                                                <path
+                                                                    d="M234.67,512H106.67c-58.82,0-106.67-47.85-106.67-106.67V106.67C0,47.85,47.85,0,106.67,0h128c58.82,0,106.67,47.85,106.67,106.67v298.67c0,58.82-47.85,106.67-106.67,106.67ZM106.67,42.67c-35.29,0-64,28.71-64,64v298.67c0,35.29,28.71,64,64,64h128c35.29,0,64-28.71,64-64V106.67c0-35.29-28.71-64-64-64H106.67ZM213.33,405.33c0-11.78-9.55-21.33-21.33-21.33h-42.67c-11.78,0-21.33,9.55-21.33,21.33s9.55,21.33,21.33,21.33h42.67c11.78,0,21.33-9.55,21.33-21.33Z"/>
+                                                            </svg>
+                                                            {user.phone}
+                                                        </li>
+                                                    </ul>
+
+                                                </li>
+                                            ))}
+                                            {userSearchResults.length <= 0 ?
+                                                <li className="item">کاربری یافت نشد!</li>
+                                                : null}
+                                        </ul>
+                                    ) : null}
+                                </li>
+                                <li>
+                                    <div className="head">
+                                        قیمت هـر تیکت
+                                    </div>
+                                    <input
+                                        className="input-control"
+                                        type="text"
+                                        placeholder="قیمت هر تیکت"
+                                        value={priceInput}
+                                        onChange={(e) => setPriceInput(e.target.value)}/>
+                                </li>
+                                <li>
+                                    <div className="head">
+                                        سطوح مجاز به بازی
+                                    </div>
+                                    <div onClick={() => setShowGradeInput(!showGradeInput)}
+                                         className="input-control">{["A", "B", "C", "D", "21"].every(substring => gradeInput.indexOf(substring) !== -1) ? "بدون محدودیت" : gradeInput}</div>
+                                    {showGradeInput ?
+                                        <ul className="custom-select-input grade-select-input">
+                                            <li onClick={() => changeGrade("21")} className="item">
                                             <span
                                                 className={gradeInput.includes("21") ? "custom-check-box selected-grade" : "custom-check-box"}>
                                                 <svg className="check-icon" xmlns="http://www.w3.org/2000/svg"
@@ -1200,9 +1195,9 @@ function Game(props) {
                                                       d="M165.32,369.61c-14.53,0-28.47-5.77-38.74-16.06L9.45,236.47c-12.6-12.61-12.6-33.04,0-45.65,12.61-12.6,33.04-12.6,45.65,0l110.22,110.22L456.9,9.45c12.61-12.6,33.04-12.6,45.65,0,12.6,12.61,12.6,33.04,0,45.65L204.06,353.55c-10.27,10.29-24.21,16.06-38.74,16.06h0Z"/>
                                                 </svg>
                                             </span>
-                                            <span className="grade">21</span>
-                                        </li>
-                                        <li onClick={() => changeGrade("A")} className="item">
+                                                <span className="grade">21</span>
+                                            </li>
+                                            <li onClick={() => changeGrade("A")} className="item">
                                             <span
                                                 className={gradeInput.includes("A") ? "custom-check-box selected-grade" : "custom-check-box"}>
                                                 <svg className="check-icon" xmlns="http://www.w3.org/2000/svg"
@@ -1211,9 +1206,9 @@ function Game(props) {
                                                       d="M165.32,369.61c-14.53,0-28.47-5.77-38.74-16.06L9.45,236.47c-12.6-12.61-12.6-33.04,0-45.65,12.61-12.6,33.04-12.6,45.65,0l110.22,110.22L456.9,9.45c12.61-12.6,33.04-12.6,45.65,0,12.6,12.61,12.6,33.04,0,45.65L204.06,353.55c-10.27,10.29-24.21,16.06-38.74,16.06h0Z"/>
                                                 </svg>
                                             </span>
-                                            <span className="grade">A</span>
-                                        </li>
-                                        <li onClick={() => changeGrade("B")} className="item">
+                                                <span className="grade">A</span>
+                                            </li>
+                                            <li onClick={() => changeGrade("B")} className="item">
                                             <span
                                                 className={gradeInput.includes("B") ? "custom-check-box selected-grade" : "custom-check-box"}>
                                                 <svg className="check-icon" xmlns="http://www.w3.org/2000/svg"
@@ -1222,9 +1217,9 @@ function Game(props) {
                                                       d="M165.32,369.61c-14.53,0-28.47-5.77-38.74-16.06L9.45,236.47c-12.6-12.61-12.6-33.04,0-45.65,12.61-12.6,33.04-12.6,45.65,0l110.22,110.22L456.9,9.45c12.61-12.6,33.04-12.6,45.65,0,12.6,12.61,12.6,33.04,0,45.65L204.06,353.55c-10.27,10.29-24.21,16.06-38.74,16.06h0Z"/>
                                                 </svg>
                                             </span>
-                                            <span className="grade">B</span>
-                                        </li>
-                                        <li onClick={() => changeGrade("C")} className="item">
+                                                <span className="grade">B</span>
+                                            </li>
+                                            <li onClick={() => changeGrade("C")} className="item">
                                             <span
                                                 className={gradeInput.includes("C") ? "custom-check-box selected-grade" : "custom-check-box"}>
                                                 <svg className="check-icon" xmlns="http://www.w3.org/2000/svg"
@@ -1233,9 +1228,9 @@ function Game(props) {
                                                       d="M165.32,369.61c-14.53,0-28.47-5.77-38.74-16.06L9.45,236.47c-12.6-12.61-12.6-33.04,0-45.65,12.61-12.6,33.04-12.6,45.65,0l110.22,110.22L456.9,9.45c12.61-12.6,33.04-12.6,45.65,0,12.6,12.61,12.6,33.04,0,45.65L204.06,353.55c-10.27,10.29-24.21,16.06-38.74,16.06h0Z"/>
                                                 </svg>
                                             </span>
-                                            <span className="grade">C</span>
-                                        </li>
-                                        <li onClick={() => changeGrade("D")} className="item">
+                                                <span className="grade">C</span>
+                                            </li>
+                                            <li onClick={() => changeGrade("D")} className="item">
                                             <span
                                                 className={gradeInput.includes("D") ? "custom-check-box selected-grade" : "custom-check-box"}>
                                                 <svg className="check-icon" xmlns="http://www.w3.org/2000/svg"
@@ -1244,245 +1239,244 @@ function Game(props) {
                                                       d="M165.32,369.61c-14.53,0-28.47-5.77-38.74-16.06L9.45,236.47c-12.6-12.61-12.6-33.04,0-45.65,12.61-12.6,33.04-12.6,45.65,0l110.22,110.22L456.9,9.45c12.61-12.6,33.04-12.6,45.65,0,12.6,12.61,12.6,33.04,0,45.65L204.06,353.55c-10.27,10.29-24.21,16.06-38.74,16.06h0Z"/>
                                                 </svg>
                                             </span>
-                                            <span className="grade">D</span>
-                                        </li>
-                                    </ul>
-                                    : null}
-                            </li>
-
-
-                            {sendDataLoading ?
-                                <span className="primary-btn">
-                                   <div className="loader-container">
-                                       <div className="loader">
-                                       </div>
-                                   </div>
-                                </span>
-                                :
-                                <li className="primary-btn mt-3" onClick={() => editGame()}>
-                                    ویرایش مشخصات بازی
-                                </li>
-                            }
-                        </ul>
-
-                    </Modal.Body>
-
-                </Modal>
-                : null}
-
-            {!isLoading?
-                <Modal show={showGameSettingModal} onHide={() => setShowGameSettingModal(false)} centered className="game-setting-modal  full-screen-modal-bellow-md">
-                    <Modal.Header>
-                        <Modal.Title>
-                            تنظیمات این بازی
-                        </Modal.Title>
-                        <svg onClick={() => {setShowGameSettingModal(false); setConfirmPopUp(false)}}
-                             className="modal-cross-icon" xmlns="http://www.w3.org/2000/svg"
-                             viewBox="0 0 211 211">
-                            <path
-                                d="M105.5,0C47.23,0,0,47.23,0,105.5s47.23,105.5,105.5,105.5,105.5-47.23,105.5-105.5C210.93,47.26,163.74.07,105.5,0ZM146.18,132.63c3.81,3.68,3.92,9.75.24,13.56-3.68,3.81-9.75,3.92-13.56.24-.08-.08-.16-.16-.24-.24l-27.12-27.13-27.12,27.13c-3.81,3.68-9.88,3.57-13.56-.24-3.59-3.72-3.59-9.61,0-13.33l27.12-27.13-27.12-27.13c-3.81-3.68-3.92-9.75-.24-13.56,3.68-3.81,9.75-3.92,13.56-.24.08.08.16.16.24.24l27.12,27.13,27.12-27.13c3.68-3.81,9.75-3.92,13.56-.24,3.81,3.68,3.92,9.75.24,13.56-.08.08-.16.16-.24.24l-27.12,27.13,27.12,27.13Z"/>
-                        </svg>
-
-                    </Modal.Header>
-                    <Modal.Body className="prevent-select">
-                        <div className="head game-modal-head">
-                            انتخاب کارکتر های موجود در این بازی
-                        </div>
-                        {game.game_scenario ?
-                            <ul className="edit choose-character-panel">
-                                {game.scenario.characters.find(obj => obj.id === 16) ?
-                                    <li className={`item common-roles ${selectedCharacters.some(obj => obj.id === 16) ? 'selected' : ''}`}>
-                                        <div className="name"
-                                             onClick={() => selectCharacters(game.scenario.characters.find(obj => obj.id === 16))}>
-                                            {game.scenario.characters.find(obj => obj.id === 16).name}
-                                        </div>
-                                        <div className="counter">
-                                            <svg onClick={() => counter("citizen", "-")} className="counter-icon"
-                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                                                <path
-                                                    d="M257,0C116.39,0,0,114.39,0,255s116.39,257,257,257,255-116.39,255-257S397.61,0,257,0ZM392,285H120c-16.54,0-30-13.46-30-30s13.46-30,30-30h272c16.53,0,30,13.46,30,30s-13.47,30-30,30Z"/>
-                                            </svg>
-                                            <div className="count">{scenarioCitizenCount}</div>
-                                            <svg onClick={() => counter("citizen", "+")} className="counter-icon"
-                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                                                <path
-                                                    d="M257,0C116.39,0,0,114.39,0,255s116.39,257,257,257,255-116.39,255-257S397.61,0,257,0ZM392,285h-106v106c0,16.53-13.46,30-30,30s-30-13.47-30-30v-106h-106c-16.54,0-30-13.46-30-30s13.46-30,30-30h106v-106c0-16.54,13.46-30,30-30s30,13.46,30,30v106h106c16.53,0,30,13.46,30,30s-13.47,30-30,30Z"/>
-                                            </svg>
-                                        </div>
-                                    </li> : null
-                                }
-                                {game.scenario.characters.find(obj => obj.id === 5) ?
-                                    <li className={`item common-roles ${selectedCharacters.some(obj => obj.id === 5) ? 'selected' : ''}`}>
-                                        <div className="name"
-                                             onClick={() => selectCharacters(game.scenario.characters.find(obj => obj.id === 5))}>
-                                            {game.scenario.characters.find(obj => obj.id === 5).name}
-                                        </div>
-                                        <div className="counter">
-
-                                            <svg onClick={() => counter("mafia", "-")} className="counter-icon"
-                                                 xmlns="http://www.w3.org/2000/svg"
-                                                 viewBox="0 0 512 512">
-                                                <path
-                                                    d="M257,0C116.39,0,0,114.39,0,255s116.39,257,257,257,255-116.39,255-257S397.61,0,257,0ZM392,285H120c-16.54,0-30-13.46-30-30s13.46-30,30-30h272c16.53,0,30,13.46,30,30s-13.47,30-30,30Z"/>
-                                            </svg>
-
-                                            <div className="count">{scenarioMafiaCount}</div>
-
-                                            <svg onClick={() => counter("mafia", "+")} className="counter-icon"
-                                                 xmlns="http://www.w3.org/2000/svg"
-                                                 viewBox="0 0 512 512">
-                                                <path
-                                                    d="M257,0C116.39,0,0,114.39,0,255s116.39,257,257,257,255-116.39,255-257S397.61,0,257,0ZM392,285h-106v106c0,16.53-13.46,30-30,30s-30-13.47-30-30v-106h-106c-16.54,0-30-13.46-30-30s13.46-30,30-30h106v-106c0-16.54,13.46-30,30-30s30,13.46,30,30v106h106c16.53,0,30,13.46,30,30s-13.47,30-30,30Z"/>
-                                            </svg>
-
-                                        </div>
-                                    </li> : null
-                                }
-                                {game.scenario.characters.map((character, index) => {
-                                    if (character.id !== 16 && character.id !== 5)
-                                        return (
-                                            <li key={index} onClick={() => selectCharacters(character)}
-                                                className={`item ${selectedCharacters.some(obj => obj.id === character.id) ? 'selected' : ''}`}>
-                                                <div className="name">
-                                                    {character.name}
-                                                </div>
+                                                <span className="grade">D</span>
                                             </li>
-                                        )
+                                        </ul>
+                                        : null}
+                                </li>
 
-                                })}
+
                                 {sendDataLoading ?
-                                    <span className="primary-btn mt-2 mb-3">
+                                    <span className="primary-btn">
                                    <div className="loader-container">
                                        <div className="loader">
                                        </div>
                                    </div>
                                 </span>
                                     :
-                                    <li className="primary-btn mt-2 mb-3" onClick={() => changeGameCharacters()}>
-                                        <svg className="game-setting-icons" xmlns="http://www.w3.org/2000/svg"
-                                             viewBox="0 0 512.04 512.08">
-                                            <path
-                                                d="M0,154.32c0-7.51,3.93-14.44,10.35-18.28L220.74,9.81c21.7-13.08,48.85-13.08,70.55,0l210.37,126.23c10.1,6.07,13.36,19.18,7.29,29.28-1.8,2.99-4.3,5.49-7.29,7.29l-210.37,126.23c-21.7,13.05-48.83,13.05-70.53,0L10.35,172.63C3.93,168.77,0,161.83,0,154.34v-.02ZM490.67,405.41h-42.67v-42.67c0-11.78-9.55-21.33-21.33-21.33s-21.33,9.55-21.33,21.33v42.67h-42.67c-11.78,0-21.33,9.55-21.33,21.33s9.55,21.33,21.33,21.33h42.67v42.67c0,11.78,9.55,21.33,21.33,21.33s21.33-9.55,21.33-21.33v-42.67h42.67c11.78,0,21.33-9.55,21.33-21.33s-9.55-21.33-21.33-21.33ZM266.99,467.58L32.32,326.78c-10.1-6.06-23.21-2.79-29.27,7.32-6.06,10.1-2.79,23.21,7.32,29.27l234.67,140.8c10.1,6.06,23.2,2.79,29.26-7.31,6.06-10.1,2.79-23.2-7.31-29.26v-.02ZM479.7,229.35l-223.68,134.21L32.32,229.35c-10.1-6.06-23.21-2.79-29.27,7.32s-2.79,23.21,7.32,29.27l234.67,140.8c6.76,4.06,15.21,4.06,21.97,0l234.67-140.8c10.1-6.06,13.38-19.17,7.32-29.27s-19.17-13.38-29.27-7.32h-.02Z"/>
-                                        </svg>
-                                        ذخیره نقش ها
+                                    <li className="primary-btn mt-3" onClick={() => editGame()}>
+                                        ویرایش مشخصات بازی
                                     </li>
                                 }
                             </ul>
-                            :
-                            <div className="empty">
-                                <img src={ScenarioIcon} loading={"lazy"} alt="scenario"/>
-                                <div className="text">سناریو بازی را انتخاب کنید</div>
+
+                        </Modal.Body>
+
+                    </Modal>
+                    <Modal show={showGameSettingModal} onHide={() => setShowGameSettingModal(false)} centered className="game-setting-modal  full-screen-modal-bellow-md">
+                        <Modal.Header>
+                            <Modal.Title>
+                                تنظیمات این بازی
+                            </Modal.Title>
+                            <svg onClick={() => {setShowGameSettingModal(false); setConfirmPopUp(false)}}
+                                 className="modal-cross-icon" xmlns="http://www.w3.org/2000/svg"
+                                 viewBox="0 0 211 211">
+                                <path
+                                    d="M105.5,0C47.23,0,0,47.23,0,105.5s47.23,105.5,105.5,105.5,105.5-47.23,105.5-105.5C210.93,47.26,163.74.07,105.5,0ZM146.18,132.63c3.81,3.68,3.92,9.75.24,13.56-3.68,3.81-9.75,3.92-13.56.24-.08-.08-.16-.16-.24-.24l-27.12-27.13-27.12,27.13c-3.81,3.68-9.88,3.57-13.56-.24-3.59-3.72-3.59-9.61,0-13.33l27.12-27.13-27.12-27.13c-3.81-3.68-3.92-9.75-.24-13.56,3.68-3.81,9.75-3.92,13.56-.24.08.08.16.16.24.24l27.12,27.13,27.12-27.13c3.68-3.81,9.75-3.92,13.56-.24,3.81,3.68,3.92,9.75.24,13.56-.08.08-.16.16-.24.24l-27.12,27.13,27.12,27.13Z"/>
+                            </svg>
+
+                        </Modal.Header>
+                        <Modal.Body className="prevent-select">
+                            <div className="head game-modal-head">
+                                انتخاب کارکتر های موجود در این بازی
                             </div>
-                        }
-                        <ul className="users">
-                            <li>
-                                <div className="head">
-                                    بازیکنان این رویداد
+                            {game.game_scenario ?
+                                <ul className="edit choose-character-panel">
+                                    {game.scenario.characters.find(obj => obj.id === 16) ?
+                                        <li className={`item common-roles ${selectedCharacters.some(obj => obj.id === 16) ? 'selected' : ''}`}>
+                                            <div className="name"
+                                                 onClick={() => selectCharacters(game.scenario.characters.find(obj => obj.id === 16))}>
+                                                {game.scenario.characters.find(obj => obj.id === 16).name}
+                                            </div>
+                                            <div className="counter">
+                                                <svg onClick={() => counter("citizen", "-")} className="counter-icon"
+                                                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                                    <path
+                                                        d="M257,0C116.39,0,0,114.39,0,255s116.39,257,257,257,255-116.39,255-257S397.61,0,257,0ZM392,285H120c-16.54,0-30-13.46-30-30s13.46-30,30-30h272c16.53,0,30,13.46,30,30s-13.47,30-30,30Z"/>
+                                                </svg>
+                                                <div className="count">{scenarioCitizenCount}</div>
+                                                <svg onClick={() => counter("citizen", "+")} className="counter-icon"
+                                                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                                    <path
+                                                        d="M257,0C116.39,0,0,114.39,0,255s116.39,257,257,257,255-116.39,255-257S397.61,0,257,0ZM392,285h-106v106c0,16.53-13.46,30-30,30s-30-13.47-30-30v-106h-106c-16.54,0-30-13.46-30-30s13.46-30,30-30h106v-106c0-16.54,13.46-30,30-30s30,13.46,30,30v106h106c16.53,0,30,13.46,30,30s-13.47,30-30,30Z"/>
+                                                </svg>
+                                            </div>
+                                        </li> : null
+                                    }
+                                    {game.scenario.characters.find(obj => obj.id === 5) ?
+                                        <li className={`item common-roles ${selectedCharacters.some(obj => obj.id === 5) ? 'selected' : ''}`}>
+                                            <div className="name"
+                                                 onClick={() => selectCharacters(game.scenario.characters.find(obj => obj.id === 5))}>
+                                                {game.scenario.characters.find(obj => obj.id === 5).name}
+                                            </div>
+                                            <div className="counter">
+
+                                                <svg onClick={() => counter("mafia", "-")} className="counter-icon"
+                                                     xmlns="http://www.w3.org/2000/svg"
+                                                     viewBox="0 0 512 512">
+                                                    <path
+                                                        d="M257,0C116.39,0,0,114.39,0,255s116.39,257,257,257,255-116.39,255-257S397.61,0,257,0ZM392,285H120c-16.54,0-30-13.46-30-30s13.46-30,30-30h272c16.53,0,30,13.46,30,30s-13.47,30-30,30Z"/>
+                                                </svg>
+
+                                                <div className="count">{scenarioMafiaCount}</div>
+
+                                                <svg onClick={() => counter("mafia", "+")} className="counter-icon"
+                                                     xmlns="http://www.w3.org/2000/svg"
+                                                     viewBox="0 0 512 512">
+                                                    <path
+                                                        d="M257,0C116.39,0,0,114.39,0,255s116.39,257,257,257,255-116.39,255-257S397.61,0,257,0ZM392,285h-106v106c0,16.53-13.46,30-30,30s-30-13.47-30-30v-106h-106c-16.54,0-30-13.46-30-30s13.46-30,30-30h106v-106c0-16.54,13.46-30,30-30s30,13.46,30,30v106h106c16.53,0,30,13.46,30,30s-13.47,30-30,30Z"/>
+                                                </svg>
+
+                                            </div>
+                                        </li> : null
+                                    }
+                                    {game.scenario.characters.map((character, index) => {
+                                        if (character.id !== 16 && character.id !== 5)
+                                            return (
+                                                <li key={index} onClick={() => selectCharacters(character)}
+                                                    className={`item ${selectedCharacters.some(obj => obj.id === character.id) ? 'selected' : ''}`}>
+                                                    <div className="name">
+                                                        {character.name}
+                                                    </div>
+                                                </li>
+                                            )
+
+                                    })}
+                                    {sendDataLoading ?
+                                        <span className="primary-btn mt-2 mb-3">
+                                   <div className="loader-container">
+                                       <div className="loader">
+                                       </div>
+                                   </div>
+                                </span>
+                                        :
+                                        <li className="primary-btn mt-2 mb-3" onClick={() => changeGameCharacters()}>
+                                            <svg className="game-setting-icons" xmlns="http://www.w3.org/2000/svg"
+                                                 viewBox="0 0 512.04 512.08">
+                                                <path
+                                                    d="M0,154.32c0-7.51,3.93-14.44,10.35-18.28L220.74,9.81c21.7-13.08,48.85-13.08,70.55,0l210.37,126.23c10.1,6.07,13.36,19.18,7.29,29.28-1.8,2.99-4.3,5.49-7.29,7.29l-210.37,126.23c-21.7,13.05-48.83,13.05-70.53,0L10.35,172.63C3.93,168.77,0,161.83,0,154.34v-.02ZM490.67,405.41h-42.67v-42.67c0-11.78-9.55-21.33-21.33-21.33s-21.33,9.55-21.33,21.33v42.67h-42.67c-11.78,0-21.33,9.55-21.33,21.33s9.55,21.33,21.33,21.33h42.67v42.67c0,11.78,9.55,21.33,21.33,21.33s21.33-9.55,21.33-21.33v-42.67h42.67c11.78,0,21.33-9.55,21.33-21.33s-9.55-21.33-21.33-21.33ZM266.99,467.58L32.32,326.78c-10.1-6.06-23.21-2.79-29.27,7.32-6.06,10.1-2.79,23.21,7.32,29.27l234.67,140.8c10.1,6.06,23.2,2.79,29.26-7.31,6.06-10.1,2.79-23.2-7.31-29.26v-.02ZM479.7,229.35l-223.68,134.21L32.32,229.35c-10.1-6.06-23.21-2.79-29.27,7.32s-2.79,23.21,7.32,29.27l234.67,140.8c6.76,4.06,15.21,4.06,21.97,0l234.67-140.8c10.1-6.06,13.38-19.17,7.32-29.27s-19.17-13.38-29.27-7.32h-.02Z"/>
+                                            </svg>
+                                            ذخیره نقش ها
+                                        </li>
+                                    }
+                                </ul>
+                                :
+                                <div className="empty">
+                                    <img src={ScenarioIcon} loading={"lazy"} alt="scenario"/>
+                                    <div className="text">سناریو بازی را انتخاب کنید</div>
                                 </div>
-                            </li>
-                            {Object(reserves).length ?
-                                reserves.map((reserve, index) => (
-                                    <li className="user" key={index}>
-                                        <div className="name">
-                                            {/*<svg className="user-delete" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14.88 14.88">
+                            }
+                            <ul className="users">
+                                <li>
+                                    <div className="head">
+                                        بازیکنان این رویداد
+                                    </div>
+                                </li>
+                                {Object(reserves).length ?
+                                    reserves.map((reserve, index) => (
+                                        <li className="user" key={index}>
+                                            <div className="name">
+                                                {/*<svg className="user-delete" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14.88 14.88">
 
                                                 <path  d="M7.44,0C3.33,0,0,3.33,0,7.44s3.33,7.44,7.44,7.44,7.44-3.33,7.44-7.44C14.87,3.33,11.55,0,7.44,0ZM7.92,11.52h-3.6c-.4,0-.72-.32-.72-.72v-.48c0-1.29.94-2.39,2.22-2.6-1.08-.77-1.33-2.26-.57-3.34.77-1.08,2.26-1.33,3.34-.57,1.08.77,1.33,2.26.57,3.34-.45.63-1.18,1.01-1.96,1.01h-.96c-1.19,0-2.16.97-2.16,2.16v.48c0,.13.11.24.24.24h3.6c.13,0,.24.11.24.24s-.11.24-.24.24ZM11.21,10.84c-.09.09-.24.09-.34,0l-.85-.85-.85.85c-.1.09-.25.09-.34,0-.09-.09-.09-.24,0-.33l.85-.85-.85-.85c-.09-.1-.09-.25,0-.34.09-.09.24-.09.33,0l.85.85.85-.85c.1-.09.25-.09.34,0,.09.09.09.24,0,.33l-.85.85.85.85c.09.09.09.25,0,.34Z"/>
                                                 <circle cx="7.2" cy="5.76" r="1.92"/>
                                             </svg>*/}
-                                            <svg onClick={() => {
-                                                setConfirmPopUp(true)
-                                                setUserReserveIdForRemoving(reserve.id)
-                                                console.log(reserves)
-                                                console.log(reserve.id)
-                                               //removeUserFromGame(reserve.id)
-                                            }}
-                                                 className="user-delete" xmlns="http://www.w3.org/2000/svg"
-                                                 viewBox="0 0 211 211">
-                                                <path
-                                                    d="M105.5,0C47.23,0,0,47.23,0,105.5s47.23,105.5,105.5,105.5,105.5-47.23,105.5-105.5C210.93,47.26,163.74.07,105.5,0ZM146.18,132.63c3.81,3.68,3.92,9.75.24,13.56-3.68,3.81-9.75,3.92-13.56.24-.08-.08-.16-.16-.24-.24l-27.12-27.13-27.12,27.13c-3.81,3.68-9.88,3.57-13.56-.24-3.59-3.72-3.59-9.61,0-13.33l27.12-27.13-27.12-27.13c-3.81-3.68-3.92-9.75-.24-13.56,3.68-3.81,9.75-3.92,13.56-.24.08.08.16.16.24.24l27.12,27.13,27.12-27.13c3.68-3.81,9.75-3.92,13.56-.24,3.81,3.68,3.92,9.75.24,13.56-.08.08-.16.16-.24.24l-27.12,27.13,27.12,27.13Z"/>
-                                            </svg>
-                                            {reserve.user.name + " " + reserve.user.family}
-                                        </div>
-                                        <ul className="user-character ">
-                                            <li onClick={() => toggleSelectCharacterForUser(index)}
-                                                className="character input-control">
-                                                {usersCharacter.hasOwnProperty(reserve.user.id) && Object(selectedCharacters).length && selectedCharacters.find(obj => obj.id === usersCharacter[reserve.user.id]) ?
-                                                    selectedCharacters.find(obj => obj.id === usersCharacter[reserve.user.id]).name
-                                                    : " انتخاب کارکتر"
-                                                }
-                                                <svg
-                                                    className={showReservedUserSelectCharacter[index] ? "active angle-icon" : "angle-icon"}
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 512 512">
+                                                <svg onClick={() => {
+                                                    setConfirmPopUp(true)
+                                                    setUserReserveIdForRemoving(reserve.id)
+                                                    console.log(reserves)
+                                                    console.log(reserve.id)
+                                                    //removeUserFromGame(reserve.id)
+                                                }}
+                                                     className="user-delete" xmlns="http://www.w3.org/2000/svg"
+                                                     viewBox="0 0 211 211">
                                                     <path
-                                                        d="M256,0C114.84,0,0,114.84,0,256s114.84,256,256,256,256-114.84,256-256S397.16,0,256,0ZM335.08,271.08l-106.67,106.67c-4,4.01-9.42,6.26-15.08,6.25-5.66,0-11.09-2.24-15.08-6.25-8.34-8.34-8.34-21.82,0-30.17l91.58-91.58-91.58-91.58c-8.34-8.34-8.34-21.82,0-30.16s21.82-8.34,30.16,0l106.67,106.67c8.34,8.34,8.34,21.82,0,30.17h0Z"/>
+                                                        d="M105.5,0C47.23,0,0,47.23,0,105.5s47.23,105.5,105.5,105.5,105.5-47.23,105.5-105.5C210.93,47.26,163.74.07,105.5,0ZM146.18,132.63c3.81,3.68,3.92,9.75.24,13.56-3.68,3.81-9.75,3.92-13.56.24-.08-.08-.16-.16-.24-.24l-27.12-27.13-27.12,27.13c-3.81,3.68-9.88,3.57-13.56-.24-3.59-3.72-3.59-9.61,0-13.33l27.12-27.13-27.12-27.13c-3.81-3.68-3.92-9.75-.24-13.56,3.68-3.81,9.75-3.92,13.56-.24.08.08.16.16.24.24l27.12,27.13,27.12-27.13c3.68-3.81,9.75-3.92,13.56-.24,3.81,3.68,3.92,9.75.24,13.56-.08.08-.16.16-.24.24l-27.12,27.13,27.12,27.13Z"/>
                                                 </svg>
-                                            </li>
-                                            {showReservedUserSelectCharacter[index] ?
-                                                <ul className="custom-select-input">
-                                                    {selectedCharacters.map((character) => (
-                                                        <li onClick={() => changeUserCharacters(character.id, reserve.user.id, index)}
-                                                            key={character.id} className="character item">
-                                                            {character.name}
-                                                        </li>
-                                                    ))}
-                                                </ul> : null}
-                                        </ul>
-                                    </li>
-                                )) :
-                                <li className="empty">
-                                    <img loading={"lazy"} src={EmptyIcon} alt="svg"/>
-                                    <div className="text">هنوز کاربری ثبت نام نکرده</div>
-                                </li>}
-                        </ul>
+                                                {reserve.user.name + " " + reserve.user.family}
+                                            </div>
+                                            <ul className="user-character ">
+                                                <li onClick={() => toggleSelectCharacterForUser(index)}
+                                                    className="character input-control">
+                                                    {usersCharacter.hasOwnProperty(reserve.user.id) && Object(selectedCharacters).length && selectedCharacters.find(obj => obj.id === usersCharacter[reserve.user.id]) ?
+                                                        selectedCharacters.find(obj => obj.id === usersCharacter[reserve.user.id]).name
+                                                        : " انتخاب کارکتر"
+                                                    }
+                                                    <svg
+                                                        className={showReservedUserSelectCharacter[index] ? "active angle-icon" : "angle-icon"}
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        viewBox="0 0 512 512">
+                                                        <path
+                                                            d="M256,0C114.84,0,0,114.84,0,256s114.84,256,256,256,256-114.84,256-256S397.16,0,256,0ZM335.08,271.08l-106.67,106.67c-4,4.01-9.42,6.26-15.08,6.25-5.66,0-11.09-2.24-15.08-6.25-8.34-8.34-8.34-21.82,0-30.17l91.58-91.58-91.58-91.58c-8.34-8.34-8.34-21.82,0-30.16s21.82-8.34,30.16,0l106.67,106.67c8.34,8.34,8.34,21.82,0,30.17h0Z"/>
+                                                    </svg>
+                                                </li>
+                                                {showReservedUserSelectCharacter[index] ?
+                                                    <ul className="custom-select-input">
+                                                        {selectedCharacters.map((character) => (
+                                                            <li onClick={() => changeUserCharacters(character.id, reserve.user.id, index)}
+                                                                key={character.id} className="character item">
+                                                                {character.name}
+                                                            </li>
+                                                        ))}
+                                                    </ul> : null}
+                                            </ul>
+                                        </li>
+                                    )) :
+                                    <li className="empty">
+                                        <img loading={"lazy"} src={EmptyIcon} alt="svg"/>
+                                        <div className="text">هنوز کاربری ثبت نام نکرده</div>
+                                    </li>}
+                            </ul>
 
-                        {game.scenario && Object(reserves).length?
-                            <ul className="access-buttons">
-                                <li className="primary-btn twin-btn" onClick={() => shuffleCharacters()}>
-                                    <svg className="game-setting-icons" xmlns="http://www.w3.org/2000/svg"
-                                         viewBox="0 0 511.93 451.77">
-                                        <path
-                                            d="M392.77,138.36v35.97c0,11.78,9.56,21.33,21.34,21.33,5.66,0,11.08-2.25,15.08-6.25l76.5-76.5c8.33-8.33,8.33-21.83,0-30.17L429.18,6.25c-8.33-8.33-21.84-8.33-30.17,0-4,4-6.24,9.42-6.25,15.08v51.2c-71.47,15.62-119.47,59.33-160.21,104.77-46.63-51.39-102.91-100.35-193.58-109.63-2.34-.35-4.69-.63-7.04-.83C14.26,66.87-.04,81.22,0,98.9c.03,16.54,12.67,30.33,29.14,31.81,73.9,6.4,117.33,46.06,161.05,95.1-43.65,49.07-87.19,88.87-161.11,95.19-17.58,1.81-30.37,17.53-28.56,35.11,1.66,16.16,15.17,28.51,31.42,28.72.81,0,1.56,0,2.37-.17,111.55-9.49,171.48-78.76,224.79-140.48,40.77-47.15,77.74-88.75,133.67-105.81h0Z"/>
-                                        <path
-                                            d="M429.18,262.25c-8.33-8.33-21.84-8.33-30.17,0-4,4-6.24,9.42-6.25,15.08v36.27c-27.38-8.66-52.52-23.22-73.64-42.67-13.09-11.18-32.75-9.68-43.99,3.35l-.53.6c-11.47,13.29-10,33.36,3.28,44.83.08.07.16.13.24.2,32.49,29.33,71.96,49.83,114.65,59.52v51.01c0,11.78,9.56,21.33,21.34,21.33,5.66,0,11.08-2.25,15.08-6.25l76.5-76.5c8.33-8.33,8.33-21.83,0-30.17l-76.5-76.61Z"/>
-                                    </svg>
-                                    تقیسیم نقش
-                                </li>
-                                {sendDataLoading ?
-                                    <span className="primary-btn twin-btn">
+                            {game.scenario && Object(reserves).length?
+                                <ul className="access-buttons">
+                                    <li className="primary-btn twin-btn" onClick={() => shuffleCharacters()}>
+                                        <svg className="game-setting-icons" xmlns="http://www.w3.org/2000/svg"
+                                             viewBox="0 0 511.93 451.77">
+                                            <path
+                                                d="M392.77,138.36v35.97c0,11.78,9.56,21.33,21.34,21.33,5.66,0,11.08-2.25,15.08-6.25l76.5-76.5c8.33-8.33,8.33-21.83,0-30.17L429.18,6.25c-8.33-8.33-21.84-8.33-30.17,0-4,4-6.24,9.42-6.25,15.08v51.2c-71.47,15.62-119.47,59.33-160.21,104.77-46.63-51.39-102.91-100.35-193.58-109.63-2.34-.35-4.69-.63-7.04-.83C14.26,66.87-.04,81.22,0,98.9c.03,16.54,12.67,30.33,29.14,31.81,73.9,6.4,117.33,46.06,161.05,95.1-43.65,49.07-87.19,88.87-161.11,95.19-17.58,1.81-30.37,17.53-28.56,35.11,1.66,16.16,15.17,28.51,31.42,28.72.81,0,1.56,0,2.37-.17,111.55-9.49,171.48-78.76,224.79-140.48,40.77-47.15,77.74-88.75,133.67-105.81h0Z"/>
+                                            <path
+                                                d="M429.18,262.25c-8.33-8.33-21.84-8.33-30.17,0-4,4-6.24,9.42-6.25,15.08v36.27c-27.38-8.66-52.52-23.22-73.64-42.67-13.09-11.18-32.75-9.68-43.99,3.35l-.53.6c-11.47,13.29-10,33.36,3.28,44.83.08.07.16.13.24.2,32.49,29.33,71.96,49.83,114.65,59.52v51.01c0,11.78,9.56,21.33,21.34,21.33,5.66,0,11.08-2.25,15.08-6.25l76.5-76.5c8.33-8.33,8.33-21.83,0-30.17l-76.5-76.61Z"/>
+                                        </svg>
+                                        تقیسیم نقش
+                                    </li>
+                                    {sendDataLoading ?
+                                        <span className="primary-btn twin-btn">
                                    <div className="loader-container">
                                        <div className="loader">
                                        </div>
                                    </div>
                                 </span>
-                                    :
-                                    <li className="primary-btn twin-btn" onClick={() => saveUsersCharacter()}>
+                                        :
+                                        <li className="primary-btn twin-btn" onClick={() => saveUsersCharacter()}>
+                                            <svg className="game-setting-icons" xmlns="http://www.w3.org/2000/svg"
+                                                 viewBox="0 0 512.04 512.08">
+                                                <path
+                                                    d="M0,154.32c0-7.51,3.93-14.44,10.35-18.28L220.74,9.81c21.7-13.08,48.85-13.08,70.55,0l210.37,126.23c10.1,6.07,13.36,19.18,7.29,29.28-1.8,2.99-4.3,5.49-7.29,7.29l-210.37,126.23c-21.7,13.05-48.83,13.05-70.53,0L10.35,172.63C3.93,168.77,0,161.83,0,154.34v-.02ZM490.67,405.41h-42.67v-42.67c0-11.78-9.55-21.33-21.33-21.33s-21.33,9.55-21.33,21.33v42.67h-42.67c-11.78,0-21.33,9.55-21.33,21.33s9.55,21.33,21.33,21.33h42.67v42.67c0,11.78,9.55,21.33,21.33,21.33s21.33-9.55,21.33-21.33v-42.67h42.67c11.78,0,21.33-9.55,21.33-21.33s-9.55-21.33-21.33-21.33ZM266.99,467.58L32.32,326.78c-10.1-6.06-23.21-2.79-29.27,7.32-6.06,10.1-2.79,23.21,7.32,29.27l234.67,140.8c10.1,6.06,23.2,2.79,29.26-7.31,6.06-10.1,2.79-23.2-7.31-29.26v-.02ZM479.7,229.35l-223.68,134.21L32.32,229.35c-10.1-6.06-23.21-2.79-29.27,7.32s-2.79,23.21,7.32,29.27l234.67,140.8c6.76,4.06,15.21,4.06,21.97,0l234.67-140.8c10.1-6.06,13.38-19.17,7.32-29.27s-19.17-13.38-29.27-7.32h-.02Z"/>
+                                            </svg>
+                                            ذخیره تنظیمات
+                                        </li>
+                                    }
+                                    <li className="primary-btn mt-2" onClick={() => sendUsersCharacter()}>
                                         <svg className="game-setting-icons" xmlns="http://www.w3.org/2000/svg"
-                                             viewBox="0 0 512.04 512.08">
+                                             viewBox="0 0 512 469.33">
                                             <path
-                                                d="M0,154.32c0-7.51,3.93-14.44,10.35-18.28L220.74,9.81c21.7-13.08,48.85-13.08,70.55,0l210.37,126.23c10.1,6.07,13.36,19.18,7.29,29.28-1.8,2.99-4.3,5.49-7.29,7.29l-210.37,126.23c-21.7,13.05-48.83,13.05-70.53,0L10.35,172.63C3.93,168.77,0,161.83,0,154.34v-.02ZM490.67,405.41h-42.67v-42.67c0-11.78-9.55-21.33-21.33-21.33s-21.33,9.55-21.33,21.33v42.67h-42.67c-11.78,0-21.33,9.55-21.33,21.33s9.55,21.33,21.33,21.33h42.67v42.67c0,11.78,9.55,21.33,21.33,21.33s21.33-9.55,21.33-21.33v-42.67h42.67c11.78,0,21.33-9.55,21.33-21.33s-9.55-21.33-21.33-21.33ZM266.99,467.58L32.32,326.78c-10.1-6.06-23.21-2.79-29.27,7.32-6.06,10.1-2.79,23.21,7.32,29.27l234.67,140.8c10.1,6.06,23.2,2.79,29.26-7.31,6.06-10.1,2.79-23.2-7.31-29.26v-.02ZM479.7,229.35l-223.68,134.21L32.32,229.35c-10.1-6.06-23.21-2.79-29.27,7.32s-2.79,23.21,7.32,29.27l234.67,140.8c6.76,4.06,15.21,4.06,21.97,0l234.67-140.8c10.1-6.06,13.38-19.17,7.32-29.27s-19.17-13.38-29.27-7.32h-.02Z"/>
+                                                d="M511.02,96.9l-179.58,179.58c-41.69,41.59-109.18,41.59-150.87,0L.98,96.9c-.3,3.37-.98,6.42-.98,9.77v256c.07,58.88,47.79,106.6,106.67,106.67h298.67c58.88-.07,106.6-47.79,106.67-106.67V106.67c0-3.35-.68-6.4-.98-9.77Z"/>
+                                            <path
+                                                d="M301.27,246.31L496.13,51.43C476.93,19.6,442.51.1,405.33,0H106.67C69.49.1,35.07,19.6,15.87,51.43l194.86,194.88c25.03,24.93,65.51,24.93,90.54,0h0Z"/>
                                         </svg>
-                                        ذخیره تنظیمات
+                                        ارسال نقش ها
                                     </li>
-                                }
-                                <li className="primary-btn mt-2" onClick={() => sendUsersCharacter()}>
-                                    <svg className="game-setting-icons" xmlns="http://www.w3.org/2000/svg"
-                                         viewBox="0 0 512 469.33">
-                                        <path
-                                            d="M511.02,96.9l-179.58,179.58c-41.69,41.59-109.18,41.59-150.87,0L.98,96.9c-.3,3.37-.98,6.42-.98,9.77v256c.07,58.88,47.79,106.6,106.67,106.67h298.67c58.88-.07,106.6-47.79,106.67-106.67V106.67c0-3.35-.68-6.4-.98-9.77Z"/>
-                                        <path
-                                            d="M301.27,246.31L496.13,51.43C476.93,19.6,442.51.1,405.33,0H106.67C69.49.1,35.07,19.6,15.87,51.43l194.86,194.88c25.03,24.93,65.51,24.93,90.54,0h0Z"/>
-                                    </svg>
-                                    ارسال نقش ها
-                                </li>
-                            </ul>
-                            : null}
+                                </ul>
+                                : null}
 
-                    </Modal.Body>
+                        </Modal.Body>
 
-                </Modal>
-                : null
-            }
+                    </Modal>
+                </>
+                :null}
+
+
 
             <div className="space-50"></div>
             <div className="d-none d-md-block">
@@ -1503,7 +1497,7 @@ function Game(props) {
                                     <div className="cube">CUBE</div>
                                     <div className="tag">#1</div>
                                 </div>
-                                <h4 className="notice mb-0">
+                                <h4 className="notice mb-0  mt-3 mt-md-0">
                                     تاریخ
 
                                     <ConvertToShamsiDate gregorianDate={game.created_at} name={1}/>
@@ -1530,11 +1524,13 @@ function Game(props) {
                                              "در انتظار"
                                          }
                                     </span>
-                                    <svg onClick={() => setShowScenarioModal(true)} className="q-mark"
-                                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                                        <path
-                                            d="M256.8,0C114.8-.4-.4,114.8,0,256.8c.4,140.4,117.5,255.2,257.9,255.2h254.1v-254.1C512,117.5,397.2.4,256.8,0ZM278.8,386.4c-6.7,5.9-15,8.9-25,8.9s-18.3-3-25-8.9-10-13.5-10-22.7,3.3-16.8,10-22.7,15-8.9,25-8.9,18.3,3,25,8.9,10,13.5,10,22.7-3.4,16.7-10,22.7ZM338,219.1c-4.1,8.5-10.7,17.2-19.8,26l-21.5,20c-6.1,5.9-10.4,11.9-12.7,18.1-2.4,6.2-3.7,14-3.9,23.5h-53.6c0-18.2,2.1-32.6,6.2-43.1,4.2-10.7,11.1-20.1,20-27.4,9.2-7.7,16.3-14.8,21.1-21.2,4.7-6.1,7.2-13.6,7.2-21.2,0-18.8-8.1-28.3-24.3-28.3-7-.2-13.7,2.8-18.1,8.2-4.6,5.5-7.1,12.9-7.3,22.3h-63.2c.3-25,8.1-44.4,23.6-58.3s37.2-20.9,65.1-20.9,49.4,6.4,64.7,19.3,22.9,31.1,22.9,54.8c-.1,9.7-2.2,19.4-6.4,28.2Z"/>
-                                    </svg>
+                                    {game.game_scenario ?
+                                        <svg onClick={() => setShowScenarioModal(true)} className="q-mark"
+                                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                            <path
+                                                d="M256.8,0C114.8-.4-.4,114.8,0,256.8c.4,140.4,117.5,255.2,257.9,255.2h254.1v-254.1C512,117.5,397.2.4,256.8,0ZM278.8,386.4c-6.7,5.9-15,8.9-25,8.9s-18.3-3-25-8.9-10-13.5-10-22.7,3.3-16.8,10-22.7,15-8.9,25-8.9,18.3,3,25,8.9,10,13.5,10,22.7-3.4,16.7-10,22.7ZM338,219.1c-4.1,8.5-10.7,17.2-19.8,26l-21.5,20c-6.1,5.9-10.4,11.9-12.7,18.1-2.4,6.2-3.7,14-3.9,23.5h-53.6c0-18.2,2.1-32.6,6.2-43.1,4.2-10.7,11.1-20.1,20-27.4,9.2-7.7,16.3-14.8,21.1-21.2,4.7-6.1,7.2-13.6,7.2-21.2,0-18.8-8.1-28.3-24.3-28.3-7-.2-13.7,2.8-18.1,8.2-4.6,5.5-7.1,12.9-7.3,22.3h-63.2c.3-25,8.1-44.4,23.6-58.3s37.2-20.9,65.1-20.9,49.4,6.4,64.7,19.3,22.9,31.1,22.9,54.8c-.1,9.7-2.2,19.4-6.4,28.2Z"/>
+                                        </svg>
+                                        : null}
 
                                 </li>
                                 <li className="item">
@@ -1649,7 +1645,7 @@ function Game(props) {
 
                         </div>
 
-                        {localStorage.authToken && localStorage.userDetails && JSON.parse(localStorage.userDetails).role == "Admin" ?
+                        {localStorage.authToken && localStorage.userDetails && JSON.parse(localStorage.userDetails).role == "Admin" || localStorage.authToken && localStorage.userDetails &&  JSON.parse(localStorage.userDetails).id === game.god_id ?
                             <ul className="admin-access">
                                 <li className="edit-btn" onClick={() => setShowEditModal(true)}>
                                     <svg className="edit-icon" xmlns="http://www.w3.org/2000/svg"
@@ -1677,7 +1673,7 @@ function Game(props) {
                                     </svg>
                                     پنل امتیازات
                                 </li>
-                            </ul>:null
+                            </ul> : null
                         }
 
                         <ul className="extra-chairs">
@@ -1752,9 +1748,8 @@ function Game(props) {
 
                             })}
                         </ul>
-
                         <div className="faq">
-                            <div className="section-top">
+                            <div className="section-top sm-border-top">
                                 <div className="section-header">
                                     <h3 className="head">
                                         سوالات قبل از خرید تیکت
@@ -1834,7 +1829,7 @@ function Game(props) {
                             </ul>
                             <ul className="faq-footer">
                                 <div className="img-container">
-                                    <img src={FAQImage} alt="faq"/>
+                                    <img loading={"lazy"} src={FAQImage} alt="faq"/>
                                 </div>
                                 <div className="content">
                                     <div className="head">
@@ -1852,55 +1847,55 @@ function Game(props) {
                                 </div>
                             </ul>
                         </div>
-                        <div className="space-50"></div>
+                        <div className="space-50 d-none d-md-block"></div>
                     </div>
                     <div className="col-lg-6">
                         <div className="game">
                             <div className="game-container">
                                 <ul className="chairs right-side">
                                     {Array.from({length: 7}).map((_, index) => {
-                                        const chairNumber = index + 1;
-                                        //const isReserved = reserves.find((obj) => obj.chair_no === chairNumber.toString());
-                                        const isReserved = reserves.some((obj) => {
-                                            const chairArray = JSON.parse(obj.chair_no); // Convert the chair_no string to an array
-                                            //return obj.status === true && chairArray.includes(chairNumber);
-                                            return chairArray.includes(chairNumber);
-                                        });
-                                        if (isReserved)
-                                            return (
-                                                <li key={index} className="item">
-                                                    <div className="chair unavailable">
+                                            const chairNumber = index + 1;
+                                            //const isReserved = reserves.find((obj) => obj.chair_no === chairNumber.toString());
+                                            const isReserved = reserves.some((obj) => {
+                                                const chairArray = JSON.parse(obj.chair_no); // Convert the chair_no string to an array
+                                                //return obj.status === true && chairArray.includes(chairNumber);
+                                                return chairArray.includes(chairNumber);
+                                            });
+                                            if (isReserved)
+                                                return (
+                                                    <li key={index} className="item">
+                                                        <div className="chair unavailable">
                                                         <span className="number">
                                                              #<span className="key">{chairNumber}</span>
                                                         </span>
-                                                        <svg className="chair-icon unavailable"
-                                                             xmlns="http://www.w3.org/2000/svg"
-                                                             viewBox="0 0 31.52 42.55">
-                                                            <path className="seat"
-                                                                  d="M30.95,25.68h0c-.72-1.03-1.91-1.61-3.16-1.54-.28,0-.53.03-.77.09l-.8.18,1.73-6.72c.71-2.74-.55-5.57-3.07-6.87-5.71-3.02-12.53-3.02-18.24,0-2.51,1.3-3.78,4.13-3.07,6.87l1.73,6.7-.79-.17c-.35-.07-.71-.1-1.06-.09-1.91.01-3.45,1.56-3.45,3.47,0,.45.09.88.26,1.3,1.35,3.3,3.66,6.03,6.7,7.89l.46.29-3.03,4.11c-.13.18-.19.41-.15.64s.16.43.35.56c.38.28.92.2,1.2-.18l3.2-4.34.36.15c2.03.84,4.17,1.26,6.36,1.26h.04c2.25,0,4.39-.42,6.42-1.26l.36-.15,3.21,4.34c.14.18.34.3.57.33.23.03.46-.03.64-.17.38-.28.46-.82.18-1.2l-3.03-4.1.46-.28c3.04-1.87,5.35-4.6,6.7-7.89.44-1.06.31-2.26-.32-3.21h.01ZM5.26,17.26c-.51-1.96.38-3.97,2.18-4.9,5.21-2.77,11.43-2.77,16.65,0,1.8.92,2.69,2.94,2.18,4.9l-2.42,9.37-.15.11c-2.37,1.65-5.15,2.47-7.93,2.47s-5.56-.82-7.93-2.47l-.15-.11-2.42-9.37h-.01ZM29.67,28.24c-2.31,5.65-7.76,9.31-13.86,9.31h-.02c-6.17,0-11.61-3.65-13.93-9.3-.17-.42-.17-.89,0-1.31.17-.42.51-.75.93-.92.21-.09.39-.14.65-.13.59-.09,1.25.16,1.68.67,1.69,2.13,5.72,4.4,10.63,4.4s8.95-2.27,10.62-4.39c.32-.42.82-.68,1.37-.68.62-.1,1.32.18,1.74.74.34.49.4,1.09.19,1.62h0Z"/>
-                                                            <g>
-                                                                <path className="mark"
-                                                                      d="M6.56,9.2c0,.38,0,.77.06,1.15l.17,1.03c.46,1.91,1.53,3.63,3.05,4.89.06.06.17.11.23.17.53.41,1.11.76,1.72,1.04l.34.17c.5.23,1.02.41,1.55.52.29.06.52.12.8.17.42.05.84.07,1.26.06,5.08,0,9.2-4.12,9.2-9.19C24.95,4.12,20.83,0,15.75,0,10.67,0,6.56,4.12,6.56,9.19c0,0,0,0,0,0"/>
-                                                                <path className="check"
-                                                                      d="M11.79,11.78c-.35.37-.35.95,0,1.32.16.17.39.28.63.29.24,0,.47-.11.63-.29l2.7-2.65,2.64,2.64c.31.35.84.38,1.18.08.03-.02.05-.05.08-.08.35-.37.35-.95,0-1.32l-2.64-2.64,2.64-2.64c.37-.37.36-.96,0-1.32s-.96-.36-1.32,0h0l-2.64,2.64-2.59-2.64c-.35-.38-.94-.41-1.32-.07-.38.35-.41.94-.07,1.32.02.02.05.05.07.07l2.64,2.64-2.64,2.64Z"/>
-                                                            </g>
-                                                        </svg>
-                                                    </div>
-                                                </li>
-                                            )
-                                        else
-                                            return (
-                                                <li key={index} className="item">
-                                                    <div onClick={() => handleChairClick(chairNumber)}
-                                                         className={`chair ${selectedChairs.includes(chairNumber) ? 'selected' : ''}`}>
+                                                            <svg className="chair-icon unavailable"
+                                                                 xmlns="http://www.w3.org/2000/svg"
+                                                                 viewBox="0 0 31.52 42.55">
+                                                                <path className="seat"
+                                                                      d="M30.95,25.68h0c-.72-1.03-1.91-1.61-3.16-1.54-.28,0-.53.03-.77.09l-.8.18,1.73-6.72c.71-2.74-.55-5.57-3.07-6.87-5.71-3.02-12.53-3.02-18.24,0-2.51,1.3-3.78,4.13-3.07,6.87l1.73,6.7-.79-.17c-.35-.07-.71-.1-1.06-.09-1.91.01-3.45,1.56-3.45,3.47,0,.45.09.88.26,1.3,1.35,3.3,3.66,6.03,6.7,7.89l.46.29-3.03,4.11c-.13.18-.19.41-.15.64s.16.43.35.56c.38.28.92.2,1.2-.18l3.2-4.34.36.15c2.03.84,4.17,1.26,6.36,1.26h.04c2.25,0,4.39-.42,6.42-1.26l.36-.15,3.21,4.34c.14.18.34.3.57.33.23.03.46-.03.64-.17.38-.28.46-.82.18-1.2l-3.03-4.1.46-.28c3.04-1.87,5.35-4.6,6.7-7.89.44-1.06.31-2.26-.32-3.21h.01ZM5.26,17.26c-.51-1.96.38-3.97,2.18-4.9,5.21-2.77,11.43-2.77,16.65,0,1.8.92,2.69,2.94,2.18,4.9l-2.42,9.37-.15.11c-2.37,1.65-5.15,2.47-7.93,2.47s-5.56-.82-7.93-2.47l-.15-.11-2.42-9.37h-.01ZM29.67,28.24c-2.31,5.65-7.76,9.31-13.86,9.31h-.02c-6.17,0-11.61-3.65-13.93-9.3-.17-.42-.17-.89,0-1.31.17-.42.51-.75.93-.92.21-.09.39-.14.65-.13.59-.09,1.25.16,1.68.67,1.69,2.13,5.72,4.4,10.63,4.4s8.95-2.27,10.62-4.39c.32-.42.82-.68,1.37-.68.62-.1,1.32.18,1.74.74.34.49.4,1.09.19,1.62h0Z"/>
+                                                                <g>
+                                                                    <path className="mark"
+                                                                          d="M6.56,9.2c0,.38,0,.77.06,1.15l.17,1.03c.46,1.91,1.53,3.63,3.05,4.89.06.06.17.11.23.17.53.41,1.11.76,1.72,1.04l.34.17c.5.23,1.02.41,1.55.52.29.06.52.12.8.17.42.05.84.07,1.26.06,5.08,0,9.2-4.12,9.2-9.19C24.95,4.12,20.83,0,15.75,0,10.67,0,6.56,4.12,6.56,9.19c0,0,0,0,0,0"/>
+                                                                    <path className="check"
+                                                                          d="M11.79,11.78c-.35.37-.35.95,0,1.32.16.17.39.28.63.29.24,0,.47-.11.63-.29l2.7-2.65,2.64,2.64c.31.35.84.38,1.18.08.03-.02.05-.05.08-.08.35-.37.35-.95,0-1.32l-2.64-2.64,2.64-2.64c.37-.37.36-.96,0-1.32s-.96-.36-1.32,0h0l-2.64,2.64-2.59-2.64c-.35-.38-.94-.41-1.32-.07-.38.35-.41.94-.07,1.32.02.02.05.05.07.07l2.64,2.64-2.64,2.64Z"/>
+                                                                </g>
+                                                            </svg>
+                                                        </div>
+                                                    </li>
+                                                )
+                                            else
+                                                return (
+                                                    <li key={index} className="item">
+                                                        <div onClick={() => handleChairClick(chairNumber)}
+                                                             className={`chair ${selectedChairs.includes(chairNumber) ? 'selected' : ''}`}>
                                                         <span className="number">
                                                              #<span className="key">{chairNumber}</span>
                                                         </span>
-                                                        <svg className="chair-icon available"
-                                                             xmlns="http://www.w3.org/2000/svg"
-                                                             viewBox="0 0 31.53 42.55">
-                                                            <path className="seat"
-                                                                  d="M30.95,25.68h0c-.72-1.03-1.91-1.61-3.16-1.54-.28,0-.53.03-.77.09l-.8.18,1.73-6.72c.71-2.74-.55-5.57-3.07-6.87-5.71-3.02-12.53-3.02-18.24,0-2.51,1.3-3.78,4.13-3.07,6.87l1.73,6.7-.79-.17c-.35-.07-.71-.1-1.06-.09C1.54,24.14,0,25.69,0,27.6c0,.45.09.88.26,1.3,1.35,3.3,3.66,6.03,6.7,7.89l.46.29-3.03,4.11c-.13.18-.19.41-.15.64s.16.43.35.56c.38.28.92.2,1.2-.18l3.2-4.34.36.15c2.03.84,4.17,1.26,6.36,1.26h.04c2.25,0,4.39-.42,6.42-1.26l.36-.15,3.21,4.34c.14.18.34.3.57.33.23.03.46-.03.64-.17.38-.28.46-.82.18-1.2l-3.03-4.1.46-.28c3.04-1.87,5.35-4.6,6.7-7.89.44-1.06.31-2.26-.32-3.21ZM5.26,17.26c-.51-1.96.38-3.97,2.18-4.9,5.21-2.77,11.43-2.77,16.65,0,1.8.92,2.69,2.94,2.18,4.9l-2.42,9.37-.15.11c-2.37,1.65-5.15,2.47-7.93,2.47-2.78,0-5.56-.82-7.93-2.47l-.15-.11-2.42-9.37ZM29.67,28.24c-2.31,5.65-7.76,9.31-13.86,9.31h-.02c-6.17,0-11.61-3.65-13.93-9.3-.17-.42-.17-.89,0-1.31s.51-.75.93-.92c.21-.09.39-.14.65-.13.59-.09,1.25.16,1.68.67,1.69,2.13,5.72,4.4,10.63,4.4s8.95-2.27,10.62-4.39c.32-.42.82-.68,1.37-.68.62-.1,1.32.18,1.74.74.34.49.4,1.09.19,1.62Z"/>
+                                                            <svg className="chair-icon available"
+                                                                 xmlns="http://www.w3.org/2000/svg"
+                                                                 viewBox="0 0 31.53 42.55">
+                                                                <path className="seat"
+                                                                      d="M30.95,25.68h0c-.72-1.03-1.91-1.61-3.16-1.54-.28,0-.53.03-.77.09l-.8.18,1.73-6.72c.71-2.74-.55-5.57-3.07-6.87-5.71-3.02-12.53-3.02-18.24,0-2.51,1.3-3.78,4.13-3.07,6.87l1.73,6.7-.79-.17c-.35-.07-.71-.1-1.06-.09C1.54,24.14,0,25.69,0,27.6c0,.45.09.88.26,1.3,1.35,3.3,3.66,6.03,6.7,7.89l.46.29-3.03,4.11c-.13.18-.19.41-.15.64s.16.43.35.56c.38.28.92.2,1.2-.18l3.2-4.34.36.15c2.03.84,4.17,1.26,6.36,1.26h.04c2.25,0,4.39-.42,6.42-1.26l.36-.15,3.21,4.34c.14.18.34.3.57.33.23.03.46-.03.64-.17.38-.28.46-.82.18-1.2l-3.03-4.1.46-.28c3.04-1.87,5.35-4.6,6.7-7.89.44-1.06.31-2.26-.32-3.21ZM5.26,17.26c-.51-1.96.38-3.97,2.18-4.9,5.21-2.77,11.43-2.77,16.65,0,1.8.92,2.69,2.94,2.18,4.9l-2.42,9.37-.15.11c-2.37,1.65-5.15,2.47-7.93,2.47-2.78,0-5.56-.82-7.93-2.47l-.15-.11-2.42-9.37ZM29.67,28.24c-2.31,5.65-7.76,9.31-13.86,9.31h-.02c-6.17,0-11.61-3.65-13.93-9.3-.17-.42-.17-.89,0-1.31s.51-.75.93-.92c.21-.09.39-.14.65-.13.59-.09,1.25.16,1.68.67,1.69,2.13,5.72,4.4,10.63,4.4s8.95-2.27,10.62-4.39c.32-.42.82-.68,1.37-.68.62-.1,1.32.18,1.74.74.34.49.4,1.09.19,1.62Z"/>
                                                                 <g>
                                                                     <path data-name="Path 2078" className="mark"
                                                                           d="M24.95,9.19c0,.34-.02.67-.06,1.01-.55,5.05-5.1,8.69-10.14,8.14-5.05-.55-8.69-5.1-8.14-10.14C7.17,3.14,11.71-.5,16.76.06c4.66.51,8.19,4.45,8.19,9.14"/>
@@ -1916,13 +1911,13 @@ function Game(props) {
 
                                 </ul>
                                 <ul className="chairs left-side">
-                                    {Array.from({ length: 7 }).map((_, index) => {
+                                    {Array.from({length: 7}).map((_, index) => {
                                             const chairNumber = index + 8;
                                             //const isReserved = reserves.find((obj) => obj.chair_no === chairNumber.toString());
-                                        const isReserved = reserves.some((obj) => {
-                                            const chairArray = JSON.parse(obj.chair_no); // Convert the chair_no string to an array
-                                            return obj.status === true && chairArray.includes(chairNumber);
-                                        });
+                                            const isReserved = reserves.some((obj) => {
+                                                const chairArray = JSON.parse(obj.chair_no); // Convert the chair_no string to an array
+                                                return obj.status === true && chairArray.includes(chairNumber);
+                                            });
                                             if (isReserved)
                                                 return (
                                                     <li key={index} className="item">
@@ -1974,7 +1969,7 @@ function Game(props) {
                                 </ul>
                                 <ul className="content">
                                     <li className="item date mb-0 mt-0">
-                                        <ConvertToShamsiDate gregorianDate={game.created_at} />
+                                        <ConvertToShamsiDate gregorianDate={game.created_at}/>
                                     </li>
                                     <li className="item mt-0 ">
                                         <span className="val">{game.clock.split('-')[0]}</span>
@@ -1995,15 +1990,16 @@ function Game(props) {
                                         </div>
                                         <div className="txt">SCENARIO</div>
                                         <div className="xp">
-                                          {/*  <span className="notice">فصل</span>*/}
-                                            {game.game_scenario?
-                                                game.scenario.name:"هنوز انتخاب نشده"}
+                                            {/*  <span className="notice">فصل</span>*/}
+                                            {game.game_scenario ?
+                                                game.scenario.name : "هنوز انتخاب نشده"}
 
                                         </div>
                                     </li>
                                     {
                                         selectedChairs.length ?
-                                            <li className="reserve-btn-container" onClick={() => localStorage.getItem("authToken") ? setShowReserveModal(true) : props.setloginModal(true) }>
+                                            <li className="reserve-btn-container"
+                                                onClick={() => localStorage.getItem("authToken") ? setShowReserveModal(true) : props.setloginModal(true)}>
                                                 <div className="reserve-btn">رزرو جایگاه انتخاب شده</div>
                                             </li>
                                             :
@@ -2060,7 +2056,279 @@ function Game(props) {
                 </div>
                 :
                 <div className="row">
-                    Loading
+                    <div className="col-lg-6">
+                        <div className="section-top mt-0 ">
+                            <div className="section-header w-100">
+                                <Skeleton width="50%" height="20px"/>
+                                <div className="cube-num">
+                                    <img src={CubeIcon} alt="cube"/>
+                                    <div className="cube">CUBE</div>
+                                    <div className="tag">
+                                        <Skeleton width="80%" height="10px"/>
+                                    </div>
+                                </div>
+                                <Skeleton width="80%" height="10px"/>
+                            </div>
+                        </div>
+                        <div className="game-page-info">
+                            <ul className="mafia-info w-50">
+                                <li className="item d-flex align-items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 480">
+                                        <path
+                                            d="M479.82,144h-95.82c-35.35,0-64-28.65-64-64V0h-192C57.3,0,0,57.3,0,128v224c0,70.7,57.3,128,128,128h224c70.7,0,128-57.3,128-128v-203.14c0-1.62-.06-3.25-.18-4.86ZM216,336h-96c-8.84,0-16-7.16-16-16s7.16-16,16-16h96c8.84,0,16,7.16,16,16s-7.16,16-16,16ZM360,240H120c-8.84,0-16-7.16-16-16s7.16-16,16-16h240c8.84,0,16,7.16,16,16s-7.16,16-16,16Z"/>
+                                        <path
+                                            d="M384,112h84.32c-2.51-3.57-5.41-6.9-8.65-9.93l-90.92-84.86c-4.99-4.66-10.66-8.46-16.75-11.28v74.06c0,17.67,14.33,32,32,32Z"/>
+                                    </svg>
+                                    <Skeleton width="80%" height="15px"/>
+                                </li>
+                                <li className="item d-flex align-items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23.06 23.06">
+                                        <path
+                                            d="M21.49,18.87h-3.67c-2.31,0-4.19-1.88-4.19-4.19s1.88-4.19,4.19-4.19h3.67c.29,0,.52-.23.52-.52h0v-1.57c0-1.1-.85-1.99-1.93-2.08l-3.01-5.26c-.28-.49-.73-.83-1.27-.98-.54-.14-1.1-.07-1.58.21L3.91,6.29h-1.81c-1.16,0-2.1.94-2.1,2.1v12.58c0,1.16.94,2.1,2.1,2.1h17.82c1.16,0,2.1-.94,2.1-2.1v-1.57c0-.29-.23-.52-.52-.52h0,0ZM17.73,4.3l1.14,1.99h-4.57l3.43-1.99ZM5.99,6.29L14.76,1.19c.24-.14.51-.18.78-.1.27.07.49.24.63.49h0s-8.1,4.72-8.1,4.72c0,0-2.07,0-2.07,0Z"/>
+                                        <path
+                                            d="M21.49,11.53h-3.67c-1.73,0-3.15,1.41-3.15,3.15s1.41,3.15,3.15,3.15h3.67c.87,0,1.57-.71,1.57-1.57v-3.15c0-.87-.71-1.57-1.57-1.57h0ZM17.82,15.73c-.58,0-1.05-.47-1.05-1.05s.47-1.05,1.05-1.05,1.05.47,1.05,1.05c0,.58-.47,1.05-1.05,1.05Z"/>
+                                    </svg>
+                                    <Skeleton width="80%" height="15px"/>
+                                </li>
+                            </ul>
+                            <ul className="mafia-info left w-50">
+                                <li className="item d-flex align-items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24.1 23.07">
+                                        <path
+                                            d="M10.76.8l-2.94,5.96-6.58.96c-.79.11-1.33.85-1.22,1.63.05.31.19.6.42.82l4.77,4.64-1.13,6.55c-.13.78.39,1.53,1.18,1.66.31.05.63,0,.91-.15l5.89-3.09,5.89,3.09c.7.37,1.58.1,1.95-.61.15-.28.2-.6.14-.91l-1.12-6.55,4.76-4.64c.57-.56.58-1.47.02-2.04-.22-.23-.51-.37-.82-.42l-6.58-.96L13.34.8c-.35-.71-1.22-1.01-1.93-.65-.28.14-.51.37-.65.65Z"/>
+                                    </svg>
+                                    <Skeleton width="80%" height="15px"/>
+                                </li>
+                                <li className="item d-flex align-items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60.17 60.17">
+                                        <path
+                                            d="M51.57,60.17h6.45c1.19,0,2.15-.96,2.15-2.15v-6.45c0-1.19-.96-2.15-2.15-2.15s-2.15.96-2.15,2.15v4.3h-4.3c-1.19,0-2.15.96-2.15,2.15s.96,2.15,2.15,2.15ZM8.6,55.87h-4.3v-4.3c0-1.19-.96-2.15-2.15-2.15s-2.15.96-2.15,2.15v6.45c0,1.19.96,2.15,2.15,2.15h6.45c1.19,0,2.15-.96,2.15-2.15s-.96-2.15-2.15-2.15ZM10.74,51.57h38.68c1.19,0,2.15-.96,2.15-2.15,0-5.96-2.61-9.74-4.97-11.51-1.32-.98-2.63-1.39-3.62-1.39-2.28,0-3.99.65-5.7,1.47-1.91.92-3.81,2.11-7.19,2.11-3.55,0-5.84-1.19-7.81-2.12-1.77-.84-3.36-1.47-5.09-1.47-1,0-2.35.45-3.68,1.51-2.36,1.88-4.92,5.8-4.92,11.38,0,1.19.96,2.15,2.15,2.15ZM42.57,25.79h-25.69c.97,2.27,2.28,4.42,3.85,6.16,2.51,2.81,5.65,4.58,9,4.58s6.49-1.77,9-4.58c1.56-1.75,2.88-3.89,3.84-6.16h0ZM6.45,23.64h47.27c1.19,0,2.15-.96,2.15-2.15s-.96-2.15-2.15-2.15H6.45c-1.19,0-2.15.96-2.15,2.15s.96,2.15,2.15,2.15ZM15.04,17.19h29.36c-.14-8.35-6.69-15.04-14.68-15.04s-14.54,6.69-14.68,15.04ZM8.6,0H2.15C.96,0,0,.96,0,2.15v6.45c0,1.19.96,2.15,2.15,2.15s2.15-.96,2.15-2.15v-4.3h4.3c1.19,0,2.15-.96,2.15-2.15s-.96-2.15-2.15-2.15ZM51.57,4.3h4.3v4.3c0,1.19.96,2.15,2.15,2.15s2.15-.96,2.15-2.15V2.15c0-1.19-.96-2.15-2.15-2.15h-6.45c-1.19,0-2.15.96-2.15,2.15s.96,2.15,2.15,2.15Z"/>
+                                    </svg>
+                                    <Skeleton width="80%" height="15px"/>
+                                </li>
+                            </ul>
+
+                            <div className="god">
+                                <div className="avatar">
+                                    <div className="img-container">
+                                        <Skeleton width="100%" height="100%"/>
+                                    </div>
+                                </div>
+                                <ul className="player-info">
+                                    <Skeleton width="50%" height="20px"/>
+                                    <li className="head">
+                                        <Skeleton width="90%" height="10px"/>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+
+                        <div className="faq">
+                            <div className="text-right mt-5">
+                                <Skeleton width="30%" height="20px"/>
+                                <Skeleton width="90%" height="10px"/>
+                            </div>
+                            <ul className="faq">
+                                <li className="question">
+                                    <div className="question-mark">
+                                        <Skeleton width="100%" height="100%"/>
+                                    </div>
+                                    <div className="content" style={{width: "70%"}}>
+                                        <div className="head mt-1">
+                                            <Skeleton width="50%" height="15px"/>
+                                        </div>
+                                        <div className="description">
+                                            <Skeleton width="90%" height="10px"/>
+                                        </div>
+                                    </div>
+                                    <div className="angle">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 5.82 10.67">
+                                            <path
+                                                d="M5.33,10.67c-.13,0-.25-.05-.34-.14L.14,5.68c-.19-.19-.19-.5,0-.68,0,0,0,0,0,0L4.99.14c.19-.19.5-.19.69,0s.19.5,0,.69L1.17,5.33l4.51,4.51c.19.19.19.5,0,.69-.09.09-.21.14-.34.14h0Z"/>
+                                        </svg>
+                                    </div>
+                                </li>
+                                <li className="question">
+                                    <div className="question-mark">
+                                        <Skeleton width="100%" height="100%"/>
+                                    </div>
+                                    <div className="content" style={{width: "70%"}}>
+                                        <div className="head mt-1">
+                                            <Skeleton width="50%" height="15px"/>
+                                        </div>
+                                        <div className="description">
+                                            <Skeleton width="90%" height="10px"/>
+                                        </div>
+                                    </div>
+                                    <div className="angle">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 5.82 10.67">
+                                            <path
+                                                d="M5.33,10.67c-.13,0-.25-.05-.34-.14L.14,5.68c-.19-.19-.19-.5,0-.68,0,0,0,0,0,0L4.99.14c.19-.19.5-.19.69,0s.19.5,0,.69L1.17,5.33l4.51,4.51c.19.19.19.5,0,.69-.09.09-.21.14-.34.14h0Z"/>
+                                        </svg>
+                                    </div>
+                                </li>
+                                <li className="question">
+                                    <div className="question-mark">
+                                        <Skeleton width="100%" height="100%"/>
+                                    </div>
+                                    <div className="content" style={{width: "70%"}}>
+                                        <div className="head mt-1">
+                                            <Skeleton width="50%" height="15px"/>
+                                        </div>
+                                        <div className="description">
+                                            <Skeleton width="90%" height="10px"/>
+                                        </div>
+                                    </div>
+                                    <div className="angle">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 5.82 10.67">
+                                            <path
+                                                d="M5.33,10.67c-.13,0-.25-.05-.34-.14L.14,5.68c-.19-.19-.19-.5,0-.68,0,0,0,0,0,0L4.99.14c.19-.19.5-.19.69,0s.19.5,0,.69L1.17,5.33l4.51,4.51c.19.19.19.5,0,.69-.09.09-.21.14-.34.14h0Z"/>
+                                        </svg>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul className="faq-footer">
+                                <div className="img-container">
+                                    <img loading={"lazy"} src={FAQImage} alt="faq"/>
+                                </div>
+                                <div className="content w-50">
+                                    <div className="head">
+                                        <Skeleton width="100%" height="35px"/>
+                                    </div>
+                                    <Skeleton width="50%" height="15px"/>
+                                </div>
+                            </ul>
+                        </div>
+                        <div className="space-50"></div>
+                    </div>
+                    <div className="col-lg-6">
+                        <div className="game">
+                            <div className="game-container">
+                                <ul className="chairs right-side">
+                                    {Array.from({length: 7}).map((_, index) => {
+                                            const chairNumber = index + 1;
+                                                return (
+                                                    <li key={index} className="item">
+                                                        <div className="chair unavailable">
+                                                        <span className="number" style={{zIndex : "3"}}>
+                                                             #<span className="key">{chairNumber}</span>
+                                                        </span>
+                                                            <svg style={{transform: "translateY(-3px)", zIndex : "2"}}
+                                                                 className="chair-icon unavailable position-absolute"
+                                                                 xmlns="http://www.w3.org/2000/svg"
+                                                                 viewBox="0 0 31.52 42.55">
+                                                                <path style={{fill : "rgb(197 197 197)"}} className="seat"
+                                                                      d="M30.95,25.68h0c-.72-1.03-1.91-1.61-3.16-1.54-.28,0-.53.03-.77.09l-.8.18,1.73-6.72c.71-2.74-.55-5.57-3.07-6.87-5.71-3.02-12.53-3.02-18.24,0-2.51,1.3-3.78,4.13-3.07,6.87l1.73,6.7-.79-.17c-.35-.07-.71-.1-1.06-.09-1.91.01-3.45,1.56-3.45,3.47,0,.45.09.88.26,1.3,1.35,3.3,3.66,6.03,6.7,7.89l.46.29-3.03,4.11c-.13.18-.19.41-.15.64s.16.43.35.56c.38.28.92.2,1.2-.18l3.2-4.34.36.15c2.03.84,4.17,1.26,6.36,1.26h.04c2.25,0,4.39-.42,6.42-1.26l.36-.15,3.21,4.34c.14.18.34.3.57.33.23.03.46-.03.64-.17.38-.28.46-.82.18-1.2l-3.03-4.1.46-.28c3.04-1.87,5.35-4.6,6.7-7.89.44-1.06.31-2.26-.32-3.21h.01ZM5.26,17.26c-.51-1.96.38-3.97,2.18-4.9,5.21-2.77,11.43-2.77,16.65,0,1.8.92,2.69,2.94,2.18,4.9l-2.42,9.37-.15.11c-2.37,1.65-5.15,2.47-7.93,2.47s-5.56-.82-7.93-2.47l-.15-.11-2.42-9.37h-.01ZM29.67,28.24c-2.31,5.65-7.76,9.31-13.86,9.31h-.02c-6.17,0-11.61-3.65-13.93-9.3-.17-.42-.17-.89,0-1.31.17-.42.51-.75.93-.92.21-.09.39-.14.65-.13.59-.09,1.25.16,1.68.67,1.69,2.13,5.72,4.4,10.63,4.4s8.95-2.27,10.62-4.39c.32-.42.82-.68,1.37-.68.62-.1,1.32.18,1.74.74.34.49.4,1.09.19,1.62h0Z"/>
+                                                            </svg>
+                                                            <Skeleton width="100%" circle={1} height="100%"/>
+                                                        </div>
+                                                    </li>
+                                                )
+                                        }
+                                    )}
+
+                                </ul>
+                                <ul className="chairs left-side">
+                                    {Array.from({length: 7}).map((_, index) => {
+                                        const chairNumber = index + 8;
+                                        return (
+                                            <li key={index} className="item">
+                                                <div className="chair unavailable">
+                                                        <span className="number" style={{zIndex: "3"}}>
+                                                             #<span className="key">{chairNumber}</span>
+                                                        </span>
+                                                    <svg style={{transform: "translateY(-3px)", zIndex: "2"}}
+                                                         className="chair-icon unavailable position-absolute"
+                                                         xmlns="http://www.w3.org/2000/svg"
+                                                         viewBox="0 0 31.52 42.55">
+                                                        <path style={{fill: "rgb(197 197 197)"}} className="seat"
+                                                              d="M30.95,25.68h0c-.72-1.03-1.91-1.61-3.16-1.54-.28,0-.53.03-.77.09l-.8.18,1.73-6.72c.71-2.74-.55-5.57-3.07-6.87-5.71-3.02-12.53-3.02-18.24,0-2.51,1.3-3.78,4.13-3.07,6.87l1.73,6.7-.79-.17c-.35-.07-.71-.1-1.06-.09-1.91.01-3.45,1.56-3.45,3.47,0,.45.09.88.26,1.3,1.35,3.3,3.66,6.03,6.7,7.89l.46.29-3.03,4.11c-.13.18-.19.41-.15.64s.16.43.35.56c.38.28.92.2,1.2-.18l3.2-4.34.36.15c2.03.84,4.17,1.26,6.36,1.26h.04c2.25,0,4.39-.42,6.42-1.26l.36-.15,3.21,4.34c.14.18.34.3.57.33.23.03.46-.03.64-.17.38-.28.46-.82.18-1.2l-3.03-4.1.46-.28c3.04-1.87,5.35-4.6,6.7-7.89.44-1.06.31-2.26-.32-3.21h.01ZM5.26,17.26c-.51-1.96.38-3.97,2.18-4.9,5.21-2.77,11.43-2.77,16.65,0,1.8.92,2.69,2.94,2.18,4.9l-2.42,9.37-.15.11c-2.37,1.65-5.15,2.47-7.93,2.47s-5.56-.82-7.93-2.47l-.15-.11-2.42-9.37h-.01ZM29.67,28.24c-2.31,5.65-7.76,9.31-13.86,9.31h-.02c-6.17,0-11.61-3.65-13.93-9.3-.17-.42-.17-.89,0-1.31.17-.42.51-.75.93-.92.21-.09.39-.14.65-.13.59-.09,1.25.16,1.68.67,1.69,2.13,5.72,4.4,10.63,4.4s8.95-2.27,10.62-4.39c.32-.42.82-.68,1.37-.68.62-.1,1.32.18,1.74.74.34.49.4,1.09.19,1.62h0Z"/>
+                                                    </svg>
+                                                    <Skeleton width="100%" circle={1} height="100%"/>
+                                                </div>
+                                            </li>
+                                        )
+                                        }
+                                    )}
+
+                                </ul>
+                                <ul className="content">
+                                    <li style={{backgroundColor: "transparent"}} className="item date mb-0 mt-0">
+                                        <Skeleton width="90px" height="30px"/>
+                                    </li>
+                                    <li className="item mt-0 ">
+                                        <span className="val"> <Skeleton width="45px" height="25px"/></span>
+                                        <span style={{position: "relative", top: "-10px"}} className="notice">الی</span>
+                                        <span className="val"><Skeleton width="45px" height="25px"/></span>
+                                        <div className="notice">شـروع و پـایـان</div>
+                                        <Skeleton width="30%" height="20px"/>
+                                    </li>
+                                    <li className="goal">
+                                        <div className="img-container">
+                                            <img src={GoalIcon} alt="goal"/>
+                                        </div>
+                                        <div className="txt">SCENARIO</div>
+                                        <Skeleton width="50%" height="25px"/>
+
+                                    </li>
+                                    {
+                                        selectedChairs.length ?
+                                            <li className="reserve-btn-container"
+                                                onClick={() => localStorage.getItem("authToken") ? setShowReserveModal(true) : props.setloginModal(true)}>
+                                                <div className="reserve-btn">رزرو جایگاه انتخاب شده</div>
+                                            </li>
+                                            :
+                                            null
+                                    }
+                                    <li className="tag item mb-5">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 116.25 67.4">
+                                            <g>
+                                                <g>
+                                                    <path
+                                                        d="M13.67.04l6.85.02c2.27.03,3.41,1.16,3.42,3.38-.01,2.3-1.16,3.45-3.44,3.44l-6.82.02c-4.55-.03-6.82,2.24-6.82,6.82s2.28,6.81,6.84,6.84h6.8c2.28.04,3.42,1.17,3.42,3.38s-1.13,3.42-3.38,3.44h-6.84C4.59,27.36.03,22.8.02,13.69.02,4.58,4.57.02,13.67.04Z"/>
+                                                    <path
+                                                        d="M32.91,27.38c-.58,0-1.14-.15-1.68-.44-.54-.29-.97-.71-1.27-1.26s-.46-1.12-.46-1.73,1.7-4.31,5.11-11.16c3.41-6.85,5.26-10.54,5.55-11.08.3-.54.72-.96,1.26-1.26.55-.3,1.12-.45,1.71-.45s1.16.15,1.7.45c.54.3.96.72,1.27,1.26.3.54,2.16,4.24,5.59,11.08,3.42,6.85,5.13,10.57,5.13,11.16s-.15,1.18-.46,1.73c-.31.55-.73.97-1.28,1.26-.55.29-1.11.44-1.68.44h-20.49ZM47.82,20.49l-4.68-9.62-4.7,9.62h9.38Z"/>
+                                                    <path
+                                                        d="M65.78,0l17.29.04c2.13.03,3.2,1.14,3.21,3.31,0,2.32-1.15,3.5-3.45,3.54h-13.62v3.38h13.67c2.26.03,3.39,1.17,3.4,3.42-.03,2.28-1.17,3.42-3.4,3.42l-13.67.02v6.84c-.01,2.24-1.16,3.38-3.44,3.4-2.27,0-3.41-1.1-3.42-3.32V3.45c.01-2.26,1.15-3.41,3.42-3.45Z"/>
+                                                    <path
+                                                        d="M95.24,0l17.29.04c2.13.03,3.2,1.14,3.21,3.31,0,2.32-1.15,3.5-3.45,3.54h-13.62v13.62h13.59c2.3.01,3.45,1.16,3.45,3.45-.01,2.24-1.14,3.38-3.38,3.4h-17.09c-2.27,0-3.41-1.1-3.42-3.32V3.45c.01-2.26,1.15-3.41,3.42-3.45ZM100.31,13.78c.02-2.28,1.15-3.44,3.38-3.47h6.87c2.28.02,3.43,1.17,3.47,3.43-.05,2.28-1.2,3.42-3.45,3.42h-6.87c-2.26.01-3.39-1.12-3.4-3.38Z"/>
+                                                </g>
+                                                <g>
+                                                    <path
+                                                        d="M13.67,40.03l6.87-.02c2.23.01,3.36,1.16,3.38,3.45-.02,2.26-1.15,3.37-3.37,3.33l-6.85.03c-1.16,0-2.29.29-3.38.88s-1.94,1.43-2.55,2.53-.92,2.25-.92,3.44.3,2.32.91,3.4c.6,1.08,1.45,1.93,2.54,2.53,1.09.6,2.22.91,3.41.91s2.38-.28,3.6-.85c1.21-.56,2.09-1.44,2.64-2.62h-2.85c-2.3.01-3.46-1.11-3.47-3.35,0-2.28,1.14-3.44,3.42-3.47l6.87.03c2.3.05,3.46,1.2,3.47,3.45,0,2.37-.6,4.64-1.8,6.81-1.2,2.17-2.89,3.86-5.07,5.06-2.18,1.2-4.46,1.8-6.84,1.8s-4.63-.6-6.8-1.8c-2.18-1.2-3.87-2.89-5.07-5.06-1.2-2.17-1.8-4.44-1.8-6.81s.61-4.67,1.83-6.86c1.22-2.19,2.92-3.88,5.1-5.06,2.18-1.18,4.43-1.77,6.74-1.77Z"/>
+                                                    <path
+                                                        d="M34.23,67.38c-.58,0-1.14-.15-1.68-.44-.54-.29-.97-.71-1.27-1.26-.31-.55-.46-1.12-.46-1.73s1.7-4.31,5.11-11.16c3.41-6.85,5.26-10.54,5.55-11.08.29-.54.72-.96,1.26-1.26.55-.3,1.12-.45,1.71-.45s1.16.15,1.7.45c.54.3.96.72,1.26,1.26.3.54,2.16,4.24,5.59,11.08,3.42,6.85,5.14,10.57,5.14,11.16s-.15,1.18-.46,1.73c-.31.55-.74.97-1.28,1.26-.55.29-1.11.44-1.67.44h-20.49ZM49.13,60.49l-4.68-9.62-4.7,9.62h9.38Z"/>
+                                                    <path
+                                                        d="M64.96,40.03c1.15.02,2,.31,2.55.87.55.56,3.13,3.13,7.74,7.72,4.56-4.56,7.12-7.13,7.69-7.72.57-.59,1.42-.88,2.55-.88,2.27.01,3.41,1.14,3.42,3.4l.02,20.51c0,2.27-1.15,3.42-3.45,3.45-2.26-.01-3.4-1.16-3.44-3.45v-12.08c-2.29,2.36-3.72,3.83-4.28,4.4-.56.58-1.41.86-2.54.86s-1.93-.3-2.52-.89c-.59-.59-2.02-2.03-4.3-4.31v12.01c-.01,2.26-1.15,3.4-3.42,3.42-2.29.01-3.43-1.13-3.42-3.42v-20.51c0-2.27,1.13-3.4,3.4-3.4Z"/>
+                                                    <path
+                                                        d="M95.74,40l17.29.04c2.13.03,3.2,1.14,3.21,3.31,0,2.32-1.15,3.5-3.45,3.54h-13.62v13.62h13.59c2.3.01,3.45,1.16,3.45,3.45-.01,2.24-1.14,3.38-3.38,3.4h-17.09c-2.27,0-3.41-1.1-3.42-3.32v-20.59c.01-2.26,1.15-3.41,3.42-3.45ZM100.81,53.77c.02-2.28,1.15-3.44,3.38-3.47h6.87c2.28.02,3.43,1.17,3.47,3.43-.05,2.28-1.2,3.42-3.45,3.42h-6.87c-2.26.01-3.39-1.12-3.4-3.38Z"/>
+                                                </g>
+                                            </g>
+                                        </svg>
+                                    </li>
+                                    <li className="d-flex justify-content-center">
+                                        <div className="game-21-badge">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 31.18 39.53">
+                                                <g>
+                                                    <path
+                                                        d="M3.32,17.74h3.14c.06-.36.12-.71.19-1.06.55-2.41,2.79-4.05,5.26-3.85,1.12.09,2.18.53,3.04,1.26,1.43,1.13,2.06,2.99,1.61,4.76-.4,1.86-1.25,3.59-2.49,5.03-.79.96-1.65,1.87-2.52,2.76-2.11,2.17-4.24,4.31-6.35,6.47-.95.97-1.87,1.95-2.8,2.94-.08.1-.12.22-.12.35.07.53-.16,1.06-.6,1.38-.46.41-1.52,1.51-1.66,1.64,0-.11-.01-.16-.01-.22,0-1.27-.01-2.54,0-3.81.01-.15.08-.29.18-.4,2.18-2.22,4.37-4.44,6.56-6.65,1.47-1.49,2.95-2.98,4.38-4.5,1.08-1.12,1.99-2.4,2.67-3.81.29-.56.48-1.16.58-1.78.25-1.5-.76-2.92-2.26-3.18-.22-.04-.44-.05-.66-.03-1.39.03-2.57,1.04-2.8,2.42-.11.72-.17,1.45-.19,2.18,0,.1,0,.21,0,.32H.81c.02-.28.04-.55.07-.81.1-.98.14-1.98.33-2.93.46-2.51,1.85-4.75,3.89-6.27,3.07-2.33,6.52-3.04,10.17-1.76,3.25,1.04,5.72,3.71,6.5,7.03.25,1.15.29,2.34.11,3.5-.36,2.65-1.42,5.16-3.05,7.28-.89,1.26-1.87,2.45-2.94,3.56-2.38,2.41-4.74,4.82-7.11,7.24-.08.08-.48.51-.48.51,0,0,.88-.02,1.19-.02,1.19,0,2.38-.06,3.57-.07,2.25-.03,4.5-.05,6.75-.07.06,0,.13,0,.21-.01v-2.83h-6.61s.04-.09.07-.13c.63-.64,1.26-1.27,1.89-1.91.13-.14.33-.22.52-.2,2,0,3.99,0,5.99,0h.3v7.34H3.11c.11-.12.17-.19.24-.25,2.48-2.51,4.97-5.01,7.43-7.54,1.53-1.57,3.04-3.16,4.49-4.8,1.58-1.79,2.87-3.83,3.82-6.02.84-1.74.97-3.73.39-5.57-.81-2.72-3.12-4.72-5.93-5.13-2.79-.58-5.68.25-7.74,2.21-1.42,1.27-2.3,3.04-2.46,4.93-.01.15-.01.3-.02.49"/>
+                                                    <path
+                                                        d="M31.12,31.07h-7.68V7.47h-6.74c.42-.69.82-1.34,1.22-2,1.06-1.77,2.12-3.55,3.18-5.33C21.18,0,21.27,0,21.4,0h9.72v31.07ZM25.73,5.2v23.56h3.12V2.28s-.04-.02-.06-.02h-6.23c-.07.01-.15.05-.19.11-.54.87-1.07,1.75-1.6,2.63-.03.05-.05.11-.09.19h5.05Z"/>
+                                                    <path
+                                                        d="M28.86,37.2v2.33h-2.72v-2.31h-2.31v-2.72h2.31v-2.31h2.72v2.3h2.32v2.73h-2.32Z"/>
+                                                </g>
+                                            </svg>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div className="space-50"></div>
+                        <div className="space-50"></div>
+                        <div className="space-50"></div>
+                        <div className="space-50"></div>
+                    </div>
                 </div>
             }
         </div>

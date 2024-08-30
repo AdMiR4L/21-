@@ -12,7 +12,7 @@ import Footer from "../layers/Footer";
 import React, {useEffect, useState} from "react";
 function Home(props) {
     useEffect(() => {
-        document.title = '21+ SPORT Gaming Center'
+        document.title = '21+ SPORT CLUB'
     }, []);
     return (
 

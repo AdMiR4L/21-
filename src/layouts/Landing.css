@@ -569,11 +569,11 @@ h1 {
 
 .c-skeleton-line {
   margin-bottom: 10px;
-  border-radius: 0.25rem;
+  border-radius: 100px;
 }
 
-.c-skeleton-line:last-child {
-  margin-bottom: 0;
+.c-skeleton-line {
+  margin-bottom: 0 !important;
 }
 
 @keyframes loading-skeleton {
@@ -816,6 +816,70 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
+}
+
+.add-to-home-container {
+  width: 100vw;
+  height: 100vh;
+  right: 0;
+  top: 0;
+  position: fixed;
+  background-color: #f7f7f7;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: hidden;
+}
+.add-to-home-container .title {
+  text-align: center;
+  font-size: 14px;
+  margin: 25px 0;
+}
+.add-to-home-container .add-to-home-screen {
+  font-family: IRANYekan;
+  text-align: right;
+  font-size: 13px;
+  font-weight: 400;
+  padding: 25px;
+}
+.add-to-home-container .add-to-home-screen .logo {
+  text-align: center;
+  margin-bottom: 35px;
+  border-radius: 25px;
+}
+.add-to-home-container .add-to-home-screen .logo svg {
+  fill: #BC080E;
+  width: 64px;
+}
+.add-to-home-container .add-to-home-screen .steps .item {
+  padding: 10px 5px;
+  line-height: 28px;
+}
+.add-to-home-container .add-to-home-screen .steps .item svg {
+  width: 20px;
+  fill: #0077ff;
+  margin-left: 10px;
+}
+.add-to-home-container .add-to-home-screen .steps .item .add {
+  color: #0077ff;
+  margin-left: 10px;
+  display: inline-block;
+  font-weight: 600;
+}
+.add-to-home-container .add-to-home-screen .steps .item:nth-child(2) svg {
+  width: 22px;
+}
+.add-to-home-container .add-to-home-screen .steps .item.end {
+  text-align: center;
+  background-color: #BC080E;
+  color: #fff;
+  display: flex;
+  font-size: 14px;
+  justify-content: center;
+  border-radius: 15px;
+  cursor: pointer;
+  margin-top: 50px;
 }
 
 .landing .symbol-container {

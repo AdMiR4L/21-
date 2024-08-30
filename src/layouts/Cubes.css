@@ -574,11 +574,11 @@ h1 {
 
 .c-skeleton-line {
   margin-bottom: 10px;
-  border-radius: 0.25rem;
+  border-radius: 100px;
 }
 
-.c-skeleton-line:last-child {
-  margin-bottom: 0;
+.c-skeleton-line {
+  margin-bottom: 0 !important;
 }
 
 @keyframes loading-skeleton {
@@ -823,6 +823,70 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
+.add-to-home-container {
+  width: 100vw;
+  height: 100vh;
+  right: 0;
+  top: 0;
+  position: fixed;
+  background-color: #f7f7f7;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: hidden;
+}
+.add-to-home-container .title {
+  text-align: center;
+  font-size: 14px;
+  margin: 25px 0;
+}
+.add-to-home-container .add-to-home-screen {
+  font-family: IRANYekan;
+  text-align: right;
+  font-size: 13px;
+  font-weight: 400;
+  padding: 25px;
+}
+.add-to-home-container .add-to-home-screen .logo {
+  text-align: center;
+  margin-bottom: 35px;
+  border-radius: 25px;
+}
+.add-to-home-container .add-to-home-screen .logo svg {
+  fill: #BC080E;
+  width: 64px;
+}
+.add-to-home-container .add-to-home-screen .steps .item {
+  padding: 10px 5px;
+  line-height: 28px;
+}
+.add-to-home-container .add-to-home-screen .steps .item svg {
+  width: 20px;
+  fill: #0077ff;
+  margin-left: 10px;
+}
+.add-to-home-container .add-to-home-screen .steps .item .add {
+  color: #0077ff;
+  margin-left: 10px;
+  display: inline-block;
+  font-weight: 600;
+}
+.add-to-home-container .add-to-home-screen .steps .item:nth-child(2) svg {
+  width: 22px;
+}
+.add-to-home-container .add-to-home-screen .steps .item.end {
+  text-align: center;
+  background-color: #BC080E;
+  color: #fff;
+  display: flex;
+  font-size: 14px;
+  justify-content: center;
+  border-radius: 15px;
+  cursor: pointer;
+  margin-top: 50px;
+}
+
 .cube-card {
   padding: 10px 15px;
   margin: 15px 0;
@@ -831,11 +895,13 @@ input[type=number] {
   display: flex;
   justify-content: space-between;
   margin-bottom: 5px;
+  padding-top: 10px;
 }
 .cube-card .head .right {
   text-align: right;
   position: relative;
   top: -6px;
+  padding-right: 10px;
 }
 .cube-card .head .right .number {
   color: #BC080E;
@@ -843,6 +909,14 @@ input[type=number] {
 .cube-card .head .right .manager {
   font-size: 12px;
   font-family: iranyekan;
+  text-transform: uppercase;
+  color: #858585;
+  font-family: sans-serif;
+}
+.cube-card .head .right .manager .floor-icon {
+  height: 18px;
+  fill: #858585;
+  margin-left: 5px;
 }
 .cube-card .head .right .manager .c-skeleton-line {
   width: 100%;
@@ -851,7 +925,7 @@ input[type=number] {
   margin-top: 5px;
 }
 .cube-card .head .right .manager .cube-god {
-  font-weight: 600;
+  font-weight: 300;
   padding-right: 5px;
 }
 .cube-card .head .cube-num {
