@@ -9,6 +9,7 @@ import AvatarImage from "../assets/delete/avatar.jpg";
 import LevelIcon from "../assets/icons/level.svg";
 import axios from "axios";
 import {Link} from "react-router-dom";
+import ConvertToShamsiDate from "../components/ConverToShamsiDate";
 
 function Cubes() {
 
@@ -58,12 +59,12 @@ function Cubes() {
                             </h3>
                             <h4 className="notice mb-0">
                                 امروز
-                                <span className="date">26 تیر 1403</span>
+                                {/*<span className="date">26 تیر 1403</span>*/}
+                                <span className="date"><ConvertToShamsiDate gregorianDate={new Date()} name={1}/> </span>
                                 ، برای خرید بلیط روی ساعت و سالن مورد نظر خود کلیک کنید
                             </h4>
                         </div>
                         <div className="header-more">
-
                             <svg className="more-icon" xmlns="http://www.w3.org/2000/svg"
                                  viewBox="0 0 56.88 56.87">
                                 <path
@@ -76,15 +77,24 @@ function Cubes() {
                 {
                     !isLoading ?
                         <div className="row">
-                            {Object.keys(groupedGames).map(salon => (
+                            {Object.keys(groupedGames).slice().reverse().map(salon => (
                                 <div className="col-lg-4" key={salon}>
                                     <div className="cube-card">
                                         <div className="head">
                                             <div className="right">
-                                                <div className="number">ســالـن {salon}</div>
+                                                <div className="number d-flex">
+                                                  <div>  طـبـقـه</div>
+                                                    <span className="pr-1">
+                                                        {salon === "1" ? "اول" :
+                                                            salon === "2" ? "دوم"
+                                                                : "سوم"}
+                                                    </span>
+                                                </div>
                                                 <div className="manager">
-                                                    گرداننده سالن :
-                                                    <span className="cube-god"> امین رضایی </span>
+                                                    <span className="cube-god">{salon === "1" ? "First" :
+                                                        salon === "2" ? "Second"
+                                                    : "Third"}</span>
+                                                    Floor
                                                 </div>
                                             </div>
                                             <div className="cube-num">
@@ -106,22 +116,37 @@ function Cubes() {
                                                                     <span className="dot">الی</span>
                                                                     <span
                                                                         className="end">{game.clock.split('-')[1]}</span>
-                                                                    <div className="notice">شــروع و پـایـان</div>
+                                                                    <div className="notice">شــروع و پـایـان رویـداد</div>
                                                                 </div>
                                                             </li>
                                                         </ul>
                                                         <div className="more">+</div>
                                                         <ul className="cube-box">
-                                                            <li className="event">
-                                                                <div className="time">
+                                                            {game.available_capacity <= 0 ?
+                                                                <li className="event closed">
+                                                                    <svg className="close"
+                                                                         xmlns="http://www.w3.org/2000/svg"
+                                                                         viewBox="0 0 56.67 56.67">
+                                                                        <path className="cls-1"
+                                                                              d="M28.33,0C12.69,0,0,12.69,0,28.33s12.69,28.33,28.33,28.33,28.33-12.69,28.33-28.33C56.65,12.69,43.97.02,28.33,0ZM38.77,35.43c.92.92.92,2.42,0,3.34-.92.92-2.42.92-3.34,0l-7.1-7.1-7.09,7.1c-.92.92-2.42.92-3.34,0-.92-.92-.92-2.42,0-3.34l7.1-7.1-7.1-7.09c-.92-.92-.92-2.42,0-3.34.92-.92,2.42-.92,3.34,0l7.09,7.1,7.1-7.1c.92-.92,2.42-.92,3.34,0,.92.92.92,2.42,0,3.34l-7.1,7.09,7.1,7.1Z"/>
+                                                                    </svg>
+                                                                    <div className="full">
+                                                                        طرفیت تکمیل
+                                                                    </div>
+                                                                </li>
+                                                                :
+                                                                <li className="event">
+                                                                    <div className="time">
                                                                 <span
-                                                                    className="start cap">{+game.capacity + +game.extra_capacity}</span>
-                                                                    <span className="dot">/</span>
-                                                                    <span className="end">{game.available_slots}</span>
-                                                                    <div className="notice">ظـرفیت میـز</div>
-                                                                </div>
-                                                                <img className="mr-2" src={UserIcon} alt="user"/>
-                                                            </li>
+                                                                    className="start cap">{game.available_capacity}</span>
+                                                                        <span className="dot">/</span>
+                                                                        <span
+                                                                            className="end">{+game.capacity + +game.extra_capacity}</span>
+                                                                        <div className="notice">ظـرفیت میـز</div>
+                                                                    </div>
+                                                                    <img className="mr-2" src={UserIcon} alt="user"/>
+                                                                </li>
+                                                            }
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -295,7 +320,6 @@ function Cubes() {
                                                     <span className="end">18</span>
                                                     <div className="notice">شــروع و پـایـان</div>
                                                 </div>
-
                                             </li>
                                         </ul>
                                         <div className="status standby">STANDBY</div>

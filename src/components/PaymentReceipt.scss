@@ -1,0 +1,280 @@
+@import "../assets/css/main";
+
+
+.receipt{
+  .cube-card{
+    @extend %normal-box;
+    border: transparent!important;
+    .cube-info{
+      background-color: #f7f7f7;
+      .event{
+        img{
+          width: unset!important;
+          height: 30px;
+        }
+      }
+    }
+  }
+  text-align: center;
+  .mentions{
+    text-align: right;
+    margin-bottom: 25px;
+    .item{
+      font-family: iranyekan;
+      font-size: 12px;
+      font-weight: 400;
+      position: relative;
+      padding: 5px 20px 5px 10px;
+      display: flex;
+      align-items: center;
+      .color-primary{
+        font-size: 12px;
+        font-weight: 600;
+      }
+      &:before{
+        content: "";
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        background-color: $primary;
+        right: 5px;
+        border-radius: 50%;
+
+      }
+
+    }
+  }
+ .payment-status{
+   @extend %normal-box;
+   padding: 25px;
+   margin-top: 25px;
+   .pay-head{
+     display: flex;
+     align-items: center;
+     flex-direction: column;
+     margin-bottom: 25px;
+     margin-top: 10px;
+     .message{
+       font-weight: 600;
+       font-size:18px;
+       margin-top: 15px;
+     }
+   }
+   .icon-status-container{
+     padding: 15px;
+     border-radius: 50%;
+     background-color: #ffe0e0;
+     width: 75px;
+     height: 75px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     &.success{
+       background-color: #D1FFC4!important;
+     }
+     .payment-status-icon{
+       width: 50px;
+       .circle{
+         fill: $primary;
+         &.success{
+           fill: #429434;
+         }
+       }
+       .path{
+         fill: #fff;
+       }
+     }
+   }
+   .final-invoice{
+     font-family: iranyekan;
+     position: relative;
+     font-size: 13px;
+     font-weight: 400;
+     margin-top: 10px;
+     padding-top: 15px;
+     padding-right: 10px;
+     padding-left: 10px;
+     border-top: 2px dashed #efefef;
+     &:before{
+       content: "";
+       position: absolute;
+       top: -20px;
+       background-color: #f7f7f7;
+       width: 40px;
+       height: 40px;
+       border-radius: 50%;
+       right: -50px;
+     }
+     &:after{
+       content: "";
+       position: absolute;
+       top: -20px;
+       background-color: #f7f7f7;
+       width: 40px;
+       height: 40px;
+       border-radius: 50%;
+       left: -50px;
+     }
+     .item{
+       display: flex;
+       justify-content: space-between;
+       padding: 5px 0;
+       .attr{
+
+       }
+       .value{
+         font-size: 16px;
+         font-weight: 500;
+       }
+     }
+     .user{
+       .name{
+
+       }
+       .nickname{
+
+       }
+       .level{
+
+       }
+     }
+   }
+   .invoice-notice{
+    // text-align: right;
+     font-family: iranyekan;
+     font-size: 11px;
+     font-weight: 300;
+     background-color: #f7f7f7;
+     padding: 5px 15px;
+     border-radius: 15px;
+     margin-top: 10px;
+   }
+ }
+  .player-info{
+    margin-left: auto;
+    flex: 1;
+    margin-top: 10px;
+    padding-right: 10px;
+    .head{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      .name{
+        font-family: iranyekan;
+        @extend %bold-content;
+      }
+      .level{
+        font-family: sans-serif;
+        @extend %normal-content;
+        padding-left: 10px;
+        .lvl{
+          font-size: 18px;
+          font-weight: 700;
+        }
+        .icon-container{
+          display: inline-block;
+          width: 24px;
+          height: 24px;
+          margin-right: 5px;
+          position: relative;
+          top: -5px;
+
+          img{
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+          }
+        }
+      }
+    }
+    .foot{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .item{
+        text-align: right;
+        font-family: iranyekan;
+        @extend %normal-content;
+        padding-left: 15px;
+        &:nth-last-child(1){
+          padding-left: 0;
+        }
+        &.reg-date{
+          font-size: 11px;
+          background-color: #F3F3F3;
+          padding: 3px 15px;
+          border-radius: 50px;
+        }
+        svg{
+          width: 20px;
+          height: 20px;
+          fill: #D2D2D2;
+          &.score-icon{
+            width: 17px;
+          }
+        }
+      }
+    }
+  }
+  .event-date{
+    border-top: 1px solid #efefef;
+    font-size: 14px;
+    font-family: iranyekan;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 10px 5px 10px;
+  }
+}
+.invoice-btn{
+  display: flex;
+  justify-content: space-between;
+  .item{
+    flex: 1;
+    font-family: iranyekan;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 15px;
+    font-size: 14px;
+    background-color: #efefef;
+    .btn-icon{
+      height: 20px;
+      fill: #2A2A2A;
+      margin-left: 10px;
+    }
+    &:nth-last-child(1){
+      margin-right: 20px;
+
+    }
+  }
+}
+.multi-chairs{
+  flex-direction: column;
+  //align-items: flex-start;
+  .item{
+    display: flex;
+    align-items: center;
+    padding: 5px 0;
+    .input-container{
+      width: 100%;
+      .error{
+        position: absolute;
+        font-size: 12px;
+        font-family: 'iranyekan';
+        margin-top: 10px;
+        //padding-right: 20px;
+         color: $primary;
+      }
+    }
+    .chair-container{
+      .chair{
+        .choose{
+          bottom: unset;
+          border-radius: 50%;
+          padding: 3px 5px;
+          left: -15px;
+        }
+      }
+    }
+  }
+}

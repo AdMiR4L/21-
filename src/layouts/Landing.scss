@@ -36,6 +36,11 @@
   }
   .buttons{
     margin-top: 50px;
+    @media screen and (max-width: 768px) {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+    }
     li{
       padding: 3px 20px;
       font-size: 14px;
@@ -185,17 +190,25 @@
 }
 .logo-fade{
   position: absolute;
-  width: 500px;
-  top: 200px;
-  right: -80px;
+  width: 100%;
+  top: 230px;
+  right: 0;
   z-index: 0;
 }
-
+.landing-content{
+  @media screen and (max-width: 768px) {
+    order: 2;
+  }
+}
 .landing-social{
   display: flex;
   justify-content: flex-end;
   bottom: 50px;
   position: relative;
+  //@media screen and (max-width: 768px) {
+  //  width: 100%;
+  //  justify-content: center;
+  //}
   li{
     padding: 0 5px;
     a{

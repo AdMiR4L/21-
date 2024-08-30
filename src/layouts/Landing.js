@@ -12,9 +12,10 @@ import './Landing.css'
 function Landing() {
     return (
         <section className="landing">
+            <div className="space-50 d-md-none"></div>
             <div className="container">
                 <div className="row">
-                    <div className="col-lg-6">
+                    <div className="col-lg-6 landing-content">
                         <img src={LogoFade} alt="logo-fade" className="logo-fade"/>
                         <div className="content">
                             <h1 className="name">مجموعه ورزشی بیست و یک پلاس</h1>
@@ -41,7 +42,7 @@ function Landing() {
                         </div>
                     </div>
                     <div className="col-12">
-                        <div className="top-player">
+                       {/* <div className="top-player">
                             <div className="player-card">
                                 <div className="player-avatar">
                                     <img src={Avatar} alt="user"/>
@@ -82,8 +83,8 @@ function Landing() {
                                     </svg>
                                 </div>
                             </div>
-                        </div>
-                        <ul className="landing-social">
+                        </div>*/}
+                        <ul className="landing-social d-md-flex d-none">
                             <li>
                                 <a href="">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 57.89 57.89">

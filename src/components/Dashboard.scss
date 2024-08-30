@@ -1,0 +1,302 @@
+@import "../assets/css/main";
+
+.my-profile {
+  .dashboard {
+    width: 100%;
+    padding: 0 25px;
+
+    .user-access {
+      .item {
+        a{
+          display: flex;
+          align-items: center;
+        }
+        font-family: IRANYekan;
+        font-size: 14px;
+        font-weight: 400;
+        display: flex;
+        align-items: center;
+        padding: 10px 15px;
+
+        .icon-container {
+          background-color: #efefef;
+          border-radius: 10px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 10px;
+          margin-left: 10px;
+          @extend %first-box;
+
+          svg {
+            height: 20px;
+            fill: #1d2124;
+          }
+        }
+      }
+    }
+
+    .experience {
+      width: 100%;
+      margin-top: 15px;
+
+      .range {
+        display: block;
+        height: 7px;
+        background-color: #e7e7e7;
+        @include prefix(border-radius, 40px);
+        width: 100%;
+
+        direction: ltr;
+        text-align: left;
+
+        .xp-range {
+          height: 100%;
+          @include prefix(border-radius, 40px);
+          background-color: $primary;
+        }
+      }
+
+      .xp-count {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 15px;
+
+        .info {
+          padding-right: 10px;
+          font-size: 16px;
+          font-weight: 700;
+          .slash {
+            padding: 0 5px;
+            font-weight: 300;
+          }
+        }
+      }
+
+      .txt {
+        background-color: #efefef;
+        font-size: 13px;
+        padding: 5px 15px;
+        border-radius: 10px;
+        margin-right: 5px;
+
+      }
+    }
+
+    .user-info {
+      width: 100%;
+
+      .head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+
+        .avatar {
+          width: 70px;
+          height: 70px;
+          overflow: hidden;
+          border-radius: 50%;
+
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+
+        .names {
+          display: flex;
+          flex-direction: column;
+          margin-left: auto;
+          text-align: right;
+          margin-right: 15px;
+
+          .name {
+            font-family: iranyekan;
+            @extend %bold-content;
+            //margin-bottom: 5px;
+          }
+
+          .grade {
+            //border-top: 1px solid #dfdfdf;
+            padding-top: 5px;
+            font-size: 10px;
+            font-family: IRANYekan;
+            display: flex;
+            align-items: center;
+
+            .mark {
+              font-size: 12px;
+              width: 20px;
+              height: 20px;
+              font-family: sans-serif;
+              border-radius: 5px;
+              margin-right: 5px;
+              background-color: $primary;
+              color: $light;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            }
+          }
+
+        }
+
+        .grades {
+          text-align: left;
+
+          .level {
+            font-family: sans-serif;
+            @extend %normal-content;
+            padding-left: 5px;
+
+            .lvl {
+              font-size: 18px;
+              font-weight: 700;
+            }
+
+            .icon-container {
+              display: inline-block;
+              width: 24px;
+              height: 24px;
+              margin-right: 5px;
+              position: relative;
+              top: -5px;
+
+              img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+              }
+            }
+          }
+
+          .nickname {
+            background-color: #429434;
+            font-family: sans-serif;
+            color: $light;
+            font-size: 13px;
+            font-width: 400;
+            padding: 3px 10px;
+            border-radius: 10px;
+            &.not{
+              font-family: IRANYekan;
+              font-weight: 300;
+            }
+          }
+
+        }
+      }
+
+      .foot {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .item {
+          text-align: right;
+          font-family: iranyekan;
+          @extend %normal-content;
+          padding-left: 15px;
+
+          &:nth-last-child(1) {
+            padding-left: 0;
+          }
+
+          &.reg-date {
+            font-size: 11px;
+            background-color: #F3F3F3;
+            padding: 3px 15px;
+            border-radius: 50px;
+          }
+
+          svg {
+            width: 20px;
+            height: 20px;
+            fill: #D2D2D2;
+
+            &.score-icon {
+              width: 17px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .scores {
+    margin-bottom: 25px;
+    .info-card {
+      text-align: right;
+      position: relative;
+      font-size: 16px;
+      font-weight: 500;
+      @extend %normal-box;
+      padding: 10px 20px;
+      .title{
+        background-color: $light;
+        margin: 5px 0;
+        padding: 5px 15px;
+        border-radius: 10px;
+        text-align: center;
+      }
+      .bg-icon {
+        width: 65px;
+        margin-bottom: 10px;
+
+      }
+      .count{
+        font-size: 16px;
+        font-weight: 600;
+        background-color: $light;
+        border: 1px solid #efefef;
+        //color: #fff;
+        font-family: IRANYekan;
+        position: absolute;
+        //background-color: #efefef;
+        //width: 30px;
+        //height: 30px;
+        padding: 5px 15px;
+        border-radius: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        left: 20px;
+        top: 20px;
+      }
+    }
+  }
+  .wallet{
+    text-align: right;
+    margin-top: 25px;
+    position: relative;
+    border-top: 1px solid #efefef;
+    padding: 20px 10px 0 10px;
+    .title{
+      font-size: 16px;
+      font-weight: 500;
+    }
+    .balance{
+      font-weight: 700;
+      font-size: 16px;
+      position: absolute;
+      left: 10px;
+      bottom: 0;
+    }
+    svg{
+      width: 22px;
+      fill: #3b3b3b;
+      margin-left: 5px;
+
+    }
+  }
+}
+.warning{
+  background-color: #ffd1d1;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  border: 1px solid $primary;
+  padding: 5px;
+}
