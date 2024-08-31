@@ -11,7 +11,7 @@ import Game from "./components/Game";
 import Dashboard from "./components/Dashboard";
 import NotFound from "./components/NotFound";
 import PaymentReceipt from "./components/PaymentReceipt";
-import UserInfo from "./components/UserInfo";
+import UserInfo from "./dashboard/UserInfo";
 function App() {
 
     const [user, setUser] = useState({

@@ -189,7 +189,7 @@ h1 {
 
 .input-label {
   font-weight: 500;
-  color: #f7f7f7;
+  color: #181D31;
 }
 
 .input-control {
@@ -891,12 +891,22 @@ input[type=number] {
   padding: 0 25px;
 }
 .my-profile .dashboard .user-access .item {
+  position: relative;
   font-family: IRANYekan;
   font-size: 14px;
   font-weight: 400;
   display: flex;
   align-items: center;
   padding: 10px 15px;
+}
+.my-profile .dashboard .user-access .item .point-icon {
+  height: 16px;
+  position: absolute;
+  left: 5px;
+  fill: #c7c7c7;
+}
+.my-profile .dashboard .user-access .item .text {
+  font-size: 13px;
 }
 .my-profile .dashboard .user-access .item a {
   display: flex;
@@ -1145,4 +1155,4 @@ input[type=number] {
   padding: 5px;
 }
 
-/*# sourceMappingURL=Dashboard.css.map */
+/*# sourceMappingURL=dashboard.css.map */
