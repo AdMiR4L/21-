@@ -15,6 +15,17 @@ import AvatarUpload from "./AvatarUpload";
 function UserInfo() {
     const [user, setUser] = useState();
     const [loading, setLoading] = useState(true);
+    const [nickName, setNickName] = useState("");
+    const [localId, setLocalId] = useState("");
+    const [profileDescription, setProfileDescription] = useState("");
+    const [birthDate, setBirthDate] = useState("");
+    const [postCode, setPostCode] = useState("");
+    const [address, setAddress] = useState("");
+    const [nickNameLoading, setNickNameLoading] = useState(false);
+    const [message, setMessage] = useState([]);
+    const [nickNameError, setNickNameError] = useState([]);
+    const [sendDataLoading, setSendDataLoading] = useState(false);
+    const [sendDataError, setSendDataError] = useState([]);
 
 
     function get() {
@@ -36,8 +47,67 @@ function UserInfo() {
             });
     }
 
+    function checkNickName (nickname){
+        setNickName(nickname)
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer " + localStorage.authToken}
+        if (nickname.length > 3){
+            setNickNameLoading(true)
+            axios.post(process.env.REACT_APP_API + 'user/nickname',
+                {nickname : nickname},
+                {headers: headers})
+                .then((response) => {
+                    setMessage(response.data)
+                    console.log(response.data)
+                    setNickNameError([]);
+                    setNickNameLoading(false)
+                })
+                .catch((error) => {
+                    setMessage([])
+                    setNickNameError(error.response.data.errors.nickname);
+                    console.log(error.response.data)
+                    setNickNameLoading(false)
+                });
+        }
+
+    }
+
+    function updateProfile (){
+        setSendDataLoading(true)
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer " + localStorage.authToken
+        }
+        console.log(sendDataError)
+        axios.post(process.env.REACT_APP_API + 'user/update',
+            {
+                nickname : nickName ?? null,
+                post_code : postCode ?? null,
+                address : address ?? null,
+                birth_date: birthDate ?? null,
+                local_id: localId ?? null,
+                description : profileDescription ?? null},
+            {headers: headers})
+            .then((response) => {
+                setSendDataLoading(false)
+                toast.success(response.data)
+                console.log(response)
+                setMessage("")
+                setSendDataError([])
+                setTimeout(function (){ get()},500)
+            })
+            .catch((error) => {
+                console.log(error)
+                setSendDataError(error.response.data.errors)
+                setSendDataLoading(false)
+            });
+
+    }
+
     useEffect(() => {
         get();
+        window.scrollTo(0, 0);
     }, []);
     const location = useLocation();
     return (
@@ -59,18 +129,259 @@ function UserInfo() {
                 {/*مشخصات کاربری*/}
 
 
-                <div className="row">
+                <div className="row user-info-page">
                     <div className="col-12">
-                        <AvatarUpload/>
+                        <div className="user-info-top">
+                            <div className="avatar-container">
+                                {user.photo_id ?
+                                    // <img src={process.env.REACT_APP_API+user.photo.path} alt={user.name}/>
+                                    <img src={UserProfile} alt="profile"/>
+                                    :
+                                    <img src={UserProfile} alt="profile"/>
+                                }
+                            </div>
+                            <div>
+
+                                <div className="account-status">
+                                    <div className="attr">
+                                        وضعیت حساب کاربری
+                                    </div>
+                                    {user.status === 1 ?
+                                        <div className="active">
+                                            احراز شده
+                                            <svg className="payment-status-icon" xmlns="http://www.w3.org/2000/svg"
+                                                 viewBox="0 0 512 512">
+                                                <circle className="circle success" cx="256" cy="256" r="256"/>
+                                                <path className="path"
+                                                      d="M387.57,193.22l-141.73,155.36c-9.54,10.9-25.89,10.9-35.43,0l-59.96-66.78c-8.18-9.54-8.18-24.53,1.36-34.07,9.54-8.18,24.53-8.18,34.07,1.36l42.25,47.7,124.02-134.92c9.54-9.54,24.53-10.9,34.07-1.36,9.54,8.18,9.54,24.53,1.36,32.71h0Z"/>
+                                            </svg>
+                                        </div>
+                                        :
+                                        <div className="active">
+                                            غیر فعال
+                                            <svg className="payment-status-icon" xmlns="http://www.w3.org/2000/svg"
+                                                 viewBox="0 0 512 512">
+                                                <circle className="circle error" cx="256" cy="256" r="256"/>
+                                                <path className="path"
+                                                      d="M366.97,336.46c9.82,9.82,9.82,25.69,0,35.51-4.7,4.72-11.1,7.36-17.76,7.36-6.43,0-12.85-2.46-17.75-7.36l-75.46-75.46-75.46,75.46c-4.7,4.72-11.09,7.36-17.75,7.36-6.66,0-13.05-2.64-17.76-7.36-9.82-9.82-9.82-25.69,0-35.51l75.46-75.46-75.46-75.46c-9.82-9.82-9.82-25.69,0-35.51,9.82-9.82,25.69-9.82,35.51,0l75.46,75.46,75.46-75.46c9.82-9.82,25.69-9.82,35.51,0,9.82,9.82,9.82,25.69,0,35.51l-75.46,75.46,75.46,75.46Z"/>
+                                            </svg>
+                                        </div>
+                                    }
+                                </div>
+                                <AvatarUpload/>
+
+                            </div>
+                        </div>
+
+                        <div className="space-50"></div>
                     </div>
                     <div className="col-6">
                         <label className="input-label">نام</label>
-                        <div className="input-control">{user.name}</div>
+                        <div className="input-control disabled">{user.name}</div>
                     </div>
                     <div className="col-6">
                         <label className="input-label">نام خانوادگی</label>
                         <div className="input-control">{user.family}</div>
                     </div>
+                    <div className="col-6 mt-3">
+                        <label className="input-label">شماره همراه</label>
+                        <div className="input-control">{user.phone}</div>
+                    </div>
+
+                    {user.local_id ?
+                        <div className="col-6 mt-3">
+                            <label className="input-label">کد ملی</label>
+                            <div className="input-control">{user.local_id}</div>
+                        </div> :
+                        <div className="col-6  mt-3 ">
+                            <label className="input-label">کد ملی</label>
+                            {message ?
+                                <div className="message">
+                                    {message}
+                                </div> : null
+                            }
+                            <div className="input position-relative">
+                                <input
+                                    type="number"
+                                    placeholder="کد ملی 10 رقمی"
+                                    value={localId}
+                                    onChange={(e) => setLocalId(e.target.value)}
+                                    className="input-control"/>
+                                {!nickNameLoading ?
+                                    <div className="spinner-container position-absolute">
+                                        <div className="spinner"></div>
+                                    </div> : null}
+                                {sendDataError.hasOwnProperty() ?
+                                    <span className="validate-error">
+                                   {sendDataError.local_id}
+                                </span>
+                                    :null}
+                                {sendDataError.local_id ?
+                                    <span className="validate-error ">
+                                   {sendDataError.local_id}
+                                </span>
+                                    :null}
+                            </div>
+                        </div>
+                    }
+                    {user.email ?
+                        <div className="col-12  mt-3">
+                            <label className="input-label">ایمیل</label>
+                            <div className="input-control text-left">{user.email}</div>
+                        </div> : null}
+                    {user.birth_date ?
+                        <div className="col-6 mt-3">
+                            <label className="input-label">تاریخ تولد</label>
+                            <div className="input-control">{user.birth_date}</div>
+                        </div> :
+                        <div className="col-6  mt-3 ">
+                            <label className="input-label">تاریخ تولد</label>
+                            <div className="input position-relative">
+                                <input
+                                    type="text"
+                                    placeholder="مثال : 1386/18/02"
+                                    value={birthDate}
+                                    onChange={(e) => setBirthDate(e.target.value)}
+                                    className="input-control"/>
+                            </div>
+                        </div>
+                    }
+
+                    {user.post_code ?
+                        <div className="col-6 mt-3">
+                            <label className="input-label">کد پستی</label>
+                            <div className="input-control">{user.post_code}</div>
+                        </div> :
+                        <div className="col-6  mt-3 ">
+                            <label className="input-label">کد پستی</label>
+                            <div className="input position-relative">
+                                <input
+                                    type="number"
+                                    placeholder="کد پستی 10 رقمی"
+                                    value={postCode}
+                                    onChange={(e) => setPostCode(e.target.value)}
+                                    className="input-control"/>
+                                {sendDataError.post_code ?
+                                    <span className="validate-error ">
+                                   {sendDataError.post_code}
+                                </span>
+                                    :null}
+                            </div>
+                        </div>
+                    }
+
+                    {user.nickname ?
+                        <div className="col-12  mt-3">
+                            <label className="input-label">نام کاربری</label>
+                            <div className="input-control">{user.nickname}</div>
+                        </div> :
+                        <div className="col-12  mt-3  position-relative">
+                            <label className="input-label">نام کاربری</label>
+                            {message ?
+                                <div className="message-nick">
+                                    {message}
+                                </div> : null
+                            }
+                            {nickNameError.length ?
+                                <div className="message-nick">
+                                    نام کاربری مجاز نیست
+                                </div> : null
+                            }
+                            <div className="input-nick position-relative">
+                                <input
+                                    type="text"
+                                    style={message.length?{borderColor : "#429434"} : null}
+                                    placeholder="نام کاربری را وارد کنید"
+                                    value={nickName}
+                                    onChange={(e) => checkNickName(e.target.value)}
+                                    className="input-control nickname-input"/>
+                                {nickNameLoading ?
+                                    <div style={{top : "2px"}} className="spinner-container position-absolute">
+                                        <div className="spinner"></div>
+                                    </div> : null}
+                                {message.length ?
+                                    <svg className="payment-status-icon" xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 512 512">
+                                        <circle className="circle success" cx="256" cy="256" r="256"></circle>
+                                        <path className="path"
+                                              d="M387.57,193.22l-141.73,155.36c-9.54,10.9-25.89,10.9-35.43,0l-59.96-66.78c-8.18-9.54-8.18-24.53,1.36-34.07,9.54-8.18,24.53-8.18,34.07,1.36l42.25,47.7,124.02-134.92c9.54-9.54,24.53-10.9,34.07-1.36,9.54,8.18,9.54,24.53,1.36,32.71h0Z"></path>
+                                    </svg>:null}
+                                {nickNameError.length ?
+                                    <svg className="payment-status-icon" xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 512 512">
+                                        <circle className="circle error" cx="256" cy="256" r="256"/>
+                                        <path className="path"
+                                              d="M366.97,336.46c9.82,9.82,9.82,25.69,0,35.51-4.7,4.72-11.1,7.36-17.76,7.36-6.43,0-12.85-2.46-17.75-7.36l-75.46-75.46-75.46,75.46c-4.7,4.72-11.09,7.36-17.75,7.36-6.66,0-13.05-2.64-17.76-7.36-9.82-9.82-9.82-25.69,0-35.51l75.46-75.46-75.46-75.46c-9.82-9.82-9.82-25.69,0-35.51,9.82-9.82,25.69-9.82,35.51,0l75.46,75.46,75.46-75.46c9.82-9.82,25.69-9.82,35.51,0,9.82,9.82,9.82,25.69,0,35.51l-75.46,75.46,75.46,75.46Z"/>
+                                    </svg>:null}
+                                    </div>
+                            {sendDataError.nickname ?
+                                <span className="validate-error ">
+                                   {sendDataError.nickname}
+                                </span>
+                                :null}
+                            </div>
+                                }
+                    {user.address ?
+                        <div className="col-12 mt-3">
+                            <label className="input-label">آدرس</label>
+                            <div className="input-control">{user.address}</div>
+                        </div> :
+                        <div className="col-12  mt-3 ">
+                            <label className="input-label">آدرس</label>
+                            <div className="input position-relative">
+                                <input
+                                    type="text"
+                                    placeholder="نشانی محل سکونت"
+                                    value={address}
+                                    onChange={(e) => setAddress(e.target.value)}
+                                    className="input-control"/>
+                            </div>
+                        </div>
+                    }
+
+                                <div className="col-12 mt-3">
+                                    <label className="input-label">توضیحات پروفایل</label>
+                                    <div className="input position-relative">
+                                <textarea
+                                    rows={10}
+                                    placeholder="توضیحات پروفایل ..."
+                                    value={profileDescription}
+                                    onChange={(e) => setProfileDescription(e.target.value)}
+                                    className="input-control"/>
+                                    </div>
+                                </div>
+
+
+
+                    <div className="col-12">
+                        {sendDataLoading ?
+                            <span className="primary-btn twin-btn">
+                                   <div className="loader-container">
+                                       <div className="loader">
+                                       </div>
+                                   </div>
+                                </span>
+                            :
+                            <li className="primary-btn twin-btn" onClick={() => updateProfile()}>
+                                <svg className="game-setting-icons" xmlns="http://www.w3.org/2000/svg"
+                                     viewBox="0 0 512.04 512.08">
+                                    <path
+                                        d="M0,154.32c0-7.51,3.93-14.44,10.35-18.28L220.74,9.81c21.7-13.08,48.85-13.08,70.55,0l210.37,126.23c10.1,6.07,13.36,19.18,7.29,29.28-1.8,2.99-4.3,5.49-7.29,7.29l-210.37,126.23c-21.7,13.05-48.83,13.05-70.53,0L10.35,172.63C3.93,168.77,0,161.83,0,154.34v-.02ZM490.67,405.41h-42.67v-42.67c0-11.78-9.55-21.33-21.33-21.33s-21.33,9.55-21.33,21.33v42.67h-42.67c-11.78,0-21.33,9.55-21.33,21.33s9.55,21.33,21.33,21.33h42.67v42.67c0,11.78,9.55,21.33,21.33,21.33s21.33-9.55,21.33-21.33v-42.67h42.67c11.78,0,21.33-9.55,21.33-21.33s-9.55-21.33-21.33-21.33ZM266.99,467.58L32.32,326.78c-10.1-6.06-23.21-2.79-29.27,7.32-6.06,10.1-2.79,23.21,7.32,29.27l234.67,140.8c10.1,6.06,23.2,2.79,29.26-7.31,6.06-10.1,2.79-23.2-7.31-29.26v-.02ZM479.7,229.35l-223.68,134.21L32.32,229.35c-10.1-6.06-23.21-2.79-29.27,7.32s-2.79,23.21,7.32,29.27l234.67,140.8c6.76,4.06,15.21,4.06,21.97,0l234.67-140.8c10.1-6.06,13.38-19.17,7.32-29.27s-19.17-13.38-29.27-7.32h-.02Z"/>
+                                </svg>
+                                بروز رسانی پروفایل
+                            </li>
+                        }
+                    </div>
+                    <div className="space-50"></div>
+                    <div className="space-50"></div>
+                    <div className="space-25"></div>
+
+                                {/*<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.5 21.5">*/}
+                                {/*    <path d="M13.25,7h-7c-.08,0-.17,0-.25.01v-2.89c0-1.45,1.18-2.62,2.62-2.62h2.3c1.42,0,2.57,1.15,2.57,2.57,0,.41.34.75.75.75s.75-.34.75-.75c0-2.25-1.83-4.07-4.07-4.07h-2.3c-2.27,0-4.12,1.85-4.12,4.12v3.13c-2.6.76-4.5,3.16-4.5,6v2c0,3.45,2.8,6.25,6.25,6.25h7c3.45,0,6.25-2.8,6.25-6.25v-2c0-3.45-2.8-6.25-6.25-6.25ZM18,15.25c0,2.62-2.13,4.75-4.75,4.75h-7c-2.62,0-4.75-2.13-4.75-4.75v-2c0-2.62,2.13-4.75,4.75-4.75h7c2.62,0,4.75,2.13,4.75,4.75v2Z"/>*/}
+                    {/*    <path d="M9.75,11c-.96,0-1.75.79-1.75,1.75,0,.7.41,1.3,1,1.58v1.42c0,.41.34.75.75.75s.75-.34.75-.75v-1.42c.59-.28,1-.88,1-1.58,0-.96-.79-1.75-1.75-1.75ZM9.5,12.75c0-.14.11-.25.25-.25s.25.11.25.25c0,.28-.5.28-.5,0Z"/>*/}
+                    {/*</svg>*/}
+                    {/*تغییر کلمه عبور*/}
+
                 </div>
             </div>
     )

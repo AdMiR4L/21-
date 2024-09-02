@@ -61,6 +61,7 @@ function Game(props) {
     const [MVPInput, setMVPInput] = useState();
     const [winSide, setWinSide] = useState([false, false, false]);
     const [confirmPopUp, setConfirmPopUp] = useState(false);
+    const [noPaymentLoading, setNoPaymentLoading] = useState(false);
     const [userReserveIdForRemoving, setUserReserveIdForRemoving] = useState();
 
     const chooseWinSide = (index) => {
@@ -287,6 +288,7 @@ function Game(props) {
             })
             .catch((error) =>{
                 console.log(error)
+                setSendDataLoading(false)
             });
         }
 
@@ -310,6 +312,7 @@ function Game(props) {
             })
             .catch((error) =>{
                 console.log(error)
+                setSendDataLoading(false)
             });
     }
 
@@ -344,6 +347,7 @@ function Game(props) {
             })
             .catch((error) =>{
                 console.log(error)
+                setSendDataLoading(false)
             });
     }
 
@@ -476,24 +480,36 @@ function Game(props) {
     }
 
 
-    function reserveAttempt () {
+    function noPaymentReserveAttempt () {
         const data = {
             game_id : id,
-            chair_no : JSON.stringify(selectedChairs),
-        }
+            chair_no : JSON.stringify(selectedChairs),}
         const headers = {
             'Content-Type': 'application/json',
             'Authorization': "Bearer " + localStorage.authToken
         }
-        axios.post(process.env.REACT_APP_API+'game/reserve', data ,{
+        setNoPaymentLoading(true)
+        axios.post(process.env.REACT_APP_API+'game/reserve/attempt', data ,{
             headers: headers
         })
             .then((response) => {
                 console.log("Reserve Detail ->", response);
+                toast.success(response.data)
+                setNoPaymentLoading(false)
+                setTimeout(() =>{getGame()}, 500)
+                setShowReserveModal(false)
+                setSelectedChairs([])
             })
             .catch((error) =>{
                 //console.log(this.state.registerRequest)
+                if (error.response && error.response.data.message)
+                    toast.error( error.response.data.message)
+                else if (error.response.data)
+                    toast.error( error.response.data)
+                else
+                    toast.error(" خطا، لطفا دوباره تلاش کنید")
                 console.log(error);
+                setNoPaymentLoading(false)
             });
     }
 
@@ -518,6 +534,7 @@ function Game(props) {
             })
             .catch((error) =>{
                 console.log(error)
+                setSendDataLoading(false)
             });
     }
 
@@ -543,6 +560,7 @@ function Game(props) {
             })
             .catch((error) =>{
                 console.log(error)
+                setSendDataLoading(false)
             });
     }
 
@@ -568,6 +586,7 @@ function Game(props) {
             .catch((error) =>{
                 toast.error("لطفا قبل از ارسال نقش اطلاعات را ذخیره کنید")
                 console.log(error)
+                setSendDataLoading(false)
             });
     }
 
@@ -812,23 +831,27 @@ function Game(props) {
 
                                         </li>
 
-                                        <li className="item">
-
+                                        <li className="item" onClick={() => noPaymentReserveAttempt()}>
                                             <div className="img-container">
                                                 <img src={Paying} alt="paying"/>
                                             </div>
                                             <div className="content">
-                               <span className="head">
-                                   پرداخت حضوری
-                               </span>
+                                               <span className="head">
+                                                   پرداخت حضوری
+                                               </span>
                                                 <span className="notice">
-                                   پرداخت توسط شما هنگام ورود به مجموعه انجام خواهد شد
-                               </span>
+                                               پرداخت توسط شما هنگام ورود به مجموعه انجام خواهد شد
+                                           </span>
                                             </div>
+                                            {/*<div className="arr">*/}
+                                            {/*    <i className="fa-light fa-circle-arrow-left"></i>*/}
+                                            {/*</div>*/}
                                             <div className="arr">
-                                                <i className="fa-light fa-circle-arrow-left"></i>
+                                                {noPaymentLoading ?
+                                                    <div className="spinner-container">
+                                                        <div className="spinner"></div>
+                                                    </div> : null}
                                             </div>
-
                                         </li>
                                     </ul>
                                 }
@@ -1679,10 +1702,11 @@ function Game(props) {
                         <ul className="extra-chairs">
                             {Array.from({length: game.extra_capacity}).map((_, index) => {
                                 const chairNumber = index + 15;
-                                //const isReserved = reserves.find((obj) => obj.chair_no === chairNumber.toString());
+
                                 const isReserved = reserves.some((obj) => {
                                     const chairArray = JSON.parse(obj.chair_no); // Convert the chair_no string to an array
-                                    return obj.status === true && chairArray.includes(chairNumber);
+                                    //return obj.status === true && chairArray.includes(chairNumber);
+                                    return chairArray.includes(chairNumber);
                                 });
                                 if (isReserved)
                                     return (
@@ -1913,10 +1937,11 @@ function Game(props) {
                                 <ul className="chairs left-side">
                                     {Array.from({length: 7}).map((_, index) => {
                                             const chairNumber = index + 8;
-                                            //const isReserved = reserves.find((obj) => obj.chair_no === chairNumber.toString());
+
                                             const isReserved = reserves.some((obj) => {
                                                 const chairArray = JSON.parse(obj.chair_no); // Convert the chair_no string to an array
-                                                return obj.status === true && chairArray.includes(chairNumber);
+                                                //return obj.status === true && chairArray.includes(chairNumber);
+                                            return chairArray.includes(chairNumber);
                                             });
                                             if (isReserved)
                                                 return (

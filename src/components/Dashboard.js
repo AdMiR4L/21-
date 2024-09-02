@@ -45,7 +45,6 @@ function Dashboard() {
         get();
         if (!localStorage.authToken)
             window.location.href = "/";
-        console.log(1)
     }, []);
     const location = useLocation();
     return (
@@ -63,11 +62,10 @@ function Dashboard() {
 
                                     <div className="names">
                                         <div className="name">
-                                            <Skeleton width={"100%"} height={"20px"}/>
+                                            <Skeleton width={"40px"} height={"20px"}/>
                                         </div>
                                         <div className="grade">
-                                            سطح پروفایل
-                                            <span className="mark"></span>
+                                            <Skeleton width={"80px"} height={"20px"}/>
                                         </div>
                                     </div>
                                     <div className="grades mt-2">
@@ -318,6 +316,14 @@ function Dashboard() {
                                     </svg>
                                 </div>
                                 اَچــیـــومـنـت هـــا
+                                <svg className="point-icon" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                     viewBox="0 0 181.31 330.27">
+                                    <g>
+                                        <path d="M165.33,330.27c-4.24,0.01-8.32-1.68-11.31-4.69L4.69,176.24c-6.24-6.24-6.25-16.35-0.02-22.6
+                                            c0.01-0.01,0.01-0.01,0.02-0.02L154.02,4.29c6.46-6.02,16.59-5.67,22.61,0.8c5.73,6.14,5.73,15.67,0,21.82L38.63,164.93
+                                            l138.01,138.03c6.24,6.25,6.24,16.38-0.01,22.63C173.62,328.58,169.56,330.26,165.33,330.27z"/>
+                                    </g>
+                                </svg>
                             </li>
                             <li className="item">
                                 <div className="icon-container">
@@ -329,6 +335,14 @@ function Dashboard() {
                                     </svg>
                                 </div>
                                 مشـاهده پروفـایـل
+                                <svg className="point-icon" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                     viewBox="0 0 181.31 330.27">
+                                    <g>
+                                        <path d="M165.33,330.27c-4.24,0.01-8.32-1.68-11.31-4.69L4.69,176.24c-6.24-6.24-6.25-16.35-0.02-22.6
+                                            c0.01-0.01,0.01-0.01,0.02-0.02L154.02,4.29c6.46-6.02,16.59-5.67,22.61,0.8c5.73,6.14,5.73,15.67,0,21.82L38.63,164.93
+                                            l138.01,138.03c6.24,6.25,6.24,16.38-0.01,22.63C173.62,328.58,169.56,330.26,165.33,330.27z"/>
+                                    </g>
+                                </svg>
                             </li>
                             <li className="item">
                                 <Link to="/dashboard/user/info">
@@ -341,6 +355,14 @@ function Dashboard() {
                                         </svg>
                                     </div>
                                     مشخصات کاربری
+                                    <svg className="point-icon" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 181.31 330.27">
+                                        <g>
+                                            <path d="M165.33,330.27c-4.24,0.01-8.32-1.68-11.31-4.69L4.69,176.24c-6.24-6.24-6.25-16.35-0.02-22.6
+                                            c0.01-0.01,0.01-0.01,0.02-0.02L154.02,4.29c6.46-6.02,16.59-5.67,22.61,0.8c5.73,6.14,5.73,15.67,0,21.82L38.63,164.93
+                                            l138.01,138.03c6.24,6.25,6.24,16.38-0.01,22.63C173.62,328.58,169.56,330.26,165.33,330.27z"/>
+                                        </g>
+                                    </svg>
                                 </Link>
                             </li>
                             <li className="item" onClick={() => {
@@ -355,6 +377,14 @@ function Dashboard() {
                                     </svg>
                                 </div>
                                 خـروج از حـسـاب
+                                <svg className="point-icon" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                     viewBox="0 0 181.31 330.27">
+                                    <g>
+                                        <path d="M165.33,330.27c-4.24,0.01-8.32-1.68-11.31-4.69L4.69,176.24c-6.24-6.24-6.25-16.35-0.02-22.6
+                                            c0.01-0.01,0.01-0.01,0.02-0.02L154.02,4.29c6.46-6.02,16.59-5.67,22.61,0.8c5.73,6.14,5.73,15.67,0,21.82L38.63,164.93
+                                            l138.01,138.03c6.24,6.25,6.24,16.38-0.01,22.63C173.62,328.58,169.56,330.26,165.33,330.27z"/>
+                                    </g>
+                                </svg>
                             </li>
                         </ul>
                     </div>

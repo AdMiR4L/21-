@@ -38,7 +38,7 @@ function Landing() {
                     </div>
                     <div className="col-lg-6">
                         <div className="symbol-container">
-                            <img src={Symbol} alt="symbol"/>
+                            <img loading={"lazy"} src={Symbol} alt="symbol"/>
                         </div>
                     </div>
                     <div className="col-12">

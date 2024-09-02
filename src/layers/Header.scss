@@ -287,6 +287,11 @@
                 height: 25px;
                 fill: #6a6a6a;
             }
+            .notification-icon{
+                height: 27px;
+                top: 1px;
+                position: relative;
+            }
         }
         .logo{
             padding:5px;
@@ -469,7 +474,8 @@
            .back-icon{
                 width: 20px;
                 fill: #a5a5a5;
-            }
+           }
+
         }
 
     }

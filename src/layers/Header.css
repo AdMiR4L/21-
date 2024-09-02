@@ -1148,6 +1148,11 @@ input[type=number] {
   height: 25px;
   fill: #6a6a6a;
 }
+.phone-nav-wrapper .phone-nav .item .notification-icon {
+  height: 27px;
+  top: 1px;
+  position: relative;
+}
 .phone-nav-wrapper .phone-nav .logo {
   padding: 5px;
 }

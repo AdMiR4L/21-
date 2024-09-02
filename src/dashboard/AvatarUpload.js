@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import axios from 'axios';
+import UserProfile from "../assets/icons/user-profile.svg";
 
 const AvatarUpload = () => {
     const [file, setFile] = useState(null);
@@ -37,12 +38,12 @@ const AvatarUpload = () => {
     };
 
     return (
-        <div>
-            <div onClick={()=>hiddenFileInput.current.click()} className="choose-image">انتخاب تصویر</div>
-            <input className="d-none" ref={hiddenFileInput} type="file" onChange={handleFileChange} />
-            <button onClick={handleUpload} disabled={!file}>
-                Upload
-            </button>
+        <div className="text-right">
+            <div onClick={() => hiddenFileInput.current.click()} className="choose-image">انتخاب تصویر</div>
+            <input className="d-none" ref={hiddenFileInput} type="file" onChange={handleFileChange}/>
+            {/*<button onClick={handleUpload} disabled={!file}>*/}
+            {/*    Upload*/}
+            {/*</button>*/}
 
             {file && (
                 <div>

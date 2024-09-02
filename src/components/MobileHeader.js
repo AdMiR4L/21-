@@ -19,8 +19,10 @@ function MobileHeader() {
 
         const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
         const hasVisited = localStorage.getItem('addToHomeScreen');
-        if (!hasVisited && iOS)
+        if (!hasVisited && iOS){
+            document.body.style.overflow = 'hidden';
             setAddToHomeScreen(true);
+        }
 
 
         const handleOnline = () => setIsOnline(true);
@@ -121,6 +123,7 @@ function MobileHeader() {
                             <li className="item end" onClick={() => {
                                 setAddToHomeScreen(false)
                                 localStorage.setItem('addToHomeScreen', 'true');
+                                document.body.style.overflow = '';
                             }}>
                                 متوجه شدم
                             </li>
@@ -132,13 +135,27 @@ function MobileHeader() {
                     <div className="row">
                         <div className="col-12">
                             <ul className="phone-nav">
-                                <li className="item">
-                                    <svg onClick={() => setShowModalMenu(!showModalMenu)} className="back-icon"
-                                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60.16 52.64">
-                                        <path
-                                            d="M3.76,0h52.64c2.08,0,3.76,1.68,3.76,3.76h0c0,2.08-1.68,3.76-3.76,3.76H3.76C1.68,7.52,0,5.84,0,3.76h0C0,1.68,1.68,0,3.76,0ZM60.16,48.88h0c0-2.08-1.68-3.76-3.76-3.76h-12.53c-2.08,0-3.76,1.68-3.76,3.76h0c0,2.08,1.68,3.76,3.76,3.76h12.53c2.08,0,3.76-1.68,3.76-3.76ZM60.16,26.32h0c0-2.08-1.68-3.76-3.76-3.76H23.81c-2.08,0-3.76,1.68-3.76,3.76h0c0,2.08,1.68,3.76,3.76,3.76h32.59c2.08,0,3.76-1.68,3.76-3.76Z"/>
-                                    </svg>
-                                </li>
+
+
+                                {localStorage.authToken ?
+                                    <li className="item">
+                                        <svg className="back-icon notification-icon" xmlns="http://www.w3.org/2000/svg"
+                                             viewBox="0 0 57.1 61.48">
+                                            <path
+                                                d="M51.65,32.26l-1.79-.95v-9.37C49.86,9.84,40.3,0,28.55,0S7.24,9.84,7.24,21.93l.03,9.38-1.85.96C2.05,34.06-.02,37.53,0,41.32,0,46.92,4.45,51.47,9.92,51.47h37.26c5.47,0,9.92-4.55,9.92-10.15,0-3.85-2.09-7.33-5.45-9.06ZM47.18,45.05H9.92c-1.93,0-3.5-1.67-3.5-3.75,0-1.41.76-2.69,1.97-3.34l1.83-.95c2.12-1.1,3.44-3.29,3.44-5.71v-9.38c0-8.55,6.68-15.51,14.89-15.51s14.89,6.96,14.89,15.51v9.36c0,2.39,1.29,4.57,3.44,5.73l1.82.94c1.2.62,1.97,1.93,1.97,3.35,0,2.06-1.57,3.73-3.5,3.73Z"/>
+                                            <path
+                                                d="M33.65,54.84h-10.19c-1.83,0-3.32,1.49-3.32,3.32s1.49,3.32,3.32,3.32h10.19c1.83,0,3.32-1.49,3.32-3.32s-1.49-3.32-3.32-3.32Z"/>
+                                        </svg>
+
+                                    </li>
+                                    :<li className="item">
+                                        <svg onClick={() => setShowModalMenu(!showModalMenu)} className="back-icon"
+                                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60.16 52.64">
+                                            <path
+                                                d="M3.76,0h52.64c2.08,0,3.76,1.68,3.76,3.76h0c0,2.08-1.68,3.76-3.76,3.76H3.76C1.68,7.52,0,5.84,0,3.76h0C0,1.68,1.68,0,3.76,0ZM60.16,48.88h0c0-2.08-1.68-3.76-3.76-3.76h-12.53c-2.08,0-3.76,1.68-3.76,3.76h0c0,2.08,1.68,3.76,3.76,3.76h12.53c2.08,0,3.76-1.68,3.76-3.76ZM60.16,26.32h0c0-2.08-1.68-3.76-3.76-3.76H23.81c-2.08,0-3.76,1.68-3.76,3.76h0c0,2.08,1.68,3.76,3.76,3.76h32.59c2.08,0,3.76-1.68,3.76-3.76Z"/>
+                                        </svg>
+                                    </li>
+                                }
                                 <li className="item ml-auto" onClick={() => setShowSearchModal(!showSearchModal)}>
                                     <svg className="back-icon" xmlns="http://www.w3.org/2000/svg"
                                          viewBox="0 0 55.13 55.15">
@@ -146,6 +163,7 @@ function MobileHeader() {
                                             d="M54.22,49.86l-7.44-7.42c8.85-11.23,7.05-27.58-4.09-36.6C37.26,1.44,30.42-.58,23.46.15c-6.97.73-13.23,4.13-17.63,9.57-9.09,11.23-7.35,27.77,3.88,36.86,9.46,7.65,23.16,7.72,32.71.21l7.42,7.45c.61.61,1.4.91,2.2.91s1.59-.3,2.2-.91c.59-.58.91-1.36.91-2.19s-.32-1.61-.91-2.2ZM46.22,26.28c0,11.01-8.96,19.97-19.98,19.97S6.27,37.29,6.27,26.28,15.23,6.32,26.24,6.32s19.98,8.96,19.98,19.97Z"/>
                                     </svg>
                                 </li>
+
                                 {location.pathname === "/" || location.pathname.startsWith('/verify/zarinpal') ?
                                     <li className="logo">
                                         <Link to={"/"}><img src={Logo} alt="logo"/></Link>
