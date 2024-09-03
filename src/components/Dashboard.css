@@ -1254,5 +1254,95 @@ input[type=number] {
 .input-nick .payment-status-icon .path {
   fill: #fff;
 }
+.admin-users .search-input {
+  width: 100%;
+  position: relative;
+  margin-top: 25px;
+}
+.admin-users .search-input .spinner-container {
+  right: -5px;
+  left: unset;
+  top: -6px;
+}
+.admin-users .search-input .input {
+  width: 100%;
+  outline: none;
+  border-radius: 0 !important;
+  font-family: iranyekan;
+  border: transparent;
+  border-bottom: 1px solid #cfcfcf;
+  padding: 5px 30px 15px 15px;
+  background-color: #f7f7f7;
+  display: inline-block;
+}
+.admin-users .search-input .input::placeholder {
+  font-size: 13px;
+}
+.admin-users .search-input .back-container {
+  position: absolute;
+  left: 0;
+  height: 100%;
+  width: 30px;
+  display: inline-block;
+}
+.admin-users .search-input .search-icon, .admin-users .search-input .back-icon {
+  position: absolute;
+  width: 20px;
+  fill: #a5a5a5;
+  top: 6px;
+}
+.admin-users .search-input .search-icon {
+  right: 0;
+}
+.admin-users .search-input .back-icon {
+  top: 8px;
+  left: 0;
+}
+
+.user-table {
+  direction: rtl;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  font-family: IRANYekan;
+}
+.user-table .user-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+.user-table .user-profile-pic {
+  margin-left: 10px;
+}
+.user-table .user-profile-pic img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.user-table .user-info {
+  text-align: right;
+}
+.user-table .user-info .user-name-family {
+  display: flex;
+  justify-content: space-between;
+}
+.user-table .user-info .user-name-family .user-name {
+  font-weight: bold;
+}
+.user-table .user-info .user-name-family .user-family {
+  font-weight: normal;
+}
+.user-table .user-info .user-username {
+  font-size: 14px;
+  color: #555;
+}
+.user-table .user-info .user-phone {
+  font-size: 12px;
+  color: #888;
+  margin-top: 5px;
+}
 
 /*# sourceMappingURL=Dashboard.css.map */

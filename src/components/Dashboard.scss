@@ -418,3 +418,110 @@
 
   }
 }
+
+
+
+
+
+.admin-users{
+  .search-input{
+    width: 100%;
+    position: relative;
+    margin-top: 25px;
+    .spinner-container{
+      right: -5px;
+      left: unset;
+      top: -6px;
+      .spinner{
+
+      }
+    }
+    .input{
+      width: 100%;
+      outline: none;
+      border-radius: 0!important;
+      font-family: iranyekan;
+      border: transparent;
+      border-bottom: 1px solid #cfcfcf;
+      padding: 5px 30px 15px 15px;
+      background-color: $light;
+      display: inline-block;
+      &::placeholder{
+        font-size: 13px;
+      }
+    }
+    .back-container{
+      position: absolute;
+      left: 0;
+      height: 100%;
+      width: 30px;
+      display: inline-block;
+    }
+    .search-icon, .back-icon{
+      position: absolute;
+      width: 20px;
+      fill: #a5a5a5;
+      top: 6px;
+    }
+    .search-icon{
+      right: 0;
+    }
+    .back-icon{
+      top: 8px;
+      left: 0;
+    }
+  }
+}
+.user-table {
+  direction: rtl; // Set the direction to RTL
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  font-family: IRANYekan;
+
+  .user-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .user-profile-pic {
+    margin-left: 10px;
+    img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  }
+
+  .user-info {
+    text-align: right;
+
+    .user-name-family {
+      display: flex;
+      justify-content: space-between;
+
+      .user-name {
+        font-weight: bold;
+      }
+
+      .user-family {
+        font-weight: normal;
+      }
+    }
+
+    .user-username {
+      font-size: 14px;
+      color: #555;
+    }
+
+    .user-phone {
+      font-size: 12px;
+      color: #888;
+      margin-top: 5px;
+    }
+  }
+}

@@ -15,8 +15,6 @@ function MobileHeader() {
     const [addToHomeScreen, setAddToHomeScreen] = useState(false);
 
     useEffect(() => {
-        console.log(isIOS())
-
         const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
         const hasVisited = localStorage.getItem('addToHomeScreen');
         if (!hasVisited && iOS){

@@ -197,7 +197,7 @@ function Game(props) {
                     const citizen = response.data.game.scenario.characters.find(obj => obj.id === 16);
                     const mafia = response.data.game.scenario.characters.find(obj => obj.id === 5);
                     setScenarioCitizenCount(citizen ? citizen.pivot.count : "");
-                    setScenarioMafiaCount(mafia ? mafia.pivot.count : "");
+                    setScenarioMafiaCount(mafia ? mafia.pivot.count : 0);
                     setSelectedCharacters(response.data.game.scenario.characters)
 
                     if (response.data.game.game_characters){
@@ -206,7 +206,7 @@ function Game(props) {
                         const citizen = JSON.parse(response.data.game.game_characters).find(obj => obj.id === 16);
                         const mafia = JSON.parse(response.data.game.game_characters).find(obj => obj.id === 5);
                         setScenarioCitizenCount(citizen ? citizen.count : "");
-                        setScenarioMafiaCount(mafia ? mafia.count : "");
+                        setScenarioMafiaCount(mafia ? mafia.count : 0);
                         console.log("PARSE" , JSON.parse(response.data.game.game_characters))
                         console.log("SELECTED" , response.data.game.scenario.characters)
                     }
@@ -313,7 +313,7 @@ function Game(props) {
             .catch((error) =>{
                 console.log(error)
                 setSendDataLoading(false)
-            });
+        });
     }
 
 
@@ -329,14 +329,19 @@ function Game(props) {
                        : character.pivot.count
            };
        });
+       const minus = temp.find(character => character.id === 5) ? 2 : 1;
+       //console.log(minus);
         const headers = {
             'Content-Type': 'application/json',
             'Authorization': "Bearer " + localStorage.authToken}
         setSendDataLoading(true)
+        // console.log("TEMP LE",temp.length)
+        // console.log("MAFIA",scenarioMafiaCount)
+        // console.log("CITIZEN",scenarioCitizenCount)
         axios.post(process.env.REACT_APP_API+'game/change/characters',
             {
                 game_id : game.id ?? null,
-                capacity : temp.length - 2 + scenarioMafiaCount + scenarioCitizenCount,
+                capacity : temp.length - minus + scenarioMafiaCount + scenarioCitizenCount,
                 characters : JSON.stringify(temp),
             }, {headers : headers})
             .then((response) => {
@@ -631,7 +636,7 @@ function Game(props) {
                         </div>
                         <ul className="confirm">
                             <li className="item" onClick={() => setConfirmPopUp(false)}>خـیــر</li>
-                            <li className="item danger" onClick={() => removeUserFromGame}>بـلــه</li>
+                            <li className="item danger" onClick={() => removeUserFromGame()}>بـلــه</li>
                         </ul>
                     </div>
                 </div>
@@ -1398,6 +1403,14 @@ function Game(props) {
                                 {Object(reserves).length ?
                                     reserves.map((reserve, index) => (
                                         <li className="user" key={index}>
+                                            {!reserve.order_id ?
+                                                <div className="payment-type">
+                                                    نـقـدی
+                                                </div> :
+                                                <div className="payment-type active">
+                                                    آنلاین
+                                                </div>
+                                            }
                                             <div className="name">
                                                 {/*<svg className="user-delete" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14.88 14.88">
 
@@ -1407,9 +1420,6 @@ function Game(props) {
                                                 <svg onClick={() => {
                                                     setConfirmPopUp(true)
                                                     setUserReserveIdForRemoving(reserve.id)
-                                                    console.log(reserves)
-                                                    console.log(reserve.id)
-                                                    //removeUserFromGame(reserve.id)
                                                 }}
                                                      className="user-delete" xmlns="http://www.w3.org/2000/svg"
                                                      viewBox="0 0 211 211">
@@ -1418,8 +1428,10 @@ function Game(props) {
                                                 </svg>
                                                 {reserve.user.name + " " + reserve.user.family}
                                             </div>
+
                                             <ul className="user-character ">
                                                 <li onClick={() => toggleSelectCharacterForUser(index)}
+                                                    style={{paddingRight : 30}}
                                                     className="character input-control">
                                                     {usersCharacter.hasOwnProperty(reserve.user.id) && Object(selectedCharacters).length && selectedCharacters.find(obj => obj.id === usersCharacter[reserve.user.id]) ?
                                                         selectedCharacters.find(obj => obj.id === usersCharacter[reserve.user.id]).name
@@ -1668,7 +1680,7 @@ function Game(props) {
 
                         </div>
 
-                        {localStorage.authToken && localStorage.userDetails && JSON.parse(localStorage.userDetails).role == "Admin" || localStorage.authToken && localStorage.userDetails &&  JSON.parse(localStorage.userDetails).id === game.god_id ?
+                        {localStorage.authToken && localStorage.userDetails && JSON.parse(localStorage.userDetails).role === "Admin" || localStorage.authToken && localStorage.userDetails &&  JSON.parse(localStorage.userDetails).id === game.god_id ?
                             <ul className="admin-access">
                                 <li className="edit-btn" onClick={() => setShowEditModal(true)}>
                                     <svg className="edit-icon" xmlns="http://www.w3.org/2000/svg"

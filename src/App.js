@@ -12,6 +12,9 @@ import Dashboard from "./components/Dashboard";
 import NotFound from "./components/NotFound";
 import PaymentReceipt from "./components/PaymentReceipt";
 import UserInfo from "./dashboard/UserInfo";
+import Admin from "./admin/Admin";
+import Users from "./admin/Users";
+import User from "./admin/User";
 function App() {
 
     const [user, setUser] = useState({
@@ -35,6 +38,9 @@ function App() {
                       <Route path="dashboard" element={<Dashboard />} />
                       <Route path="dashboard/user/info" element={<UserInfo/>} />
                       <Route path="verify/zarinpal/:id" element={<PaymentReceipt />} />
+                      <Route path="admin" element={<Admin />} />
+                      <Route path="admin/users" element={<Users/>}/>
+                      <Route path="admin/users/:id" element={<User/>}/>
                   </Route>
                   {/* Add a fallback route to catch unmatched routes */}
                   <Route path="*" element={<NotFound />} />
