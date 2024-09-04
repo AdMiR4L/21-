@@ -98,10 +98,12 @@
           font-size: 12px;
           font-family: iranyekan;
           padding:0 5px ;
+          display: flex;
+          align-items: center;
           font-weight: 400;
         }
         .close{
-          width: 16px;
+          width: 14px;
           fill: $primary;
           opacity: 1;
         }

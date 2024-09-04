@@ -337,8 +337,8 @@ class Header extends Component{
     render(){
         return (
             <>
+                <Toaster/>
                 <div className="container d-none d-md-block">
-                    <Toaster/>
                     <div className="row">
                         <header className="col-12">
                             <nav className="main-header">

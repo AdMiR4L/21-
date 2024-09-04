@@ -14,7 +14,7 @@ import Gift from "../assets/gift.svg";
 import FAQImage from "../assets/faq.png";
 import Breadcrumb from "../layouts/Breadcrumb";
 import axios from "axios";
-import {Link, useParams} from 'react-router-dom';
+import {json, Link, useParams} from 'react-router-dom';
 import Modal from "react-bootstrap/Modal";
 import ConvertToShamsiDate from "./ConverToShamsiDate";
 import toast from "react-hot-toast";
@@ -63,6 +63,7 @@ function Game(props) {
     const [confirmPopUp, setConfirmPopUp] = useState(false);
     const [noPaymentLoading, setNoPaymentLoading] = useState(false);
     const [userReserveIdForRemoving, setUserReserveIdForRemoving] = useState();
+    const [tableChairCount, setTableChairCount] = useState();
 
     const chooseWinSide = (index) => {
         if (index === 2) {
@@ -80,7 +81,6 @@ function Game(props) {
                 return newSelection;
             });
         }
-        console.log(winSide)
     };
 
     function payWithZarinPal(){
@@ -95,18 +95,16 @@ function Game(props) {
                 }, {headers : headers})
                 .then((response) => {
                     if (response.data.status === 100) {
-                        // Redirect to ZarinPal for payment
                          window.location.href = `https://www.zarinpal.com/pg/StartPay/${response.data.authority}`;
-                        //window.location.href = `https://sandbox.zarinpal.com/pg/StartPay/${response.data.authority}`;
                     }
                     else {
                         console.log(response.data)
+                        toast.error(response.data)
                     }
                 })
                 .catch((error) =>{
                     toast.error("پاسخی از بانک دریافت نشد، لطفا دوباره تلاش کنید")
                     setSendDataLoading(false);
-                  console.log(error)
                 });
     }
 
@@ -175,7 +173,6 @@ function Game(props) {
     function getGame() {
         axios.get( process.env.REACT_APP_API + "games/"+id)
             .then(response => {
-                console.log(response)
                 setGame(response.data.game)
                 setReserves(response.data.reserves)
                 if (Array.isArray(response.data.reserves) && response.data.reserves.length) {
@@ -186,7 +183,10 @@ function Game(props) {
                         }));
                     });
                 }
-
+                //console.log(JSON.parse(response.data.reserves[0]).chair_no)
+                console.log(response.data.reserves[0])
+                console.log(response.data.game.capacity)
+                console.log(response.data.reserves.find(obj => JSON.parse(obj.chair_no) === parseInt(response.data.game.capacity)))
                 setUnavailable(response.data.unavailable);
                 setPriceInput(response.data.game.price);
                 setGodInput(response.data.game.god_id ? response.data.game.god.name : "");
@@ -207,8 +207,7 @@ function Game(props) {
                         const mafia = JSON.parse(response.data.game.game_characters).find(obj => obj.id === 5);
                         setScenarioCitizenCount(citizen ? citizen.count : "");
                         setScenarioMafiaCount(mafia ? mafia.count : 0);
-                        console.log("PARSE" , JSON.parse(response.data.game.game_characters))
-                        console.log("SELECTED" , response.data.game.scenario.characters)
+
                     }
                     else{
                         setChosableCharacters(response.data.game.scenario.characters.map((character, index) => {
@@ -218,6 +217,7 @@ function Game(props) {
                             };
                         }))
                     }
+                    console.log(response.data.reserves)
                     setScenariosInput(response.data.game.scenario)
                     setShowCharacterDescription(
                         response.data.game.scenario.characters.reduce((acc, character) => {
@@ -287,7 +287,7 @@ function Game(props) {
                 setSendDataLoading(false)
             })
             .catch((error) =>{
-                console.log(error)
+
                 setSendDataLoading(false)
             });
         }
@@ -295,7 +295,7 @@ function Game(props) {
 
     function removeUserFromGame(id) {
 
-        console.log(id)
+
         const headers = {
             'Content-Type': 'application/json',
             'Authorization': "Bearer " + localStorage.authToken}
@@ -311,14 +311,13 @@ function Game(props) {
                 setConfirmPopUp(false)
             })
             .catch((error) =>{
-                console.log(error)
+
                 setSendDataLoading(false)
         });
     }
 
 
     function changeGameCharacters() {
-        console.log(selectedCharacters);
        const temp = selectedCharacters.map((character) => {
            return {
                ...character,
@@ -351,7 +350,7 @@ function Game(props) {
                 setSendDataLoading(false)
             })
             .catch((error) =>{
-                console.log(error)
+
                 setSendDataLoading(false)
             });
     }
@@ -378,13 +377,14 @@ function Game(props) {
                         setTimeout(() => { setShowSearchResults(true)}, 500)
                     })
                     .catch((error) =>{
-                        console.log(error)
+
                     });
             }
         }, 500)
     }
 
     function handleChairClick (index){
+        console.log(selectedChairs)
         setSelectedChairs((prevSelectedChairs) => {
             if (prevSelectedChairs.includes(index)) {
                 // Remove chair from selected list if already selected
@@ -408,7 +408,6 @@ function Game(props) {
     // }
 
     function selectCharacters(character) {
-        console.log(selectedCharacters);
         setSelectedCharacters((prevSelectedCharacters) => {
             if (prevSelectedCharacters.some(selectedCharacter => selectedCharacter.id === character.id)) {
                 // If the character is already selected, remove it from the selectedCharacters array
@@ -468,7 +467,6 @@ function Game(props) {
     }
 
     function changeUserCharacters(character, user, index) {
-        console.log(chosableCharacters)
         if (Object.keys(usersCharacter).length) {
             // Update existing user-character mapping
             setUsersCharacter(prevState => ({
@@ -486,9 +484,11 @@ function Game(props) {
 
 
     function noPaymentReserveAttempt () {
+
         const data = {
             game_id : id,
             chair_no : JSON.stringify(selectedChairs),}
+        console.log(data)
         const headers = {
             'Content-Type': 'application/json',
             'Authorization': "Bearer " + localStorage.authToken
@@ -513,7 +513,6 @@ function Game(props) {
                     toast.error( error.response.data)
                 else
                     toast.error(" خطا، لطفا دوباره تلاش کنید")
-                console.log(error);
                 setNoPaymentLoading(false)
             });
     }
@@ -538,7 +537,6 @@ function Game(props) {
                 setSendDataLoading(false)
             })
             .catch((error) =>{
-                console.log(error)
                 setSendDataLoading(false)
             });
     }
@@ -564,7 +562,6 @@ function Game(props) {
                 setSendDataLoading(false)
             })
             .catch((error) =>{
-                console.log(error)
                 setSendDataLoading(false)
             });
     }
@@ -590,7 +587,6 @@ function Game(props) {
             })
             .catch((error) =>{
                 toast.error("لطفا قبل از ارسال نقش اطلاعات را ذخیره کنید")
-                console.log(error)
                 setSendDataLoading(false)
             });
     }
@@ -717,7 +713,6 @@ function Game(props) {
                                     {selectedChairs.map((item) => {
                                         return <li key={item} className="item" onClick={() => {
                                             handleChairClick(item);
-                                            console.log(selectedChairs);
                                             if (selectedChairs.length <= 1) setShowReserveModal(false)
                                         }}>
                                             <div className="chair-container">
@@ -1473,7 +1468,7 @@ function Game(props) {
                                             <path
                                                 d="M429.18,262.25c-8.33-8.33-21.84-8.33-30.17,0-4,4-6.24,9.42-6.25,15.08v36.27c-27.38-8.66-52.52-23.22-73.64-42.67-13.09-11.18-32.75-9.68-43.99,3.35l-.53.6c-11.47,13.29-10,33.36,3.28,44.83.08.07.16.13.24.2,32.49,29.33,71.96,49.83,114.65,59.52v51.01c0,11.78,9.56,21.33,21.34,21.33,5.66,0,11.08-2.25,15.08-6.25l76.5-76.5c8.33-8.33,8.33-21.83,0-30.17l-76.5-76.61Z"/>
                                         </svg>
-                                        تقیسیم نقش
+                                        تقسیم نقش
                                     </li>
                                     {sendDataLoading ?
                                         <span className="primary-btn twin-btn">
@@ -1889,7 +1884,8 @@ function Game(props) {
                         <div className="game">
                             <div className="game-container">
                                 <ul className="chairs right-side">
-                                    {Array.from({length: 7}).map((_, index) => {
+                                    {
+                                        Array.from({length: Math.floor(game.capacity / 2)}).map((_, index) => {
                                             const chairNumber = index + 1;
                                             //const isReserved = reserves.find((obj) => obj.chair_no === chairNumber.toString());
                                             const isReserved = reserves.some((obj) => {
@@ -1947,8 +1943,9 @@ function Game(props) {
 
                                 </ul>
                                 <ul className="chairs left-side">
-                                    {Array.from({length: 7}).map((_, index) => {
-                                            const chairNumber = index + 8;
+                                    {
+                                        Array.from({length: Math.floor(game.capacity / 2)}).map((_, index) => {
+                                            const chairNumber = index + Math.floor(game.capacity / 2)+1;
 
                                             const isReserved = reserves.some((obj) => {
                                                 const chairArray = JSON.parse(obj.chair_no); // Convert the chair_no string to an array
@@ -2068,60 +2065,118 @@ function Game(props) {
                                             </g>
                                         </svg>
                                     </li>
-                                    <li className="d-flex justify-content-center">
-                                        <div className="game-21-badge">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 31.18 39.53">
-                                                <g>
-                                                    <path
-                                                        d="M3.32,17.74h3.14c.06-.36.12-.71.19-1.06.55-2.41,2.79-4.05,5.26-3.85,1.12.09,2.18.53,3.04,1.26,1.43,1.13,2.06,2.99,1.61,4.76-.4,1.86-1.25,3.59-2.49,5.03-.79.96-1.65,1.87-2.52,2.76-2.11,2.17-4.24,4.31-6.35,6.47-.95.97-1.87,1.95-2.8,2.94-.08.1-.12.22-.12.35.07.53-.16,1.06-.6,1.38-.46.41-1.52,1.51-1.66,1.64,0-.11-.01-.16-.01-.22,0-1.27-.01-2.54,0-3.81.01-.15.08-.29.18-.4,2.18-2.22,4.37-4.44,6.56-6.65,1.47-1.49,2.95-2.98,4.38-4.5,1.08-1.12,1.99-2.4,2.67-3.81.29-.56.48-1.16.58-1.78.25-1.5-.76-2.92-2.26-3.18-.22-.04-.44-.05-.66-.03-1.39.03-2.57,1.04-2.8,2.42-.11.72-.17,1.45-.19,2.18,0,.1,0,.21,0,.32H.81c.02-.28.04-.55.07-.81.1-.98.14-1.98.33-2.93.46-2.51,1.85-4.75,3.89-6.27,3.07-2.33,6.52-3.04,10.17-1.76,3.25,1.04,5.72,3.71,6.5,7.03.25,1.15.29,2.34.11,3.5-.36,2.65-1.42,5.16-3.05,7.28-.89,1.26-1.87,2.45-2.94,3.56-2.38,2.41-4.74,4.82-7.11,7.24-.08.08-.48.51-.48.51,0,0,.88-.02,1.19-.02,1.19,0,2.38-.06,3.57-.07,2.25-.03,4.5-.05,6.75-.07.06,0,.13,0,.21-.01v-2.83h-6.61s.04-.09.07-.13c.63-.64,1.26-1.27,1.89-1.91.13-.14.33-.22.52-.2,2,0,3.99,0,5.99,0h.3v7.34H3.11c.11-.12.17-.19.24-.25,2.48-2.51,4.97-5.01,7.43-7.54,1.53-1.57,3.04-3.16,4.49-4.8,1.58-1.79,2.87-3.83,3.82-6.02.84-1.74.97-3.73.39-5.57-.81-2.72-3.12-4.72-5.93-5.13-2.79-.58-5.68.25-7.74,2.21-1.42,1.27-2.3,3.04-2.46,4.93-.01.15-.01.3-.02.49"/>
-                                                    <path
-                                                        d="M31.12,31.07h-7.68V7.47h-6.74c.42-.69.82-1.34,1.22-2,1.06-1.77,2.12-3.55,3.18-5.33C21.18,0,21.27,0,21.4,0h9.72v31.07ZM25.73,5.2v23.56h3.12V2.28s-.04-.02-.06-.02h-6.23c-.07.01-.15.05-.19.11-.54.87-1.07,1.75-1.6,2.63-.03.05-.05.11-.09.19h5.05Z"/>
-                                                    <path
-                                                        d="M28.86,37.2v2.33h-2.72v-2.31h-2.31v-2.72h2.31v-2.31h2.72v2.3h2.32v2.73h-2.32Z"/>
-                                                </g>
-                                            </svg>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div className="space-50"></div>
-                        <div className="space-50"></div>
-                        <div className="space-50"></div>
-                        <div className="space-50"></div>
-                    </div>
-                </div>
-                :
-                <div className="row">
-                    <div className="col-lg-6">
-                        <div className="section-top mt-0 ">
-                            <div className="section-header w-100">
-                                <Skeleton width="50%" height="20px"/>
-                                <div className="cube-num">
-                                    <img src={CubeIcon} alt="cube"/>
-                                    <div className="cube">CUBE</div>
-                                    <div className="tag">
-                                        <Skeleton width="80%" height="10px"/>
-                                    </div>
+
+                                        {parseInt(game.capacity)  % 2 === 0 ?
+                                            <li className="d-flex justify-content-center">
+                                            <div className="game-21-badge">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 31.18 39.53">
+                                                    <g>
+                                                        <path
+                                                            d="M3.32,17.74h3.14c.06-.36.12-.71.19-1.06.55-2.41,2.79-4.05,5.26-3.85,1.12.09,2.18.53,3.04,1.26,1.43,1.13,2.06,2.99,1.61,4.76-.4,1.86-1.25,3.59-2.49,5.03-.79.96-1.65,1.87-2.52,2.76-2.11,2.17-4.24,4.31-6.35,6.47-.95.97-1.87,1.95-2.8,2.94-.08.1-.12.22-.12.35.07.53-.16,1.06-.6,1.38-.46.41-1.52,1.51-1.66,1.64,0-.11-.01-.16-.01-.22,0-1.27-.01-2.54,0-3.81.01-.15.08-.29.18-.4,2.18-2.22,4.37-4.44,6.56-6.65,1.47-1.49,2.95-2.98,4.38-4.5,1.08-1.12,1.99-2.4,2.67-3.81.29-.56.48-1.16.58-1.78.25-1.5-.76-2.92-2.26-3.18-.22-.04-.44-.05-.66-.03-1.39.03-2.57,1.04-2.8,2.42-.11.72-.17,1.45-.19,2.18,0,.1,0,.21,0,.32H.81c.02-.28.04-.55.07-.81.1-.98.14-1.98.33-2.93.46-2.51,1.85-4.75,3.89-6.27,3.07-2.33,6.52-3.04,10.17-1.76,3.25,1.04,5.72,3.71,6.5,7.03.25,1.15.29,2.34.11,3.5-.36,2.65-1.42,5.16-3.05,7.28-.89,1.26-1.87,2.45-2.94,3.56-2.38,2.41-4.74,4.82-7.11,7.24-.08.08-.48.51-.48.51,0,0,.88-.02,1.19-.02,1.19,0,2.38-.06,3.57-.07,2.25-.03,4.5-.05,6.75-.07.06,0,.13,0,.21-.01v-2.83h-6.61s.04-.09.07-.13c.63-.64,1.26-1.27,1.89-1.91.13-.14.33-.22.52-.2,2,0,3.99,0,5.99,0h.3v7.34H3.11c.11-.12.17-.19.24-.25,2.48-2.51,4.97-5.01,7.43-7.54,1.53-1.57,3.04-3.16,4.49-4.8,1.58-1.79,2.87-3.83,3.82-6.02.84-1.74.97-3.73.39-5.57-.81-2.72-3.12-4.72-5.93-5.13-2.79-.58-5.68.25-7.74,2.21-1.42,1.27-2.3,3.04-2.46,4.93-.01.15-.01.3-.02.49"/>
+                                                        <path
+                                                            d="M31.12,31.07h-7.68V7.47h-6.74c.42-.69.82-1.34,1.22-2,1.06-1.77,2.12-3.55,3.18-5.33C21.18,0,21.27,0,21.4,0h9.72v31.07ZM25.73,5.2v23.56h3.12V2.28s-.04-.02-.06-.02h-6.23c-.07.01-.15.05-.19.11-.54.87-1.07,1.75-1.6,2.63-.03.05-.05.11-.09.19h5.05Z"/>
+                                                        <path
+                                                            d="M28.86,37.2v2.33h-2.72v-2.31h-2.31v-2.72h2.31v-2.31h2.72v2.3h2.32v2.73h-2.32Z"/>
+                                                    </g>
+                                                </svg>
+                                            </div>
+                                            </li>
+                                            :(reserves.some(obj => {
+                                                const chairNumbers = JSON.parse(obj.chair_no);
+                                                return chairNumbers.includes(parseInt(game.capacity));
+                                            }) ? (
+                                                    <li className="single-chair-container">
+                                                        <div key={game.capacity} className="single-chair unavailable">
+                                                            <div className="chair unavailable">
+                                                        <span className="number">
+                                                             #<span className="key">{game.capacity}</span>
+                                                        </span>
+                                                                <svg className="chair-icon unavailable"
+                                                                     xmlns="http://www.w3.org/2000/svg"
+                                                                     viewBox="0 0 31.52 42.55">
+                                                                    <path className="seat"
+                                                                          d="M30.95,25.68h0c-.72-1.03-1.91-1.61-3.16-1.54-.28,0-.53.03-.77.09l-.8.18,1.73-6.72c.71-2.74-.55-5.57-3.07-6.87-5.71-3.02-12.53-3.02-18.24,0-2.51,1.3-3.78,4.13-3.07,6.87l1.73,6.7-.79-.17c-.35-.07-.71-.1-1.06-.09-1.91.01-3.45,1.56-3.45,3.47,0,.45.09.88.26,1.3,1.35,3.3,3.66,6.03,6.7,7.89l.46.29-3.03,4.11c-.13.18-.19.41-.15.64s.16.43.35.56c.38.28.92.2,1.2-.18l3.2-4.34.36.15c2.03.84,4.17,1.26,6.36,1.26h.04c2.25,0,4.39-.42,6.42-1.26l.36-.15,3.21,4.34c.14.18.34.3.57.33.23.03.46-.03.64-.17.38-.28.46-.82.18-1.2l-3.03-4.1.46-.28c3.04-1.87,5.35-4.6,6.7-7.89.44-1.06.31-2.26-.32-3.21h.01ZM5.26,17.26c-.51-1.96.38-3.97,2.18-4.9,5.21-2.77,11.43-2.77,16.65,0,1.8.92,2.69,2.94,2.18,4.9l-2.42,9.37-.15.11c-2.37,1.65-5.15,2.47-7.93,2.47s-5.56-.82-7.93-2.47l-.15-.11-2.42-9.37h-.01ZM29.67,28.24c-2.31,5.65-7.76,9.31-13.86,9.31h-.02c-6.17,0-11.61-3.65-13.93-9.3-.17-.42-.17-.89,0-1.31.17-.42.51-.75.93-.92.21-.09.39-.14.65-.13.59-.09,1.25.16,1.68.67,1.69,2.13,5.72,4.4,10.63,4.4s8.95-2.27,10.62-4.39c.32-.42.82-.68,1.37-.68.62-.1,1.32.18,1.74.74.34.49.4,1.09.19,1.62h0Z"/>
+                                                                    <g>
+                                                                        <path className="mark"
+                                                                              d="M6.56,9.2c0,.38,0,.77.06,1.15l.17,1.03c.46,1.91,1.53,3.63,3.05,4.89.06.06.17.11.23.17.53.41,1.11.76,1.72,1.04l.34.17c.5.23,1.02.41,1.55.52.29.06.52.12.8.17.42.05.84.07,1.26.06,5.08,0,9.2-4.12,9.2-9.19C24.95,4.12,20.83,0,15.75,0,10.67,0,6.56,4.12,6.56,9.19c0,0,0,0,0,0"/>
+                                                                        <path className="check"
+                                                                              d="M11.79,11.78c-.35.37-.35.95,0,1.32.16.17.39.28.63.29.24,0,.47-.11.63-.29l2.7-2.65,2.64,2.64c.31.35.84.38,1.18.08.03-.02.05-.05.08-.08.35-.37.35-.95,0-1.32l-2.64-2.64,2.64-2.64c.37-.37.36-.96,0-1.32s-.96-.36-1.32,0h0l-2.64,2.64-2.59-2.64c-.35-.38-.94-.41-1.32-.07-.38.35-.41.94-.07,1.32.02.02.05.05.07.07l2.64,2.64-2.64,2.64Z"/>
+                                                                    </g>
+                                                                </svg>
+                                                            </div>
+                                                        </div>
+                                                    </li>)
+                                                :
+                                                <li
+                                                    className="single-chair-container"
+                                                    onClick={() => handleChairClick(parseInt(game.capacity))}>
+                                                    <div
+                                                        className={`single-chair ${selectedChairs.includes(parseInt(game.capacity)) ? 'selected' : ''}`}>
+                                                        <div
+                                                            className="chair">
+                                                        <span className="number">
+                                                             #<span className="key">{game.capacity}</span>
+                                                        </span>
+                                                            <svg className="chair-icon available"
+                                                                 xmlns="http://www.w3.org/2000/svg"
+                                                                 viewBox="0 0 31.53 42.55">
+                                                                <path className="seat"
+                                                                      d="M30.95,25.68h0c-.72-1.03-1.91-1.61-3.16-1.54-.28,0-.53.03-.77.09l-.8.18,1.73-6.72c.71-2.74-.55-5.57-3.07-6.87-5.71-3.02-12.53-3.02-18.24,0-2.51,1.3-3.78,4.13-3.07,6.87l1.73,6.7-.79-.17c-.35-.07-.71-.1-1.06-.09C1.54,24.14,0,25.69,0,27.6c0,.45.09.88.26,1.3,1.35,3.3,3.66,6.03,6.7,7.89l.46.29-3.03,4.11c-.13.18-.19.41-.15.64s.16.43.35.56c.38.28.92.2,1.2-.18l3.2-4.34.36.15c2.03.84,4.17,1.26,6.36,1.26h.04c2.25,0,4.39-.42,6.42-1.26l.36-.15,3.21,4.34c.14.18.34.3.57.33.23.03.46-.03.64-.17.38-.28.46-.82.18-1.2l-3.03-4.1.46-.28c3.04-1.87,5.35-4.6,6.7-7.89.44-1.06.31-2.26-.32-3.21ZM5.26,17.26c-.51-1.96.38-3.97,2.18-4.9,5.21-2.77,11.43-2.77,16.65,0,1.8.92,2.69,2.94,2.18,4.9l-2.42,9.37-.15.11c-2.37,1.65-5.15,2.47-7.93,2.47-2.78,0-5.56-.82-7.93-2.47l-.15-.11-2.42-9.37ZM29.67,28.24c-2.31,5.65-7.76,9.31-13.86,9.31h-.02c-6.17,0-11.61-3.65-13.93-9.3-.17-.42-.17-.89,0-1.31s.51-.75.93-.92c.21-.09.39-.14.65-.13.59-.09,1.25.16,1.68.67,1.69,2.13,5.72,4.4,10.63,4.4s8.95-2.27,10.62-4.39c.32-.42.82-.68,1.37-.68.62-.1,1.32.18,1.74.74.34.49.4,1.09.19,1.62Z"/>
+                                                                <g>
+                                                                    <path data-name="Path 2078" className="mark"
+                                                                          d="M24.95,9.19c0,.34-.02.67-.06,1.01-.55,5.05-5.1,8.69-10.14,8.14-5.05-.55-8.69-5.1-8.14-10.14C7.17,3.14,11.71-.5,16.76.06c4.66.51,8.19,4.45,8.19,9.14"/>
+                                                                    <path data-name="Path 2080"
+                                                                          className="check"
+                                                                          d="M14.49,13.4c-1.17-1.17-2.34-2.36-3.52-3.53-.13-.13-.13-.34,0-.47l1.36-1.35c.13-.13.34-.13.47,0l1.93,1.93,4.98-4.98c.13-.13.34-.13.48,0l1.36,1.36c.13.13.13.34,0,.47,0,0,0,0,0,0l-6.58,6.57c-.13.13-.34.13-.47,0,0,0,0,0,0,0"/>
+                                                                </g>
+                                                            </svg>
+                                                        </div>
+                                                    </div>
+                                                </li>)
+
+
+                                        }
+
+                                            </ul>
+                                            </div>
+                                            </div>
+                                            <div className="space-50"></div>
+                                            <div className="space-50"></div>
+                                            <div className="space-50"></div>
+                                            <div className="space-50"></div>
+                                            </div>
+                                            </div>
+                                            :
+                                            <div className="row">
+                                            <div className="col-lg-6">
+                                            <div className="section-top mt-0 ">
+                                            <div className="section-header w-100">
+                                            <Skeleton width="50%" height="20px"/>
+                                            <div className="cube-num">
+                                            <img src={CubeIcon} alt="cube"/>
+                                <div className="cube">CUBE</div>
+                                <div className="tag">
+                                    <Skeleton width="80%" height="10px"/>
                                 </div>
-                                <Skeleton width="80%" height="10px"/>
                             </div>
+                            <Skeleton width="80%" height="10px"/>
                         </div>
-                        <div className="game-page-info">
-                            <ul className="mafia-info w-50">
-                                <li className="item d-flex align-items-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 480">
-                                        <path
-                                            d="M479.82,144h-95.82c-35.35,0-64-28.65-64-64V0h-192C57.3,0,0,57.3,0,128v224c0,70.7,57.3,128,128,128h224c70.7,0,128-57.3,128-128v-203.14c0-1.62-.06-3.25-.18-4.86ZM216,336h-96c-8.84,0-16-7.16-16-16s7.16-16,16-16h96c8.84,0,16,7.16,16,16s-7.16,16-16,16ZM360,240H120c-8.84,0-16-7.16-16-16s7.16-16,16-16h240c8.84,0,16,7.16,16,16s-7.16,16-16,16Z"/>
-                                        <path
-                                            d="M384,112h84.32c-2.51-3.57-5.41-6.9-8.65-9.93l-90.92-84.86c-4.99-4.66-10.66-8.46-16.75-11.28v74.06c0,17.67,14.33,32,32,32Z"/>
-                                    </svg>
-                                    <Skeleton width="80%" height="15px"/>
-                                </li>
-                                <li className="item d-flex align-items-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23.06 23.06">
-                                        <path
-                                            d="M21.49,18.87h-3.67c-2.31,0-4.19-1.88-4.19-4.19s1.88-4.19,4.19-4.19h3.67c.29,0,.52-.23.52-.52h0v-1.57c0-1.1-.85-1.99-1.93-2.08l-3.01-5.26c-.28-.49-.73-.83-1.27-.98-.54-.14-1.1-.07-1.58.21L3.91,6.29h-1.81c-1.16,0-2.1.94-2.1,2.1v12.58c0,1.16.94,2.1,2.1,2.1h17.82c1.16,0,2.1-.94,2.1-2.1v-1.57c0-.29-.23-.52-.52-.52h0,0ZM17.73,4.3l1.14,1.99h-4.57l3.43-1.99ZM5.99,6.29L14.76,1.19c.24-.14.51-.18.78-.1.27.07.49.24.63.49h0s-8.1,4.72-8.1,4.72c0,0-2.07,0-2.07,0Z"/>
+                    </div>
+                    <div className="game-page-info">
+                        <ul className="mafia-info w-50">
+                            <li className="item d-flex align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 480">
+                                    <path
+                                        d="M479.82,144h-95.82c-35.35,0-64-28.65-64-64V0h-192C57.3,0,0,57.3,0,128v224c0,70.7,57.3,128,128,128h224c70.7,0,128-57.3,128-128v-203.14c0-1.62-.06-3.25-.18-4.86ZM216,336h-96c-8.84,0-16-7.16-16-16s7.16-16,16-16h96c8.84,0,16,7.16,16,16s-7.16,16-16,16ZM360,240H120c-8.84,0-16-7.16-16-16s7.16-16,16-16h240c8.84,0,16,7.16,16,16s-7.16,16-16,16Z"/>
+                                    <path
+                                        d="M384,112h84.32c-2.51-3.57-5.41-6.9-8.65-9.93l-90.92-84.86c-4.99-4.66-10.66-8.46-16.75-11.28v74.06c0,17.67,14.33,32,32,32Z"/>
+                                </svg>
+                                <Skeleton width="80%" height="15px"/>
+                            </li>
+                            <li className="item d-flex align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23.06 23.06">
+                                    <path
+                                        d="M21.49,18.87h-3.67c-2.31,0-4.19-1.88-4.19-4.19s1.88-4.19,4.19-4.19h3.67c.29,0,.52-.23.52-.52h0v-1.57c0-1.1-.85-1.99-1.93-2.08l-3.01-5.26c-.28-.49-.73-.83-1.27-.98-.54-.14-1.1-.07-1.58.21L3.91,6.29h-1.81c-1.16,0-2.1.94-2.1,2.1v12.58c0,1.16.94,2.1,2.1,2.1h17.82c1.16,0,2.1-.94,2.1-2.1v-1.57c0-.29-.23-.52-.52-.52h0,0ZM17.73,4.3l1.14,1.99h-4.57l3.43-1.99ZM5.99,6.29L14.76,1.19c.24-.14.51-.18.78-.1.27.07.49.24.63.49h0s-8.1,4.72-8.1,4.72c0,0-2.07,0-2.07,0Z"/>
                                         <path
                                             d="M21.49,11.53h-3.67c-1.73,0-3.15,1.41-3.15,3.15s1.41,3.15,3.15,3.15h3.67c.87,0,1.57-.71,1.57-1.57v-3.15c0-.87-.71-1.57-1.57-1.57h0ZM17.82,15.73c-.58,0-1.05-.47-1.05-1.05s.47-1.05,1.05-1.05,1.05.47,1.05,1.05c0,.58-.47,1.05-1.05,1.05Z"/>
                                     </svg>

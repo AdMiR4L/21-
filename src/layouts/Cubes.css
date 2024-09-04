@@ -978,10 +978,12 @@ input[type=number] {
   font-size: 12px;
   font-family: iranyekan;
   padding: 0 5px;
+  display: flex;
+  align-items: center;
   font-weight: 400;
 }
 .cube-info .cube-box .event.closed .close {
-  width: 16px;
+  width: 14px;
   fill: #BC080E;
   opacity: 1;
 }

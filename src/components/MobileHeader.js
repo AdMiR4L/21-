@@ -55,7 +55,7 @@ function MobileHeader() {
 
     return (
         <header className="d-md-none">
-            <Toaster/>
+            {/*<Toaster/>*/}
             <Search showSearchModal={showSearchModal} setShowSearchModal={setShowSearchModal}/>
             {/*<div className="add-to-home-container">*/}
             {/*    <div className="add-to-home-screen">*/}
