@@ -10,20 +10,37 @@ import Articles from "../layouts/Articles";
 import FAQ from "../layouts/FAQ";
 import Footer from "../layers/Footer";
 import React, {useEffect, useState} from "react";
+import axios from "axios";
 function Home(props) {
+
+
+    const [isLoading, setIsLoading] = useState(true);
+    const [leaderBoard, setLeaderBoard] = useState({});
+    const [weekChampion, setWeekChampion] = useState([]);
+    function leaderBoardApi() {
+        axios.get( process.env.REACT_APP_API + "leaderboard")
+            .then(response => {
+                setLeaderBoard(response.data.players)
+                setWeekChampion(response.data.champion)
+                setIsLoading(false)
+            });
+    }
     useEffect(() => {
         document.title = '21+ SPORT CLUB'
+        leaderBoardApi()
     }, []);
+
+
     return (
 
         <div className="App">
-            <Landing/>
+            <Landing isLoading={isLoading} weekChampion={weekChampion} />
             <Cubes/>
             <div className="container">
                 <div className="row">
                     <div className="col-lg-4">
                         <div className="row">
-                            <TopPlayers/>
+                            <TopPlayers isLoading={isLoading} leaderBoard={leaderBoard} />
                             <FAQ/>
                         </div>
                     </div>

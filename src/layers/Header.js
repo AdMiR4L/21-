@@ -153,25 +153,23 @@ class Header extends Component{
                 console.log(response);
                 this.setState({
                     showForgotPassword : true,
-                    forgot : false
-                })
-                this.setState({
-                    regFailed:{
+                    forgot : false,
+                    egFailed:{
                         status: false,
                         messages : null,
-                    }
-                });
-                this.setState({isLoading : false})
+                    },
+                    isLoading : false
+                })
             })
             .catch((error) =>{
                 console.log(error.response.data)
                 this.setState({
                     regFailed:{
                         status: true,
-                        messages : error.response.data.message,
-                    }
+                        messages : {forgotPassword : error.response.data.message},
+                    },
+                    isLoading : false
                 });
-                this.setState({isLoading : false})
             });
     }
     checkForgotPassword (){
@@ -184,24 +182,22 @@ class Header extends Component{
                     regFailed:{
                         status: false,
                         messages : null
-                    }
+                    },
+                    showResetPassword : true,
+                    showForgotPassword : false,
+                    isLoading : false
                 });
                 localStorage.setItem("authToken" , response.data.token)
-                this.setState({
-                    showResetPassword : true,
-                    showForgotPassword : false
-                })
-                this.setState({isLoading : false})
             })
             .catch((error) =>{
                 console.log(error)
                 this.setState({
                     regFailed:{
                         status: true,
-                        messages : error.response.data.message,
-                    }
+                        messages : {checkForgotPassword : error.response.data.message},
+                    },
+                    isLoading : false
                 });
-                this.setState({isLoading : false})
             });
     }
     resetPassword (){
@@ -230,9 +226,9 @@ class Header extends Component{
                     regFailed:{
                         status: true,
                         messages : error.response.data.message,
-                    }
+                    },
+                    isLoading: false
                 });
-                this.setState({isLoading : false})
             });
     }
 
@@ -241,9 +237,7 @@ class Header extends Component{
         this.setState({isLoading : true})
         axios.post(process.env.REACT_APP_API+'register',this.state.registerRequest)
             .then((response) => {
-                console.log(response);
                 localStorage.setItem("authToken" , response.data.token)
-
                 this.setState({
                     activeAccount : true,
                     reg : false
@@ -251,14 +245,16 @@ class Header extends Component{
                 setTimeout(()=> {this.getUserDetails()}, 300)
             })
             .catch((error) =>{
-                console.log(error)
                 this.setState({
                     regFailed:{
                         status: true,
                         messages : error.response.data.errors,
-                    }
+                    },
+                    isLoading: false
                 });
-                this.setState({isLoading : false})
+
+
+                //setTimeout(() => console.log(this.state.regFailed), 1000)
             });
     }
 
@@ -278,7 +274,7 @@ class Header extends Component{
                 this.setState({
                     regFailed:{
                         status: true,
-                        messages : error.response.data,
+                        messages : {verifyUser : error.response.data.message},
                     }
                 });
                 this.setState({isLoading : false})
@@ -699,9 +695,9 @@ class Header extends Component{
                                                 onChange={(e) => this.setState({verifyCode: e.target.value})}/>
 
                                             {
-                                                this.state.regFailed.status && this.state.regFailed.messages ?
+                                                this.state.regFailed.status && this.state.regFailed.messages.verifyUser ?
                                                     <span className="validate-error mb-3">
-                                                           {this.state.regFailed.messages}
+                                                           {this.state.regFailed.messages.verifyUser}
                                                        </span>
                                                     : null
                                             }
@@ -755,9 +751,9 @@ class Header extends Component{
                                                 onChange={(e) => this.setState({forgotCode: e.target.value})}/>
 
                                             {
-                                                this.state.regFailed.status && this.state.regFailed.messages ?
+                                                this.state.regFailed.status && this.state.regFailed.messages.forgotPassword ?
                                                     <span className="validate-error mb-3">
-                                                           {this.state.regFailed.messages}
+                                                           {this.state.regFailed.messages.forgotPassword}
                                                        </span>
                                                     : null
                                             }
@@ -798,9 +794,9 @@ class Header extends Component{
                                                 onChange={(e) => this.setState({resetPasswordConfirmation: e.target.value})}/>
 
                                             {
-                                                this.state.regFailed.status && this.state.regFailed.messages ?
+                                                this.state.regFailed.status && this.state.regFailed.messages.resetPassword ?
                                                     <span className="validate-error mb-3">
-                                                           {this.state.regFailed.messages}
+                                                           {this.state.regFailed.messages.resetPassword}
                                                        </span>
                                                     : null
                                             }

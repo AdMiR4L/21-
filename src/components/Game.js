@@ -184,9 +184,9 @@ function Game(props) {
                     });
                 }
                 //console.log(JSON.parse(response.data.reserves[0]).chair_no)
-                console.log(response.data.reserves[0])
-                console.log(response.data.game.capacity)
-                console.log(response.data.reserves.find(obj => JSON.parse(obj.chair_no) === parseInt(response.data.game.capacity)))
+                //console.log(response.data.reserves[0])
+                //console.log(response.data.game.capacity)
+                //console.log(response.data.reserves.find(obj => JSON.parse(obj.chair_no) === parseInt(response.data.game.capacity)))
                 setUnavailable(response.data.unavailable);
                 setPriceInput(response.data.game.price);
                 setGodInput(response.data.game.god_id ? response.data.game.god.name : "");

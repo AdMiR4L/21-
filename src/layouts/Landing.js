@@ -9,7 +9,7 @@ import Avatar from "../assets/avatar.png";
 import LogoFade from "../assets/21logo-fade.svg";
 
 import './Landing.css'
-function Landing() {
+function Landing(props) {
     return (
         <section className="landing">
             <div className="space-50 d-md-none"></div>
@@ -42,48 +42,52 @@ function Landing() {
                         </div>
                     </div>
                     <div className="col-12">
-                       {/* <div className="top-player">
-                            <div className="player-card">
-                                <div className="player-avatar">
-                                    <img src={Avatar} alt="user"/>
+                        {!props.isLoading ?
+                            <div className="top-player">
+                                <div className="player-card">
+                                    <div className="player-avatar">
+                                        <img src={Avatar} alt="user"/>
+                                    </div>
+                                    <ul className="user-info">
+                                        <li className="name">
+                                            <div className="username">
+                                                {props.weekChampion.name+" "+props.weekChampion.family}
+                                            </div>
+                                            <div className="date">
+                                                عضویت مهر 1399
+                                            </div>
+                                        </li>
+                                        <li className="awards">
+                                            <div className="item">
+                                                <img src={BadgeIcon} alt="badge"/>
+                                                <span className="strong">{props.weekChampion.win}</span>
+                                                برد
+                                            </div>
+                                            <div className="item">
+                                                <img src={CupIcon} alt="cup"/>
+                                                <span className="strong">{props.weekChampion.score}</span>
+                                                امتیاز
+                                            </div>
+                                        </li>
+                                    </ul>
                                 </div>
-                                <ul className="user-info">
-                                    <li className="name">
-                                        <div className="username">
-                                            محمد خاکی
-                                        </div>
-                                        <div className="date">
-                                            عضویت مهر 1399
-                                        </div>
-                                    </li>
-                                    <li className="awards">
-                                        <div className="item">
-                                            <img src={BadgeIcon} alt="badge"/>
-                                            <span className="strong">46</span>
-                                            برد
-                                        </div>
-                                        <div className="item">
-                                            <img src={CupIcon} alt="cup"/>
-                                            <span className="strong">165</span>
-                                            امتیاز
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div className="side-card">
-                                <img className="golden-badge" src={GoldenBadgeIcon} alt="golden-badge"/>
-                                <ul className="content">
-                                    <li className="en">week champ</li>
-                                    <li className="fa">بــازیـکــن بـرتـر هـفـتـه</li>
-                                </ul>
-                                <div className="arrow">
-                                    <svg  xmlns="http://www.w3.org/2000/svg"
-                                         viewBox="0 0 20.33 14.79">
-                                        <path d="M20.06,6.74L13.59.27c-.36-.36-.95-.36-1.31,0-.36.36-.36.95,0,1.31l4.89,4.89H.92C.41,6.47,0,6.88,0,7.39s.41.92.92.92h16.25l-4.89,4.89c-.36.36-.36.95,0,1.31s.95.36,1.31,0l6.47-6.47c.36-.36.36-.95,0-1.31,0,0,0,0,0,0h0Z"/>
-                                    </svg>
+                                <div className="side-card">
+                                    <img className="golden-badge" src={GoldenBadgeIcon} alt="golden-badge"/>
+                                    <ul className="content">
+                                        <li className="en">week champ</li>
+                                        <li className="fa">بــازیـکــن بـرتـر هـفـتـه</li>
+                                    </ul>
+                                    <div className="arrow">
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                             viewBox="0 0 20.33 14.79">
+                                            <path
+                                                d="M20.06,6.74L13.59.27c-.36-.36-.95-.36-1.31,0-.36.36-.36.95,0,1.31l4.89,4.89H.92C.41,6.47,0,6.88,0,7.39s.41.92.92.92h16.25l-4.89,4.89c-.36.36-.36.95,0,1.31s.95.36,1.31,0l6.47-6.47c.36-.36.36-.95,0-1.31,0,0,0,0,0,0h0Z"/>
+                                        </svg>
+                                    </div>
                                 </div>
                             </div>
-                        </div>*/}
+                            : null
+                        }
                         <ul className="landing-social d-md-flex d-none">
                             <li>
                                 <a href="">
