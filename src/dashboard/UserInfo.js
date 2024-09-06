@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 import {Link} from "react-router-dom";
 import LevelIcon from "../assets/icons/level.svg";
 import AvatarUpload from "./AvatarUpload";
+import Skeleton from "../components/Skeleton";
 
 
 function UserInfo() {
@@ -113,7 +114,67 @@ function UserInfo() {
     return (
         loading ?
             <div className="container my-profile">
+                <div className="space-50"></div>
+                <div className="row user-info-page">
+                    <div className="col-12">
+                        <div className="user-info-top d-block text-right">
+                            <div className="avatar-container loading">
+                                <Skeleton width={"100%"} height={"100%"} border={1}/>
+                            </div>
+                            <div className=" mr-4 mt-3 d-inline-block">
+                                <Skeleton width={"10rem"} height={"30px"}/>
+                               <div className="mt-2">
+                                   <Skeleton width={"5rem"} height={"20px"}/>
+                               </div>
 
+                            </div>
+                        </div>
+                        <div className="space-50"></div>
+                    </div>
+                    <div className="col-6 text-right">
+                        <Skeleton width={"80px"} height={"20px"}/>
+                        <Skeleton width={"100%"} border={1} height={"45px"}/>
+                    </div>
+                    <div className="col-6 text-right">
+                        <Skeleton width={"80px"} height={"20px"}/>
+                        <Skeleton width={"100%"} border={1} height={"45px"}/>
+                    </div>
+                    <div className="col-6 mt-3 text-right">
+                        <Skeleton width={"80px"} height={"20px"}/>
+                        <Skeleton width={"100%"} border={1} height={"45px"}/>
+                    </div>
+                    <div className="col-6 mt-3 text-right">
+                        <Skeleton width={"60px"} height={"20px"}/>
+                        <Skeleton width={"100%"} border={1} height={"45px"}/>
+                    </div>
+                    <div className="col-12 mt-3 text-right">
+                        <Skeleton width={"80px"} height={"20px"}/>
+                        <Skeleton width={"100%"} border={1} height={"45px"}/>
+                    </div>
+                    <div className="col-6 mt-3 text-right">
+                        <Skeleton width={"80px"} height={"20px"}/>
+                        <Skeleton width={"100%"} border={1} height={"45px"}/>
+                    </div>
+                    <div className="col-6 mt-3 text-right">
+                        <Skeleton width={"80px"} height={"20px"}/>
+                        <Skeleton width={"100%"} border={1} height={"45px"}/>
+                    </div>
+                    <div className="col-12 mt-3 text-right">
+                        <Skeleton width={"80px"} height={"20px"}/>
+                        <Skeleton width={"100%"} border={1} height={"45px"}/>
+                    </div>
+                    <div className="col-12 mt-3 text-right">
+                        <Skeleton width={"80px"} height={"20px"}/>
+                        <Skeleton width={"100%"} border={1} height={"45px"}/>
+                    </div>
+                    <div className="col-12 mt-3 text-right">
+                        <Skeleton width={"80px"} height={"20px"}/>
+                        <Skeleton width={"100%"} border={1} height={"200px"}/>
+                    </div>
+                    <div className="space-50"></div>
+                    <div className="space-50"></div>
+                    <div className="space-25"></div>
+                </div>
             </div>
             :
             <div className="container my-profile">
@@ -127,8 +188,6 @@ function UserInfo() {
                 {/*    </svg>*/}
                 {/*</div>*/}
                 {/*مشخصات کاربری*/}
-
-
                 <div className="row user-info-page">
                     <div className="col-12">
                         <div className="user-info-top">
@@ -139,36 +198,49 @@ function UserInfo() {
                                     :
                                     <img src={UserProfile} alt="profile"/>
                                 }
+                                <AvatarUpload/>
                             </div>
-                            <div>
-
+                            <div className="next-to-avatar">
                                 <div className="account-status">
                                     <div className="attr">
                                         وضعیت حساب کاربری
                                     </div>
                                     {user.status === 1 ?
                                         <div className="active">
-                                            احراز شده
-                                            <svg className="payment-status-icon" xmlns="http://www.w3.org/2000/svg"
+                                            <svg className="payment-status-icon mr-0 ml-2" xmlns="http://www.w3.org/2000/svg"
                                                  viewBox="0 0 512 512">
                                                 <circle className="circle success" cx="256" cy="256" r="256"/>
                                                 <path className="path"
                                                       d="M387.57,193.22l-141.73,155.36c-9.54,10.9-25.89,10.9-35.43,0l-59.96-66.78c-8.18-9.54-8.18-24.53,1.36-34.07,9.54-8.18,24.53-8.18,34.07,1.36l42.25,47.7,124.02-134.92c9.54-9.54,24.53-10.9,34.07-1.36,9.54,8.18,9.54,24.53,1.36,32.71h0Z"/>
                                             </svg>
+                                            احراز شده
+
                                         </div>
                                         :
                                         <div className="active">
-                                            غیر فعال
-                                            <svg className="payment-status-icon" xmlns="http://www.w3.org/2000/svg"
+                                            <svg className="payment-status-icon mr-0 ml-2" xmlns="http://www.w3.org/2000/svg"
                                                  viewBox="0 0 512 512">
                                                 <circle className="circle error" cx="256" cy="256" r="256"/>
                                                 <path className="path"
                                                       d="M366.97,336.46c9.82,9.82,9.82,25.69,0,35.51-4.7,4.72-11.1,7.36-17.76,7.36-6.43,0-12.85-2.46-17.75-7.36l-75.46-75.46-75.46,75.46c-4.7,4.72-11.09,7.36-17.75,7.36-6.66,0-13.05-2.64-17.76-7.36-9.82-9.82-9.82-25.69,0-35.51l75.46-75.46-75.46-75.46c-9.82-9.82-9.82-25.69,0-35.51,9.82-9.82,25.69-9.82,35.51,0l75.46,75.46,75.46-75.46c9.82-9.82,25.69-9.82,35.51,0,9.82,9.82,9.82,25.69,0,35.51l-75.46,75.46,75.46,75.46Z"/>
                                             </svg>
+                                            غیر فعال
+
                                         </div>
                                     }
                                 </div>
-                                <AvatarUpload/>
+                                <div className="change-password">
+                                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+                                         viewBox="0 0 469.333 469.333">
+                                        <g>
+                                            <path
+                                                d="M248.533 192c-17.6-49.707-64.853-85.333-120.533-85.333-70.72 0-128 57.28-128 128s57.28 128 128 128c55.68 0 102.933-35.627 120.533-85.333h92.8v85.333h85.333v-85.333h42.667V192h-220.8zM128 277.333c-23.573 0-42.667-19.093-42.667-42.667S104.427 192 128 192s42.667 19.093 42.667 42.667-19.094 42.666-42.667 42.666z"
+                                            ></path>
+                                        </g>
+                                    </svg>
+                                    تغییر کلمه عبور
+                                </div>
+                                {/*<AvatarUpload/>*/}
 
                             </div>
                         </div>
@@ -215,12 +287,12 @@ function UserInfo() {
                                     <span className="validate-error">
                                    {sendDataError.local_id}
                                 </span>
-                                    :null}
+                                    : null}
                                 {sendDataError.local_id ?
                                     <span className="validate-error ">
                                    {sendDataError.local_id}
                                 </span>
-                                    :null}
+                                    : null}
                             </div>
                         </div>
                     }
@@ -265,7 +337,7 @@ function UserInfo() {
                                     <span className="validate-error ">
                                    {sendDataError.post_code}
                                 </span>
-                                    :null}
+                                    : null}
                             </div>
                         </div>
                     }
@@ -290,13 +362,13 @@ function UserInfo() {
                             <div className="input-nick position-relative">
                                 <input
                                     type="text"
-                                    style={message.length?{borderColor : "#429434"} : null}
+                                    style={message.length ? {borderColor: "#429434"} : null}
                                     placeholder="نام کاربری را وارد کنید"
                                     value={nickName}
                                     onChange={(e) => checkNickName(e.target.value)}
                                     className="input-control nickname-input"/>
                                 {nickNameLoading ?
-                                    <div style={{top : "2px"}} className="spinner-container position-absolute">
+                                    <div style={{top: "2px"}} className="spinner-container position-absolute">
                                         <div className="spinner"></div>
                                     </div> : null}
                                 {message.length ?
@@ -305,22 +377,22 @@ function UserInfo() {
                                         <circle className="circle success" cx="256" cy="256" r="256"></circle>
                                         <path className="path"
                                               d="M387.57,193.22l-141.73,155.36c-9.54,10.9-25.89,10.9-35.43,0l-59.96-66.78c-8.18-9.54-8.18-24.53,1.36-34.07,9.54-8.18,24.53-8.18,34.07,1.36l42.25,47.7,124.02-134.92c9.54-9.54,24.53-10.9,34.07-1.36,9.54,8.18,9.54,24.53,1.36,32.71h0Z"></path>
-                                    </svg>:null}
+                                    </svg> : null}
                                 {nickNameError.length ?
                                     <svg className="payment-status-icon" xmlns="http://www.w3.org/2000/svg"
                                          viewBox="0 0 512 512">
                                         <circle className="circle error" cx="256" cy="256" r="256"/>
                                         <path className="path"
                                               d="M366.97,336.46c9.82,9.82,9.82,25.69,0,35.51-4.7,4.72-11.1,7.36-17.76,7.36-6.43,0-12.85-2.46-17.75-7.36l-75.46-75.46-75.46,75.46c-4.7,4.72-11.09,7.36-17.75,7.36-6.66,0-13.05-2.64-17.76-7.36-9.82-9.82-9.82-25.69,0-35.51l75.46-75.46-75.46-75.46c-9.82-9.82-9.82-25.69,0-35.51,9.82-9.82,25.69-9.82,35.51,0l75.46,75.46,75.46-75.46c9.82-9.82,25.69-9.82,35.51,0,9.82,9.82,9.82,25.69,0,35.51l-75.46,75.46,75.46,75.46Z"/>
-                                    </svg>:null}
-                                    </div>
+                                    </svg> : null}
+                            </div>
                             {sendDataError.nickname ?
                                 <span className="validate-error ">
                                    {sendDataError.nickname}
                                 </span>
-                                :null}
-                            </div>
-                                }
+                                : null}
+                        </div>
+                    }
                     {user.address ?
                         <div className="col-12 mt-3">
                             <label className="input-label">آدرس</label>
@@ -339,18 +411,17 @@ function UserInfo() {
                         </div>
                     }
 
-                                <div className="col-12 mt-3">
-                                    <label className="input-label">توضیحات پروفایل</label>
-                                    <div className="input position-relative">
+                    <div className="col-12 mt-3">
+                        <label className="input-label">توضیحات پروفایل</label>
+                        <div className="input position-relative">
                                 <textarea
                                     rows={10}
                                     placeholder="توضیحات پروفایل ..."
                                     value={profileDescription}
                                     onChange={(e) => setProfileDescription(e.target.value)}
                                     className="input-control"/>
-                                    </div>
-                                </div>
-
+                        </div>
+                    </div>
 
 
                     <div className="col-12">
@@ -376,8 +447,8 @@ function UserInfo() {
                     <div className="space-50"></div>
                     <div className="space-25"></div>
 
-                                {/*<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.5 21.5">*/}
-                                {/*    <path d="M13.25,7h-7c-.08,0-.17,0-.25.01v-2.89c0-1.45,1.18-2.62,2.62-2.62h2.3c1.42,0,2.57,1.15,2.57,2.57,0,.41.34.75.75.75s.75-.34.75-.75c0-2.25-1.83-4.07-4.07-4.07h-2.3c-2.27,0-4.12,1.85-4.12,4.12v3.13c-2.6.76-4.5,3.16-4.5,6v2c0,3.45,2.8,6.25,6.25,6.25h7c3.45,0,6.25-2.8,6.25-6.25v-2c0-3.45-2.8-6.25-6.25-6.25ZM18,15.25c0,2.62-2.13,4.75-4.75,4.75h-7c-2.62,0-4.75-2.13-4.75-4.75v-2c0-2.62,2.13-4.75,4.75-4.75h7c2.62,0,4.75,2.13,4.75,4.75v2Z"/>*/}
+                    {/*<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.5 21.5">*/}
+                    {/*    <path d="M13.25,7h-7c-.08,0-.17,0-.25.01v-2.89c0-1.45,1.18-2.62,2.62-2.62h2.3c1.42,0,2.57,1.15,2.57,2.57,0,.41.34.75.75.75s.75-.34.75-.75c0-2.25-1.83-4.07-4.07-4.07h-2.3c-2.27,0-4.12,1.85-4.12,4.12v3.13c-2.6.76-4.5,3.16-4.5,6v2c0,3.45,2.8,6.25,6.25,6.25h7c3.45,0,6.25-2.8,6.25-6.25v-2c0-3.45-2.8-6.25-6.25-6.25ZM18,15.25c0,2.62-2.13,4.75-4.75,4.75h-7c-2.62,0-4.75-2.13-4.75-4.75v-2c0-2.62,2.13-4.75,4.75-4.75h7c2.62,0,4.75,2.13,4.75,4.75v2Z"/>*/}
                     {/*    <path d="M9.75,11c-.96,0-1.75.79-1.75,1.75,0,.7.41,1.3,1,1.58v1.42c0,.41.34.75.75.75s.75-.34.75-.75v-1.42c.59-.28,1-.88,1-1.58,0-.96-.79-1.75-1.75-1.75ZM9.5,12.75c0-.14.11-.25.25-.25s.25.11.25.25c0,.28-.5.28-.5,0Z"/>*/}
                     {/*</svg>*/}
                     {/*تغییر کلمه عبور*/}

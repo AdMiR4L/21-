@@ -3,8 +3,8 @@ import LevelIcon from "../assets/icons/level.svg";
 import AvatarImage from "../assets/avatar.png";
 import './TopPlayers.css'
 import Skeleton from "../components/Skeleton";
+import ConvertToShamsiDate from "../components/ConverToShamsiDate";
 function TopPlayers(props) {
-    if (props.isLoading)
     return (
         <aside className="col-12">
             <div className="section-top">
@@ -55,7 +55,7 @@ function TopPlayers(props) {
                 :
                 <div className="top-players">
                     <ul className="player-cards">
-                        {props.players.map((player, index) => {
+                        {props.leaderBoard.slice(0, 5).map((player, index) => {
                             return (
                                 <li key={index} className="player">
                                     <div className="avatar">
@@ -67,7 +67,7 @@ function TopPlayers(props) {
                                             }
 
                                         </div>
-                                        <div className="number">#1</div>
+                                        <div className="number">#{index+1}</div>
                                     </div>
                                     <ul className="player-info">
                                         <li className="head">
@@ -106,8 +106,10 @@ function TopPlayers(props) {
                                                 امتیاز
                                             </div>
                                             <div className="item reg-date">
-                                                از
-                                                مهر 1399
+                                                <span className="ml-1">
+                                                    از
+                                                </span>
+                                                <ConvertToShamsiDate leaderboard={1} gregorianDate={player.created_at}/>
                                             </div>
                                         </li>
                                     </ul>

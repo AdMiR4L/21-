@@ -42,7 +42,7 @@ function Landing(props) {
                         </div>
                     </div>
                     <div className="col-12">
-                        {!props.isLoading ?
+                        {/*{!props.isLoading ?
                             <div className="top-player">
                                 <div className="player-card">
                                     <div className="player-avatar">
@@ -87,7 +87,7 @@ function Landing(props) {
                                 </div>
                             </div>
                             : null
-                        }
+                        }*/}
                         <ul className="landing-social d-md-flex d-none">
                             <li>
                                 <a href="">

@@ -17,6 +17,43 @@ function Dashboard() {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
+    const xpThresholds = {
+        21 : 5242880, 20 :2621440, 19 : 1310720,
+        18 : 655360, 17 :327680, 16 : 163840,
+        15 : 81920, 14 :40960, 13 : 20480,
+        12 : 10240, 11 :5120, 10 : 2560,
+        9 : 1280, 8 : 640, 7: 320,
+        6 : 160, 5 :80, 4 :40,
+        3 : 20, 2 :10};
+
+    function XPBar({ user }) {
+        const currentLevel = user.level;
+        const currentXP = user.xp;
+
+        // Get the XP required for the current and next level
+        const currentLevelXP = xpThresholds[currentLevel] || 0;
+        const nextLevelXP = xpThresholds[currentLevel + 1] || currentLevelXP;
+
+        // Calculate the XP percentage towards the next level
+        const xpProgress = ((currentXP - currentLevelXP) / (nextLevelXP - currentLevelXP)) * 100;
+
+        return (
+            <ul className="experience">
+                <li className="range">
+                    <div style={{width: `${xpProgress}%`}} className="xp-range"></div>
+                </li>
+                <li className="xp-count">
+                    <div className="info">
+                        {currentXP}
+                        <span className="slash">/</span>
+                        {nextLevelXP}
+                    </div>
+                    <div className="txt">EXP</div>
+                </li>
+            </ul>
+    )
+        ;
+    }
 
     function get() {
         const headers = {
@@ -208,8 +245,7 @@ function Dashboard() {
 
                             </li>
                         </ul>
-                        <ul className="experience">
-                            <li className="level"></li>
+                        {/*<ul className="experience">
                             <li className="range">
                                 <div style={{width: user.xp / user.level * 10 + "%"}} className="xp-range"></div>
                             </li>
@@ -221,7 +257,8 @@ function Dashboard() {
                                 </div>
                                 <div className="txt">EXP</div>
                             </li>
-                        </ul>
+                        </ul>*/}
+                        <XPBar user={user}/>
                         <div className="wallet">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512.08">
                                 <path

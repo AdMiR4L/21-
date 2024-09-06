@@ -644,31 +644,36 @@ h1 {
 .admin-access{
     text-align: right;
     margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     .edit-btn{
-        border-radius: 50px;
+        border-radius: 10px;
+        flex: 1;
         background-color: #fff;
-        font-size: 15px;
-        font-weight: 500;
-        padding: 5px 25px;
+        font-family: iranyekan;
+        font-size: 13px;
+        font-weight: 400;
+        padding: 10px;
         border: 2px dashed #e1e1e1;
         display: inline-block;
         cursor: pointer;
         margin-left: 15px;
-        width: calc(100% / 3 - 10px);
+        //width: calc(100% / 3 - 10px);
         text-align: center;
         &:nth-last-child(1){
             margin-left: 0;
         }
-        @media screen and (max-width: 1200px){
-            width: calc(100% / 2 - 8px);
-            &:nth-last-child(2){
-                margin-left: 0;
-            }
-            &:nth-last-child(1){
-                width: 100%;
-                margin-top: 15px;
-            }
-        }
+        //@media screen and (max-width: 1200px){
+        //    width: calc(100% / 2 - 8px);
+        //    &:nth-last-child(2){
+        //        margin-left: 0;
+        //    }
+        //    &:nth-last-child(1){
+        //        width: 100%;
+        //        margin-top: 15px;
+        //    }
+        //}
         .edit-icon{
             fill: #cccccc;
             width: 20px;

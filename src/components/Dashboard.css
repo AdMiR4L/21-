@@ -618,34 +618,26 @@ h1 {
 .admin-access {
   text-align: right;
   margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .admin-access .edit-btn {
-  border-radius: 50px;
+  border-radius: 10px;
+  flex: 1;
   background-color: #fff;
-  font-size: 15px;
-  font-weight: 500;
-  padding: 5px 25px;
+  font-family: iranyekan;
+  font-size: 13px;
+  font-weight: 400;
+  padding: 10px;
   border: 2px dashed #e1e1e1;
   display: inline-block;
   cursor: pointer;
   margin-left: 15px;
-  width: calc(33.3333333333% - 10px);
   text-align: center;
 }
 .admin-access .edit-btn:nth-last-child(1) {
   margin-left: 0;
-}
-@media screen and (max-width: 1200px) {
-  .admin-access .edit-btn {
-    width: calc(50% - 8px);
-  }
-  .admin-access .edit-btn:nth-last-child(2) {
-    margin-left: 0;
-  }
-  .admin-access .edit-btn:nth-last-child(1) {
-    width: 100%;
-    margin-top: 15px;
-  }
 }
 .admin-access .edit-btn .edit-icon {
   fill: #cccccc;
@@ -1158,11 +1150,97 @@ input[type=number] {
   padding: 5px;
 }
 
+.user-info-top {
+  text-align: right;
+}
+@media screen and (max-width: 370px) {
+  .user-info-top {
+    text-align: center;
+  }
+}
+.user-info-top .next-to-avatar {
+  display: inline-block;
+  margin-right: 30px;
+  position: absolute;
+  top: 0;
+  margin-top: 10px;
+}
+@media screen and (max-width: 400px) {
+  .user-info-top .next-to-avatar {
+    margin-right: 15px;
+  }
+}
+@media screen and (max-width: 370px) {
+  .user-info-top .next-to-avatar {
+    position: relative;
+    width: 100%;
+    margin-right: 0;
+  }
+}
+.user-info-top .next-to-avatar .change-password {
+  font-family: IRANYekan;
+  font-size: 13px;
+  font-weight: 400;
+  background-color: #efefef;
+  padding: 10px 0;
+  text-align: center;
+  border-radius: 15px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+.user-info-top .next-to-avatar .change-password svg {
+  width: 20px;
+  margin-left: 5px;
+  fill: #bcbec0;
+}
+.user-info-top .account-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: iranyekan;
+  font-size: 13px;
+  width: 100%;
+  padding: 0 15px;
+}
+.user-info-top .account-status .attr {
+  color: #bcbec0;
+  font-weight: 400;
+}
+.user-info-top .account-status .active {
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-right: 15px;
+}
+.user-info-top .account-status .payment-status-icon {
+  margin-right: 10px;
+  width: 16px;
+}
+.user-info-top .account-status .payment-status-icon .circle {
+  fill: #BC080E;
+}
+.user-info-top .account-status .payment-status-icon .circle.success {
+  fill: #429434;
+}
+.user-info-top .account-status .payment-status-icon .path {
+  fill: #fff;
+}
+
 .avatar-container {
+  position: relative;
+  border: 4px dashed #bcbec0;
   width: 85px;
   height: 85px;
   border-radius: 20px;
   overflow: hidden;
+  display: inline-block;
+}
+.avatar-container.loading {
+  border: transparent;
+  display: inline-block;
+  box-shadow: none;
 }
 .avatar-container img {
   width: 100%;
@@ -1181,9 +1259,6 @@ input[type=number] {
   font-family: IRANYekan;
 }
 
-.user-info-top {
-  display: flex;
-}
 .user-info-top .choose-image {
   background-color: #BC080E;
   margin-top: 20px;
@@ -1196,37 +1271,6 @@ input[type=number] {
   font-size: 13px;
   font-weight: 400;
   margin-right: 25px;
-}
-.user-info-top .account-status {
-  margin-right: 30px;
-  display: flex;
-  align-items: center;
-  font-family: iranyekan;
-  font-size: 13px;
-  width: 100%;
-}
-.user-info-top .account-status .active {
-  background-color: #efefef;
-  display: flex;
-  align-items: center;
-  border-radius: 10px;
-  padding: 5px 15px;
-  font-size: 14px;
-  font-weight: 600;
-  margin-right: 15px;
-}
-.user-info-top .account-status .payment-status-icon {
-  margin-right: 10px;
-  width: 16px;
-}
-.user-info-top .account-status .payment-status-icon .circle {
-  fill: #BC080E;
-}
-.user-info-top .account-status .payment-status-icon .circle.success {
-  fill: #429434;
-}
-.user-info-top .account-status .payment-status-icon .path {
-  fill: #fff;
 }
 
 .message-nick {
@@ -1343,6 +1387,23 @@ input[type=number] {
   font-size: 12px;
   color: #888;
   margin-top: 5px;
+}
+
+.avatar-upload-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 50;
+  cursor: pointer;
+}
+
+.choose-avatar-container {
+  width: 100%;
+}
+.choose-avatar-container img {
+  width: 100%;
 }
 
 /*# sourceMappingURL=Dashboard.css.map */
