@@ -20,6 +20,7 @@ function App() {
     const [user, setUser] = useState({
         loggedIn : localStorage.getItem("loggedIn"),
     });
+    const [networkError, setNetworkError] = useState(false);
     const [loginModal, setLoginModal] = useState(false);
   return (
 
@@ -34,7 +35,12 @@ function App() {
               <Routes>
                   <Route path="/" element={<Layout />}>
                       <Route index element={<Home user={user} setUser={setUser} loginModal={loginModal} setloginModal={setLoginModal} />} />
-                      <Route path="game/:id" element={<Game loginModal={loginModal} setloginModal={setLoginModal} />} />
+                      <Route path="game/:id"
+                             element={<Game
+                                 setNetworkError={setNetworkError}
+                                 loginModal={loginModal}
+                                 setloginModal={setLoginModal} />}
+                      />
                       <Route path="dashboard" element={<Dashboard />} />
                       <Route path="dashboard/user/info" element={<UserInfo/>} />
                       <Route path="verify/zarinpal/:id" element={<PaymentReceipt />} />

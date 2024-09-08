@@ -186,10 +186,6 @@ function Game(props) {
                         }));
                     });
                 }
-                //console.log(JSON.parse(response.data.reserves[0]).chair_no)
-                //console.log(response.data.reserves[0])
-                //console.log(response.data.game.capacity)
-                //console.log(response.data.reserves.find(obj => JSON.parse(obj.chair_no) === parseInt(response.data.game.capacity)))
                 setUnavailable(response.data.unavailable);
                 setPriceInput(response.data.game.price);
                 setGodInput(response.data.game.god_id ? response.data.game.god.name : "");
@@ -202,7 +198,6 @@ function Game(props) {
                     setScenarioCitizenCount(citizen ? citizen.pivot.count : "");
                     setScenarioMafiaCount(mafia ? mafia.pivot.count : 0);
                     setSelectedCharacters(response.data.game.scenario.characters)
-
                     if (response.data.game.game_characters){
                         //setChosableCharacters(JSON.parse(response.data.game.game_characters))
                         setSelectedCharacters(JSON.parse(response.data.game.game_characters))
@@ -210,7 +205,6 @@ function Game(props) {
                         const mafia = JSON.parse(response.data.game.game_characters).find(obj => obj.id === 5);
                         setScenarioCitizenCount(citizen ? citizen.count : "");
                         setScenarioMafiaCount(mafia ? mafia.count : 0);
-
                     }
                     else{
                         setChosableCharacters(response.data.game.scenario.characters.map((character, index) => {
@@ -242,11 +236,8 @@ function Game(props) {
                             [user.user_id]: user.score,
                         }));
                     });
-                // Ensure win_side is defined and not null or undefined
                 if (response.data.game.win_side !== undefined && response.data.game.win_side !== null) {
-                    // Create a new array with all false values
                     const newWinSide = [false, false, false];
-
                     // Check if win_side is an array
                     if (Array.isArray(response.data.game.win_side)) {
                         // Update the relevant indices in the newWinSide array to true
@@ -261,12 +252,16 @@ function Game(props) {
                             newWinSide[response.data.game.win_side] = true;
                         }
                     }
-
                     // Set the state with the updated array
                     setWinSide(newWinSide);
                 }
                 setIsLoading(false)
+            })
+            .catch(error => {
+                console.log(error)
             });
+
+
     }
 
     function editGame() {
@@ -619,6 +614,7 @@ function Game(props) {
         getGame()
         document.title = '21+ Game Reservation'
         window.scrollTo(0, 0);
+        //console.log(game.god)
     }, []);
 
 
@@ -648,8 +644,10 @@ function Game(props) {
                     <Modal show={showReserveModal} onHide={() => setShowReserveModal(!showReserveModal)} centered className="cube-info-modal custom-modal">
                         <Modal.Header>
                             <Modal.Title>
-                                برنامه مافیا سالن
-                                {game.salon}
+                                <span> برنامه مافیا سالن</span>
+                                <span  className="ml-auto">  {game.salon === "1" ? "اول" :
+                                    game.salon === "2" ? "دوم"
+                                        : "سوم"}</span>
                             </Modal.Title>
                             <svg onClick={() => setShowReserveModal(!showReserveModal)}
                                  className="modal-cross-icon" xmlns="http://www.w3.org/2000/svg"
@@ -661,54 +659,66 @@ function Game(props) {
                         <Modal.Body>
                             <div className="modal-mafi">
                                 <div className="info modal-mafia-info">
-                                    <ul className="mafia-info">
-                                        <li className="item">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24.1 23.07">
-                                                <path
-                                                    d="M10.76.8l-2.94,5.96-6.58.96c-.79.11-1.33.85-1.22,1.63.05.31.19.6.42.82l4.77,4.64-1.13,6.55c-.13.78.39,1.53,1.18,1.66.31.05.63,0,.91-.15l5.89-3.09,5.89,3.09c.7.37,1.58.1,1.95-.61.15-.28.2-.6.14-.91l-1.12-6.55,4.76-4.64c.57-.56.58-1.47.02-2.04-.22-.23-.51-.37-.82-.42l-6.58-.96L13.34.8c-.35-.71-1.22-1.01-1.93-.65-.28.14-.51.37-.65.65Z"/>
-                                            </svg>
-                                            <span className="attr">سطح </span>
-                                            <span></span>
-                                            <span className="val">بدون محدودیت</span>
-                                        </li>
-                                        <li className="item">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60.17 60.17">
-                                                <path
-                                                    d="M51.57,60.17h6.45c1.19,0,2.15-.96,2.15-2.15v-6.45c0-1.19-.96-2.15-2.15-2.15s-2.15.96-2.15,2.15v4.3h-4.3c-1.19,0-2.15.96-2.15,2.15s.96,2.15,2.15,2.15ZM8.6,55.87h-4.3v-4.3c0-1.19-.96-2.15-2.15-2.15s-2.15.96-2.15,2.15v6.45c0,1.19.96,2.15,2.15,2.15h6.45c1.19,0,2.15-.96,2.15-2.15s-.96-2.15-2.15-2.15ZM10.74,51.57h38.68c1.19,0,2.15-.96,2.15-2.15,0-5.96-2.61-9.74-4.97-11.51-1.32-.98-2.63-1.39-3.62-1.39-2.28,0-3.99.65-5.7,1.47-1.91.92-3.81,2.11-7.19,2.11-3.55,0-5.84-1.19-7.81-2.12-1.77-.84-3.36-1.47-5.09-1.47-1,0-2.35.45-3.68,1.51-2.36,1.88-4.92,5.8-4.92,11.38,0,1.19.96,2.15,2.15,2.15ZM42.57,25.79h-25.69c.97,2.27,2.28,4.42,3.85,6.16,2.51,2.81,5.65,4.58,9,4.58s6.49-1.77,9-4.58c1.56-1.75,2.88-3.89,3.84-6.16h0ZM6.45,23.64h47.27c1.19,0,2.15-.96,2.15-2.15s-.96-2.15-2.15-2.15H6.45c-1.19,0-2.15.96-2.15,2.15s.96,2.15,2.15,2.15ZM15.04,17.19h29.36c-.14-8.35-6.69-15.04-14.68-15.04s-14.54,6.69-14.68,15.04ZM8.6,0H2.15C.96,0,0,.96,0,2.15v6.45c0,1.19.96,2.15,2.15,2.15s2.15-.96,2.15-2.15v-4.3h4.3c1.19,0,2.15-.96,2.15-2.15s-.96-2.15-2.15-2.15ZM51.57,4.3h4.3v4.3c0,1.19.96,2.15,2.15,2.15s2.15-.96,2.15-2.15V2.15c0-1.19-.96-2.15-2.15-2.15h-6.45c-1.19,0-2.15.96-2.15,2.15s.96,2.15,2.15,2.15Z"/>
-                                            </svg>
-                                            <span className="attr">شناسه رویداد</span>
-                                            <span className="val price"> {game.id}#</span>
-                                        </li>
-                                    </ul>
-                                    <ul className="mafia-info">
-                                        <li className="item">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 480">
-                                                <path
-                                                    d="M479.82,144h-95.82c-35.35,0-64-28.65-64-64V0h-192C57.3,0,0,57.3,0,128v224c0,70.7,57.3,128,128,128h224c70.7,0,128-57.3,128-128v-203.14c0-1.62-.06-3.25-.18-4.86ZM216,336h-96c-8.84,0-16-7.16-16-16s7.16-16,16-16h96c8.84,0,16,7.16,16,16s-7.16,16-16,16ZM360,240H120c-8.84,0-16-7.16-16-16s7.16-16,16-16h240c8.84,0,16,7.16,16,16s-7.16,16-16,16Z"/>
-                                                <path
-                                                    d="M384,112h84.32c-2.51-3.57-5.41-6.9-8.65-9.93l-90.92-84.86c-4.99-4.66-10.66-8.46-16.75-11.28v74.06c0,17.67,14.33,32,32,32Z"/>
-                                            </svg>
-                                            <span className="attr">سناریو </span>
-                                            <span></span>
-                                            <span className="val">
-                                        {game.game_scenario?
-                                            game.scenario.name
-                                            :
-                                            "در انتظار"
-                                        }
+                                    <div className="d-flex justify-content-between align-items-center w-100">
+                                        <ul className="mafia-info">
+                                            <li className="item">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 480">
+                                                    <path
+                                                        d="M479.82,144h-95.82c-35.35,0-64-28.65-64-64V0h-192C57.3,0,0,57.3,0,128v224c0,70.7,57.3,128,128,128h224c70.7,0,128-57.3,128-128v-203.14c0-1.62-.06-3.25-.18-4.86ZM216,336h-96c-8.84,0-16-7.16-16-16s7.16-16,16-16h96c8.84,0,16,7.16,16,16s-7.16,16-16,16ZM360,240H120c-8.84,0-16-7.16-16-16s7.16-16,16-16h240c8.84,0,16,7.16,16,16s-7.16,16-16,16Z"/>
+                                                    <path
+                                                        d="M384,112h84.32c-2.51-3.57-5.41-6.9-8.65-9.93l-90.92-84.86c-4.99-4.66-10.66-8.46-16.75-11.28v74.06c0,17.67,14.33,32,32,32Z"/>
+                                                </svg>
+                                                <span className="attr">سناریو </span>
+                                                <span></span>
+                                                <span className="val">
+                                         {game.game_scenario ?
+                                             game.scenario.name
+                                             :
+                                             "در انتظار"
+                                         }
                                     </span>
-                                        </li>
-                                        <li className="item">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60.62 60.62">
-                                                <path
-                                                    d="M30.31,0C13.57,0,0,13.57,0,30.31s13.57,30.31,30.31,30.31,30.31-13.57,30.31-30.31c0-16.74-13.57-30.31-30.31-30.31h0ZM40.52,40.52c-1.08,1.08-2.82,1.08-3.9,0l-8.26-8.26c-.52-.52-.81-1.22-.81-1.95V13.78c0-1.52,1.23-2.76,2.75-2.76s2.76,1.23,2.76,2.75h0v15.39l7.46,7.46c1.08,1.08,1.08,2.82,0,3.9h0Z"/>
-                                            </svg>
-                                            <span className="attr">زمان</span>
-                                            <span className="val price">{game.clock.split('-')[0]}</span>
-                                            <span className="notice pl-1">الی</span>
-                                            <span className="val price">{game.clock.split('-')[1]}</span>
-                                        </li>
-                                    </ul>
+                                                {game.game_scenario ?
+                                                    <svg onClick={() => setShowScenarioModal(true)} className="q-mark"
+                                                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                                        <path
+                                                            d="M256.8,0C114.8-.4-.4,114.8,0,256.8c.4,140.4,117.5,255.2,257.9,255.2h254.1v-254.1C512,117.5,397.2.4,256.8,0ZM278.8,386.4c-6.7,5.9-15,8.9-25,8.9s-18.3-3-25-8.9-10-13.5-10-22.7,3.3-16.8,10-22.7,15-8.9,25-8.9,18.3,3,25,8.9,10,13.5,10,22.7-3.4,16.7-10,22.7ZM338,219.1c-4.1,8.5-10.7,17.2-19.8,26l-21.5,20c-6.1,5.9-10.4,11.9-12.7,18.1-2.4,6.2-3.7,14-3.9,23.5h-53.6c0-18.2,2.1-32.6,6.2-43.1,4.2-10.7,11.1-20.1,20-27.4,9.2-7.7,16.3-14.8,21.1-21.2,4.7-6.1,7.2-13.6,7.2-21.2,0-18.8-8.1-28.3-24.3-28.3-7-.2-13.7,2.8-18.1,8.2-4.6,5.5-7.1,12.9-7.3,22.3h-63.2c.3-25,8.1-44.4,23.6-58.3s37.2-20.9,65.1-20.9,49.4,6.4,64.7,19.3,22.9,31.1,22.9,54.8c-.1,9.7-2.2,19.4-6.4,28.2Z"/>
+                                                    </svg>
+                                                    : null}
+
+                                            </li>
+                                            <li className="item">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60.62 60.62">
+                                                    <path
+                                                        d="M30.31,0C13.57,0,0,13.57,0,30.31s13.57,30.31,30.31,30.31,30.31-13.57,30.31-30.31c0-16.74-13.57-30.31-30.31-30.31h0ZM40.52,40.52c-1.08,1.08-2.82,1.08-3.9,0l-8.26-8.26c-.52-.52-.81-1.22-.81-1.95V13.78c0-1.52,1.23-2.76,2.75-2.76s2.76,1.23,2.76,2.75h0v15.39l7.46,7.46c1.08,1.08,1.08,2.82,0,3.9h0Z"/>
+                                                </svg>
+                                                <span className="attr">زمان</span>
+                                                <span className="val price">{game.clock.split('-')[0]}</span>
+                                                <span className="notice pl-1">الی</span>
+                                                <span className="val price">{game.clock.split('-')[1]}</span>
+                                            </li>
+                                        </ul>
+                                        <ul className="mafia-info left">
+                                            <li className="item">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24.1 23.07">
+                                                    <path
+                                                        d="M10.76.8l-2.94,5.96-6.58.96c-.79.11-1.33.85-1.22,1.63.05.31.19.6.42.82l4.77,4.64-1.13,6.55c-.13.78.39,1.53,1.18,1.66.31.05.63,0,.91-.15l5.89-3.09,5.89,3.09c.7.37,1.58.1,1.95-.61.15-.28.2-.6.14-.91l-1.12-6.55,4.76-4.64c.57-.56.58-1.47.02-2.04-.22-.23-.51-.37-.82-.42l-6.58-.96L13.34.8c-.35-.71-1.22-1.01-1.93-.65-.28.14-.51.37-.65.65Z"/>
+                                                </svg>
+                                                <span className="attr  d-inline-block">سطح بازی</span>
+                                                <span></span>
+                                                <span
+                                                    className="val d-inline-block">{["A", "B", "C", "D", "21"].every(substring => gradeInput.indexOf(substring) !== -1) ? "آزاد" :
+                                                    <div className="grade-required">{gradeInput}</div>}</span>
+                                            </li>
+                                            <li className="item">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60.17 60.17">
+                                                    <path
+                                                        d="M51.57,60.17h6.45c1.19,0,2.15-.96,2.15-2.15v-6.45c0-1.19-.96-2.15-2.15-2.15s-2.15.96-2.15,2.15v4.3h-4.3c-1.19,0-2.15.96-2.15,2.15s.96,2.15,2.15,2.15ZM8.6,55.87h-4.3v-4.3c0-1.19-.96-2.15-2.15-2.15s-2.15.96-2.15,2.15v6.45c0,1.19.96,2.15,2.15,2.15h6.45c1.19,0,2.15-.96,2.15-2.15s-.96-2.15-2.15-2.15ZM10.74,51.57h38.68c1.19,0,2.15-.96,2.15-2.15,0-5.96-2.61-9.74-4.97-11.51-1.32-.98-2.63-1.39-3.62-1.39-2.28,0-3.99.65-5.7,1.47-1.91.92-3.81,2.11-7.19,2.11-3.55,0-5.84-1.19-7.81-2.12-1.77-.84-3.36-1.47-5.09-1.47-1,0-2.35.45-3.68,1.51-2.36,1.88-4.92,5.8-4.92,11.38,0,1.19.96,2.15,2.15,2.15ZM42.57,25.79h-25.69c.97,2.27,2.28,4.42,3.85,6.16,2.51,2.81,5.65,4.58,9,4.58s6.49-1.77,9-4.58c1.56-1.75,2.88-3.89,3.84-6.16h0ZM6.45,23.64h47.27c1.19,0,2.15-.96,2.15-2.15s-.96-2.15-2.15-2.15H6.45c-1.19,0-2.15.96-2.15,2.15s.96,2.15,2.15,2.15ZM15.04,17.19h29.36c-.14-8.35-6.69-15.04-14.68-15.04s-14.54,6.69-14.68,15.04ZM8.6,0H2.15C.96,0,0,.96,0,2.15v6.45c0,1.19.96,2.15,2.15,2.15s2.15-.96,2.15-2.15v-4.3h4.3c1.19,0,2.15-.96,2.15-2.15s-.96-2.15-2.15-2.15ZM51.57,4.3h4.3v4.3c0,1.19.96,2.15,2.15,2.15s2.15-.96,2.15-2.15V2.15c0-1.19-.96-2.15-2.15-2.15h-6.45c-1.19,0-2.15.96-2.15,2.15s.96,2.15,2.15,2.15Z"/>
+                                                </svg>
+                                                <span className="attr">شناسه رویداد</span>
+                                                <span className="val price">{game.id}#</span>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                                 <div className="modal-divide-head">صندلی های انتخاب شده</div>
 
@@ -1062,21 +1072,17 @@ function Game(props) {
                                 </ul>
                             </div>
 
+                            <li className="secondary-btn twin-buttons" onClick={() => setShowGameScoresModal(false)}>انصراف</li>
                             {sendDataLoading ?
-                                <span className="primary-btn twin-btn">
-                                   <div className="loader-container">
-                                       <div className="loader">
-                                       </div>
-                                   </div>
-                                </span>
+                                <li className="primary-btn twin-buttons">
+                                    <div className="loader-container">
+                                        <div className="loader">
+                                        </div>
+                                    </div>
+                                </li>
                                 :
-                                <li className="primary-btn twin-btn" onClick={() => saveUsersScore()}>
-                                    <svg className="game-setting-icons" xmlns="http://www.w3.org/2000/svg"
-                                         viewBox="0 0 512.04 512.08">
-                                        <path
-                                            d="M0,154.32c0-7.51,3.93-14.44,10.35-18.28L220.74,9.81c21.7-13.08,48.85-13.08,70.55,0l210.37,126.23c10.1,6.07,13.36,19.18,7.29,29.28-1.8,2.99-4.3,5.49-7.29,7.29l-210.37,126.23c-21.7,13.05-48.83,13.05-70.53,0L10.35,172.63C3.93,168.77,0,161.83,0,154.34v-.02ZM490.67,405.41h-42.67v-42.67c0-11.78-9.55-21.33-21.33-21.33s-21.33,9.55-21.33,21.33v42.67h-42.67c-11.78,0-21.33,9.55-21.33,21.33s9.55,21.33,21.33,21.33h42.67v42.67c0,11.78,9.55,21.33,21.33,21.33s21.33-9.55,21.33-21.33v-42.67h42.67c11.78,0,21.33-9.55,21.33-21.33s-9.55-21.33-21.33-21.33ZM266.99,467.58L32.32,326.78c-10.1-6.06-23.21-2.79-29.27,7.32-6.06,10.1-2.79,23.21,7.32,29.27l234.67,140.8c10.1,6.06,23.2,2.79,29.26-7.31,6.06-10.1,2.79-23.2-7.31-29.26v-.02ZM479.7,229.35l-223.68,134.21L32.32,229.35c-10.1-6.06-23.21-2.79-29.27,7.32s-2.79,23.21,7.32,29.27l234.67,140.8c6.76,4.06,15.21,4.06,21.97,0l234.67-140.8c10.1-6.06,13.38-19.17,7.32-29.27s-19.17-13.38-29.27-7.32h-.02Z"/>
-                                    </svg>
-                                    ذخیره تنظیمات
+                                <li className="primary-btn twin-buttons " onClick={() => saveUsersScore()}>
+                                    ذخیره نتیجه
                                 </li>
                             }
                         </Modal.Body>
@@ -1166,7 +1172,8 @@ function Game(props) {
                                                 >
                                                     <ul className="users">
                                                         <li className="user-item">
-                                                            <svg className="user-icons" xmlns="http://www.w3.org/2000/svg"
+                                                            <svg className="user-icons"
+                                                                 xmlns="http://www.w3.org/2000/svg"
                                                                  viewBox="0 0 384 512">
                                                                 <path
                                                                     d="M384,512h-42.67v-107.58c-.04-34.82-28.26-63.05-63.08-63.08H105.75c-34.82.04-63.05,28.26-63.08,63.08v107.58H0v-107.58c.07-58.37,47.37-105.68,105.75-105.75h172.5c58.37.07,105.68,47.37,105.75,105.75v107.58ZM192,256c-70.69,0-128-57.31-128-128S121.31,0,192,0s128,57.31,128,128c-.07,70.66-57.34,127.93-128,128ZM192,42.67c-47.13,0-85.33,38.21-85.33,85.33s38.21,85.33,85.33,85.33,85.33-38.21,85.33-85.33-38.21-85.33-85.33-85.33Z"/>
@@ -1176,7 +1183,8 @@ function Game(props) {
 
                                                         <li className="user-item">
 
-                                                            <svg className="user-icons" xmlns="http://www.w3.org/2000/svg"
+                                                            <svg className="user-icons"
+                                                                 xmlns="http://www.w3.org/2000/svg"
                                                                  viewBox="0 0 341.33 512">
                                                                 <path
                                                                     d="M234.67,512H106.67c-58.82,0-106.67-47.85-106.67-106.67V106.67C0,47.85,47.85,0,106.67,0h128c58.82,0,106.67,47.85,106.67,106.67v298.67c0,58.82-47.85,106.67-106.67,106.67ZM106.67,42.67c-35.29,0-64,28.71-64,64v298.67c0,35.29,28.71,64,64,64h128c35.29,0,64-28.71,64-64V106.67c0-35.29-28.71-64-64-64H106.67ZM213.33,405.33c0-11.78-9.55-21.33-21.33-21.33h-42.67c-11.78,0-21.33,9.55-21.33,21.33s9.55,21.33,21.33,21.33h42.67c11.78,0,21.33-9.55,21.33-21.33Z"/>
@@ -1271,19 +1279,20 @@ function Game(props) {
                                         : null}
                                 </li>
 
-
+                                <li className="secondary-btn twin-buttons" onClick={() => setShowEditModal(false)}>انصراف</li>
                                 {sendDataLoading ?
-                                    <span className="primary-btn">
-                                   <div className="loader-container">
-                                       <div className="loader">
-                                       </div>
-                                   </div>
-                                </span>
+                                    <li className="primary-btn twin-buttons">
+                                        <div className="loader-container">
+                                            <div className="loader">
+                                            </div>
+                                        </div>
+                                    </li>
                                     :
-                                    <li className="primary-btn mt-3" onClick={() => editGame()}>
-                                        ویرایش مشخصات بازی
+                                    <li className="primary-btn twin-buttons " onClick={() => editGame()}>
+                                        ویرایش بازی
                                     </li>
                                 }
+
                             </ul>
 
                         </Modal.Body>
@@ -1368,23 +1377,35 @@ function Game(props) {
                                             )
 
                                     })}
-                                    {sendDataLoading ?
-                                        <span className="primary-btn mt-2 mb-3">
-                                   <div className="loader-container">
-                                       <div className="loader">
-                                       </div>
-                                   </div>
-                                </span>
-                                        :
-                                        <li className="primary-btn mt-2 mb-3" onClick={() => changeGameCharacters()}>
-                                            <svg className="game-setting-icons" xmlns="http://www.w3.org/2000/svg"
-                                                 viewBox="0 0 512.04 512.08">
-                                                <path
-                                                    d="M0,154.32c0-7.51,3.93-14.44,10.35-18.28L220.74,9.81c21.7-13.08,48.85-13.08,70.55,0l210.37,126.23c10.1,6.07,13.36,19.18,7.29,29.28-1.8,2.99-4.3,5.49-7.29,7.29l-210.37,126.23c-21.7,13.05-48.83,13.05-70.53,0L10.35,172.63C3.93,168.77,0,161.83,0,154.34v-.02ZM490.67,405.41h-42.67v-42.67c0-11.78-9.55-21.33-21.33-21.33s-21.33,9.55-21.33,21.33v42.67h-42.67c-11.78,0-21.33,9.55-21.33,21.33s9.55,21.33,21.33,21.33h42.67v42.67c0,11.78,9.55,21.33,21.33,21.33s21.33-9.55,21.33-21.33v-42.67h42.67c11.78,0,21.33-9.55,21.33-21.33s-9.55-21.33-21.33-21.33ZM266.99,467.58L32.32,326.78c-10.1-6.06-23.21-2.79-29.27,7.32-6.06,10.1-2.79,23.21,7.32,29.27l234.67,140.8c10.1,6.06,23.2,2.79,29.26-7.31,6.06-10.1,2.79-23.2-7.31-29.26v-.02ZM479.7,229.35l-223.68,134.21L32.32,229.35c-10.1-6.06-23.21-2.79-29.27,7.32s-2.79,23.21,7.32,29.27l234.67,140.8c6.76,4.06,15.21,4.06,21.97,0l234.67-140.8c10.1-6.06,13.38-19.17,7.32-29.27s-19.17-13.38-29.27-7.32h-.02Z"/>
-                                            </svg>
-                                            ذخیره نقش ها
-                                        </li>
-                                    }
+
+                                    {/*<li className="secondary-btn twin-buttons" onClick={() => setShowEditModal(false)}>انصراف</li>*/}
+                                    {/*{sendDataLoading ?*/}
+                                    {/*    <li className="primary-btn twin-buttons">*/}
+                                    {/*        <div className="loader-container">*/}
+                                    {/*            <div className="loader">*/}
+                                    {/*            </div>*/}
+                                    {/*        </div>*/}
+                                    {/*    </li>*/}
+                                    {/*    :*/}
+                                    {/*    <li className="primary-btn twin-buttons " onClick={() => changeGameCharacters()}>*/}
+                                    {/*        ذخیره نقش ها*/}
+                                    {/*    </li>*/}
+                                    {/*}*/}
+                                    <li className="w-100 mb-3 mr-2 ml-2">
+                                        <div className="secondary-btn twin-buttons" onClick={() => setShowGameSettingModal(false)}>انصراف</div>
+                                        {sendDataLoading ?
+                                            <div className="primary-btn twin-buttons">
+                                                <div className="loader-container">
+                                                    <div className="loader">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            :
+                                            <div className="primary-btn twin-buttons " onClick={() => changeGameCharacters()}>
+                                                ذخیره نقش ها
+                                            </div>
+                                        }
+                                    </li>
                                 </ul>
                                 :
                                 <div className="empty">
@@ -1410,11 +1431,6 @@ function Game(props) {
                                                 </div>
                                             }
                                             <div className="name">
-                                                {/*<svg className="user-delete" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14.88 14.88">
-
-                                                <path  d="M7.44,0C3.33,0,0,3.33,0,7.44s3.33,7.44,7.44,7.44,7.44-3.33,7.44-7.44C14.87,3.33,11.55,0,7.44,0ZM7.92,11.52h-3.6c-.4,0-.72-.32-.72-.72v-.48c0-1.29.94-2.39,2.22-2.6-1.08-.77-1.33-2.26-.57-3.34.77-1.08,2.26-1.33,3.34-.57,1.08.77,1.33,2.26.57,3.34-.45.63-1.18,1.01-1.96,1.01h-.96c-1.19,0-2.16.97-2.16,2.16v.48c0,.13.11.24.24.24h3.6c.13,0,.24.11.24.24s-.11.24-.24.24ZM11.21,10.84c-.09.09-.24.09-.34,0l-.85-.85-.85.85c-.1.09-.25.09-.34,0-.09-.09-.09-.24,0-.33l.85-.85-.85-.85c-.09-.1-.09-.25,0-.34.09-.09.24-.09.33,0l.85.85.85-.85c.1-.09.25-.09.34,0,.09.09.09.24,0,.33l-.85.85.85.85c.09.09.09.25,0,.34Z"/>
-                                                <circle cx="7.2" cy="5.76" r="1.92"/>
-                                            </svg>*/}
                                                 <svg onClick={() => {
                                                     setConfirmPopUp(true)
                                                     setUserReserveIdForRemoving(reserve.id)
@@ -1425,6 +1441,22 @@ function Game(props) {
                                                         d="M105.5,0C47.23,0,0,47.23,0,105.5s47.23,105.5,105.5,105.5,105.5-47.23,105.5-105.5C210.93,47.26,163.74.07,105.5,0ZM146.18,132.63c3.81,3.68,3.92,9.75.24,13.56-3.68,3.81-9.75,3.92-13.56.24-.08-.08-.16-.16-.24-.24l-27.12-27.13-27.12,27.13c-3.81,3.68-9.88,3.57-13.56-.24-3.59-3.72-3.59-9.61,0-13.33l27.12-27.13-27.12-27.13c-3.81-3.68-3.92-9.75-.24-13.56,3.68-3.81,9.75-3.92,13.56-.24.08.08.16.16.24.24l27.12,27.13,27.12-27.13c3.68-3.81,9.75-3.92,13.56-.24,3.81,3.68,3.92,9.75.24,13.56-.08.08-.16.16-.24.24l-27.12,27.13,27.12,27.13Z"/>
                                                 </svg>
                                                 {reserve.user.name + " " + reserve.user.family}
+                                                <div className="user-selected-chair-container">
+                                                    {
+                                                        JSON.parse(reserve.chair_no).length > 1 ?
+                                                            JSON.parse(reserve.chair_no).map((chair, index) => {
+                                                                return <div key={index} className="chair-reserved-numbers">
+                                                                    {chair}
+                                                                </div>
+                                                            })
+
+                                                            :
+                                                            <div className="chair-reserved-numbers">
+                                                                {JSON.parse(reserve.chair_no)}
+                                                            </div>
+                                                    }
+                                                </div>
+
                                             </div>
 
                                             <ul className="user-character ">
@@ -1542,75 +1574,78 @@ function Game(props) {
                         </div>
 
                         <div className="game-page-info">
-                            <ul className="mafia-info">
-                                <li className="item">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 480">
-                                        <path
-                                            d="M479.82,144h-95.82c-35.35,0-64-28.65-64-64V0h-192C57.3,0,0,57.3,0,128v224c0,70.7,57.3,128,128,128h224c70.7,0,128-57.3,128-128v-203.14c0-1.62-.06-3.25-.18-4.86ZM216,336h-96c-8.84,0-16-7.16-16-16s7.16-16,16-16h96c8.84,0,16,7.16,16,16s-7.16,16-16,16ZM360,240H120c-8.84,0-16-7.16-16-16s7.16-16,16-16h240c8.84,0,16,7.16,16,16s-7.16,16-16,16Z"/>
-                                        <path
-                                            d="M384,112h84.32c-2.51-3.57-5.41-6.9-8.65-9.93l-90.92-84.86c-4.99-4.66-10.66-8.46-16.75-11.28v74.06c0,17.67,14.33,32,32,32Z"/>
-                                    </svg>
-                                    <span className="attr">سناریو </span>
-                                    <span></span>
-                                    <span className="val">
+                            <div className="d-flex justify-content-between align-items-center">
+                                <ul className="mafia-info">
+                                    <li className="item">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 480">
+                                            <path
+                                                d="M479.82,144h-95.82c-35.35,0-64-28.65-64-64V0h-192C57.3,0,0,57.3,0,128v224c0,70.7,57.3,128,128,128h224c70.7,0,128-57.3,128-128v-203.14c0-1.62-.06-3.25-.18-4.86ZM216,336h-96c-8.84,0-16-7.16-16-16s7.16-16,16-16h96c8.84,0,16,7.16,16,16s-7.16,16-16,16ZM360,240H120c-8.84,0-16-7.16-16-16s7.16-16,16-16h240c8.84,0,16,7.16,16,16s-7.16,16-16,16Z"/>
+                                            <path
+                                                d="M384,112h84.32c-2.51-3.57-5.41-6.9-8.65-9.93l-90.92-84.86c-4.99-4.66-10.66-8.46-16.75-11.28v74.06c0,17.67,14.33,32,32,32Z"/>
+                                        </svg>
+                                        <span className="attr">سناریو </span>
+                                        <span></span>
+                                        <span className="val">
                                          {game.game_scenario ?
                                              game.scenario.name
                                              :
                                              "در انتظار"
                                          }
                                     </span>
-                                    {game.game_scenario ?
-                                        <svg onClick={() => setShowScenarioModal(true)} className="q-mark"
-                                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                        {game.game_scenario ?
+                                            <svg onClick={() => setShowScenarioModal(true)} className="q-mark"
+                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                                <path
+                                                    d="M256.8,0C114.8-.4-.4,114.8,0,256.8c.4,140.4,117.5,255.2,257.9,255.2h254.1v-254.1C512,117.5,397.2.4,256.8,0ZM278.8,386.4c-6.7,5.9-15,8.9-25,8.9s-18.3-3-25-8.9-10-13.5-10-22.7,3.3-16.8,10-22.7,15-8.9,25-8.9,18.3,3,25,8.9,10,13.5,10,22.7-3.4,16.7-10,22.7ZM338,219.1c-4.1,8.5-10.7,17.2-19.8,26l-21.5,20c-6.1,5.9-10.4,11.9-12.7,18.1-2.4,6.2-3.7,14-3.9,23.5h-53.6c0-18.2,2.1-32.6,6.2-43.1,4.2-10.7,11.1-20.1,20-27.4,9.2-7.7,16.3-14.8,21.1-21.2,4.7-6.1,7.2-13.6,7.2-21.2,0-18.8-8.1-28.3-24.3-28.3-7-.2-13.7,2.8-18.1,8.2-4.6,5.5-7.1,12.9-7.3,22.3h-63.2c.3-25,8.1-44.4,23.6-58.3s37.2-20.9,65.1-20.9,49.4,6.4,64.7,19.3,22.9,31.1,22.9,54.8c-.1,9.7-2.2,19.4-6.4,28.2Z"/>
+                                            </svg>
+                                            : null}
+
+                                    </li>
+                                    <li className="item">
+
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23.06 23.06">
                                             <path
-                                                d="M256.8,0C114.8-.4-.4,114.8,0,256.8c.4,140.4,117.5,255.2,257.9,255.2h254.1v-254.1C512,117.5,397.2.4,256.8,0ZM278.8,386.4c-6.7,5.9-15,8.9-25,8.9s-18.3-3-25-8.9-10-13.5-10-22.7,3.3-16.8,10-22.7,15-8.9,25-8.9,18.3,3,25,8.9,10,13.5,10,22.7-3.4,16.7-10,22.7ZM338,219.1c-4.1,8.5-10.7,17.2-19.8,26l-21.5,20c-6.1,5.9-10.4,11.9-12.7,18.1-2.4,6.2-3.7,14-3.9,23.5h-53.6c0-18.2,2.1-32.6,6.2-43.1,4.2-10.7,11.1-20.1,20-27.4,9.2-7.7,16.3-14.8,21.1-21.2,4.7-6.1,7.2-13.6,7.2-21.2,0-18.8-8.1-28.3-24.3-28.3-7-.2-13.7,2.8-18.1,8.2-4.6,5.5-7.1,12.9-7.3,22.3h-63.2c.3-25,8.1-44.4,23.6-58.3s37.2-20.9,65.1-20.9,49.4,6.4,64.7,19.3,22.9,31.1,22.9,54.8c-.1,9.7-2.2,19.4-6.4,28.2Z"/>
+                                                d="M21.49,18.87h-3.67c-2.31,0-4.19-1.88-4.19-4.19s1.88-4.19,4.19-4.19h3.67c.29,0,.52-.23.52-.52h0v-1.57c0-1.1-.85-1.99-1.93-2.08l-3.01-5.26c-.28-.49-.73-.83-1.27-.98-.54-.14-1.1-.07-1.58.21L3.91,6.29h-1.81c-1.16,0-2.1.94-2.1,2.1v12.58c0,1.16.94,2.1,2.1,2.1h17.82c1.16,0,2.1-.94,2.1-2.1v-1.57c0-.29-.23-.52-.52-.52h0,0ZM17.73,4.3l1.14,1.99h-4.57l3.43-1.99ZM5.99,6.29L14.76,1.19c.24-.14.51-.18.78-.1.27.07.49.24.63.49h0s-8.1,4.72-8.1,4.72c0,0-2.07,0-2.07,0Z"/>
+                                            <path
+                                                d="M21.49,11.53h-3.67c-1.73,0-3.15,1.41-3.15,3.15s1.41,3.15,3.15,3.15h3.67c.87,0,1.57-.71,1.57-1.57v-3.15c0-.87-.71-1.57-1.57-1.57h0ZM17.82,15.73c-.58,0-1.05-.47-1.05-1.05s.47-1.05,1.05-1.05,1.05.47,1.05,1.05c0,.58-.47,1.05-1.05,1.05Z"/>
                                         </svg>
-                                        : null}
-
-                                </li>
-                                <li className="item">
-
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23.06 23.06">
-                                        <path
-                                            d="M21.49,18.87h-3.67c-2.31,0-4.19-1.88-4.19-4.19s1.88-4.19,4.19-4.19h3.67c.29,0,.52-.23.52-.52h0v-1.57c0-1.1-.85-1.99-1.93-2.08l-3.01-5.26c-.28-.49-.73-.83-1.27-.98-.54-.14-1.1-.07-1.58.21L3.91,6.29h-1.81c-1.16,0-2.1.94-2.1,2.1v12.58c0,1.16.94,2.1,2.1,2.1h17.82c1.16,0,2.1-.94,2.1-2.1v-1.57c0-.29-.23-.52-.52-.52h0,0ZM17.73,4.3l1.14,1.99h-4.57l3.43-1.99ZM5.99,6.29L14.76,1.19c.24-.14.51-.18.78-.1.27.07.49.24.63.49h0s-8.1,4.72-8.1,4.72c0,0-2.07,0-2.07,0Z"/>
-                                        <path
-                                            d="M21.49,11.53h-3.67c-1.73,0-3.15,1.41-3.15,3.15s1.41,3.15,3.15,3.15h3.67c.87,0,1.57-.71,1.57-1.57v-3.15c0-.87-.71-1.57-1.57-1.57h0ZM17.82,15.73c-.58,0-1.05-.47-1.05-1.05s.47-1.05,1.05-1.05,1.05.47,1.05,1.05c0,.58-.47,1.05-1.05,1.05Z"/>
-                                    </svg>
-                                    <span className="attr">قیمت</span>
-                                    <span
-                                        className="val price">{new Intl.NumberFormat('en-US').format(game.price)}</span>
-                                    <span className="notice">تومان</span>
-                                </li>
-                            </ul>
-                            <ul className="mafia-info left">
-                                <li className="item">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24.1 23.07">
-                                        <path
-                                            d="M10.76.8l-2.94,5.96-6.58.96c-.79.11-1.33.85-1.22,1.63.05.31.19.6.42.82l4.77,4.64-1.13,6.55c-.13.78.39,1.53,1.18,1.66.31.05.63,0,.91-.15l5.89-3.09,5.89,3.09c.7.37,1.58.1,1.95-.61.15-.28.2-.6.14-.91l-1.12-6.55,4.76-4.64c.57-.56.58-1.47.02-2.04-.22-.23-.51-.37-.82-.42l-6.58-.96L13.34.8c-.35-.71-1.22-1.01-1.93-.65-.28.14-.51.37-.65.65Z"/>
-                                    </svg>
-                                    <span className="attr">سطح </span>
-                                    <span></span>
-                                    <span
-                                        className="val">{["A", "B", "C", "D", "21"].every(substring => gradeInput.indexOf(substring) !== -1) ? "بدون محدودیت" : gradeInput}</span>
-                                </li>
-                                <li className="item">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60.17 60.17">
-                                        <path
-                                            d="M51.57,60.17h6.45c1.19,0,2.15-.96,2.15-2.15v-6.45c0-1.19-.96-2.15-2.15-2.15s-2.15.96-2.15,2.15v4.3h-4.3c-1.19,0-2.15.96-2.15,2.15s.96,2.15,2.15,2.15ZM8.6,55.87h-4.3v-4.3c0-1.19-.96-2.15-2.15-2.15s-2.15.96-2.15,2.15v6.45c0,1.19.96,2.15,2.15,2.15h6.45c1.19,0,2.15-.96,2.15-2.15s-.96-2.15-2.15-2.15ZM10.74,51.57h38.68c1.19,0,2.15-.96,2.15-2.15,0-5.96-2.61-9.74-4.97-11.51-1.32-.98-2.63-1.39-3.62-1.39-2.28,0-3.99.65-5.7,1.47-1.91.92-3.81,2.11-7.19,2.11-3.55,0-5.84-1.19-7.81-2.12-1.77-.84-3.36-1.47-5.09-1.47-1,0-2.35.45-3.68,1.51-2.36,1.88-4.92,5.8-4.92,11.38,0,1.19.96,2.15,2.15,2.15ZM42.57,25.79h-25.69c.97,2.27,2.28,4.42,3.85,6.16,2.51,2.81,5.65,4.58,9,4.58s6.49-1.77,9-4.58c1.56-1.75,2.88-3.89,3.84-6.16h0ZM6.45,23.64h47.27c1.19,0,2.15-.96,2.15-2.15s-.96-2.15-2.15-2.15H6.45c-1.19,0-2.15.96-2.15,2.15s.96,2.15,2.15,2.15ZM15.04,17.19h29.36c-.14-8.35-6.69-15.04-14.68-15.04s-14.54,6.69-14.68,15.04ZM8.6,0H2.15C.96,0,0,.96,0,2.15v6.45c0,1.19.96,2.15,2.15,2.15s2.15-.96,2.15-2.15v-4.3h4.3c1.19,0,2.15-.96,2.15-2.15s-.96-2.15-2.15-2.15ZM51.57,4.3h4.3v4.3c0,1.19.96,2.15,2.15,2.15s2.15-.96,2.15-2.15V2.15c0-1.19-.96-2.15-2.15-2.15h-6.45c-1.19,0-2.15.96-2.15,2.15s.96,2.15,2.15,2.15Z"/>
-                                    </svg>
-                                    <span className="attr">شناسه رویداد</span>
-                                    <span className="val price">{game.id}#</span>
-                                </li>
-                            </ul>
+                                        <span className="attr">قیمت</span>
+                                        <span
+                                            className="val price">{new Intl.NumberFormat('en-US').format(game.price)}</span>
+                                        <span className="notice">تومان</span>
+                                    </li>
+                                </ul>
+                                <ul className="mafia-info left">
+                                    <li className="item">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24.1 23.07">
+                                            <path
+                                                d="M10.76.8l-2.94,5.96-6.58.96c-.79.11-1.33.85-1.22,1.63.05.31.19.6.42.82l4.77,4.64-1.13,6.55c-.13.78.39,1.53,1.18,1.66.31.05.63,0,.91-.15l5.89-3.09,5.89,3.09c.7.37,1.58.1,1.95-.61.15-.28.2-.6.14-.91l-1.12-6.55,4.76-4.64c.57-.56.58-1.47.02-2.04-.22-.23-.51-.37-.82-.42l-6.58-.96L13.34.8c-.35-.71-1.22-1.01-1.93-.65-.28.14-.51.37-.65.65Z"/>
+                                        </svg>
+                                        <span className="attr  d-inline-block">سطح بازی</span>
+                                        <span></span>
+                                        <span
+                                            className="val d-inline-block">{["A", "B", "C", "D", "21"].every(substring => gradeInput.indexOf(substring) !== -1) ? "آزاد" :
+                                            <div className="grade-required">{gradeInput}</div>}</span>
+                                    </li>
+                                    <li className="item">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60.17 60.17">
+                                            <path
+                                                d="M51.57,60.17h6.45c1.19,0,2.15-.96,2.15-2.15v-6.45c0-1.19-.96-2.15-2.15-2.15s-2.15.96-2.15,2.15v4.3h-4.3c-1.19,0-2.15.96-2.15,2.15s.96,2.15,2.15,2.15ZM8.6,55.87h-4.3v-4.3c0-1.19-.96-2.15-2.15-2.15s-2.15.96-2.15,2.15v6.45c0,1.19.96,2.15,2.15,2.15h6.45c1.19,0,2.15-.96,2.15-2.15s-.96-2.15-2.15-2.15ZM10.74,51.57h38.68c1.19,0,2.15-.96,2.15-2.15,0-5.96-2.61-9.74-4.97-11.51-1.32-.98-2.63-1.39-3.62-1.39-2.28,0-3.99.65-5.7,1.47-1.91.92-3.81,2.11-7.19,2.11-3.55,0-5.84-1.19-7.81-2.12-1.77-.84-3.36-1.47-5.09-1.47-1,0-2.35.45-3.68,1.51-2.36,1.88-4.92,5.8-4.92,11.38,0,1.19.96,2.15,2.15,2.15ZM42.57,25.79h-25.69c.97,2.27,2.28,4.42,3.85,6.16,2.51,2.81,5.65,4.58,9,4.58s6.49-1.77,9-4.58c1.56-1.75,2.88-3.89,3.84-6.16h0ZM6.45,23.64h47.27c1.19,0,2.15-.96,2.15-2.15s-.96-2.15-2.15-2.15H6.45c-1.19,0-2.15.96-2.15,2.15s.96,2.15,2.15,2.15ZM15.04,17.19h29.36c-.14-8.35-6.69-15.04-14.68-15.04s-14.54,6.69-14.68,15.04ZM8.6,0H2.15C.96,0,0,.96,0,2.15v6.45c0,1.19.96,2.15,2.15,2.15s2.15-.96,2.15-2.15v-4.3h4.3c1.19,0,2.15-.96,2.15-2.15s-.96-2.15-2.15-2.15ZM51.57,4.3h4.3v4.3c0,1.19.96,2.15,2.15,2.15s2.15-.96,2.15-2.15V2.15c0-1.19-.96-2.15-2.15-2.15h-6.45c-1.19,0-2.15.96-2.15,2.15s.96,2.15,2.15,2.15Z"/>
+                                        </svg>
+                                        <span className="attr">شناسه رویداد</span>
+                                        <span className="val price">{game.id}#</span>
+                                    </li>
+                                </ul>
+                            </div>
                             {game.god_id !== null ?
                                 <div className="god">
                                     <div className="avatar">
                                         <div className="img-container">
                                             {
                                                 game.god.avatar ?
-                                                    <img src={Avatar} alt="avatar"/>
+                                                    <img src={game.god.avatar} alt={game.god.name}/>
                                                     :
-                                                    <img src={game.god.avatar.path} alt="avatar"/>
+                                                    <img src={Avatar}  alt={game.god.name}/>
                                             }
                                         </div>
                                     </div>
@@ -1680,7 +1715,7 @@ function Game(props) {
 
                         </div>
 
-                        {localStorage.authToken && localStorage.userDetails && JSON.parse(localStorage.userDetails).role === "Admin" || localStorage.authToken && localStorage.userDetails &&  JSON.parse(localStorage.userDetails).id === game.god_id ?
+                        {localStorage.authToken && localStorage.userDetails && JSON.parse(localStorage.userDetails).role === "Admin" || localStorage.authToken && localStorage.userDetails && JSON.parse(localStorage.userDetails).id === game.god_id ?
                             <ul className="admin-access">
                                 <li className="edit-btn" onClick={() => setShowEditModal(true)}>
                                     <svg className="edit-icon" xmlns="http://www.w3.org/2000/svg"
@@ -1895,7 +1930,6 @@ function Game(props) {
                                             //const isReserved = reserves.find((obj) => obj.chair_no === chairNumber.toString());
                                             const isReserved = reserves.some((obj) => {
                                                 const chairArray = JSON.parse(obj.chair_no); // Convert the chair_no string to an array
-                                                //return obj.status === true && chairArray.includes(chairNumber);
                                                 return chairArray.includes(chairNumber);
                                             });
                                             if (isReserved)

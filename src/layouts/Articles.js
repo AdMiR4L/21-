@@ -31,6 +31,8 @@ function Articles(props) {
                 setLoading(false);
             })
             .catch(error => {
+                if (!error.response)
+                    console.log("network")
                 console.log(error);;
                 setLoading(false);
             });

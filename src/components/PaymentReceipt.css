@@ -132,20 +132,12 @@ h1 {
   font-weight: 400;
   color: #181D31;
   border-radius: 50px;
-  background: #ffffff;
+  background-color: #efefef;
   text-align: center;
   width: 100%;
   display: block;
   position: relative;
-  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
-  -webkit-transition: all 0.3s;
-  -moz-transition: all 0.3s;
-  -ms-transition: all 0.3s;
-  -o-transition: all 0.3s;
-  transition: all 0.3s;
-}
-.secondary-btn:hover {
-  transform: translateY(-5px);
+  font-family: IRANYekan;
 }
 
 .third-btn {

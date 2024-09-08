@@ -401,6 +401,9 @@
   border-radius: 20px;
   overflow:hidden;
   display: inline-block;
+  &.has-avatar{
+    //border: transparent;
+  }
   &.loading{
     border: transparent;
     display: inline-block;
@@ -589,8 +592,32 @@
 }
 
 .choose-avatar-container{
+  margin-top: 25px;
+  border-radius: 15px ;
+  overflow: hidden;
   width: 100%;
+  //max-height: 500px;
   img{
     width: 100%;
+  }
+}
+.notices{
+  text-align: right;
+  font-family: iranyekan;
+  .item{
+    display: flex;
+    align-items: center;
+    @extend %normal-content;
+    padding: 5px 15px;
+    position: relative;
+    &:before{
+      content: "";
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      background-color: $primary;
+      border-radius: 50%;
+      right: 0;
+    }
   }
 }

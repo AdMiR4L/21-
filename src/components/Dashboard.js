@@ -204,9 +204,9 @@ function Dashboard() {
                         <ul className="user-info">
                             <li className="head">
                                 <div className="avatar">
-                                    {user.photo_id ?
+                                    {user.avatar ?
                                         // <img src={process.env.REACT_APP_API+user.photo.path} alt={user.name}/>
-                                        <img src={UserProfile} alt="profile"/>
+                                        <img src={user.avatar} alt={user.name}/>
                                         :
                                         <img src={UserProfile} alt="profile"/>
                                     }

@@ -2,55 +2,106 @@ import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import UserProfile from "../assets/icons/user-profile.svg";
 import Modal from "react-bootstrap/Modal";
-import LevelIcon from "../assets/icons/level.svg";
+import Cropper, { ReactCropperElement } from "react-cropper";
+import "cropperjs/dist/cropper.css";
+import toast from "react-hot-toast";
 
-const AvatarUpload = () => {
+const AvatarUpload = (props) => {
     const [file, setFile] = useState(null);
     const [progress, setProgress] = useState(0);
     const [uploaded, setUploaded] = useState(false);
+    const [fileLoading, setFileLoading] = useState(false);
     const [showCropModal, setShowCropModal] = useState(false);
     const [imagePreview, setImagePreview] = useState();
+    const [croppedImage, setCroppedImage] = useState("");
     const hiddenFileInput = useRef(null);
+    const [error, setError] = useState(null);
+    const [isLoading, setIsLoading] = useState(null);
+    const MAX_SIZE = 2 * 1024 * 1024;
+    const cropperRef = useRef();
 
     const handleFileChange = (e) => {
-        setFile(e.target.files[0]);
-        setProgress(0);
-        setUploaded(false);
-        setShowCropModal(true)
+        if (e.target.files[0]){
+            setFile(e.target.files[0]);
+            setProgress(0);
+            setUploaded(false);
+            setShowCropModal(true)
 
+            setError(null);
+            setImagePreview(null);
 
-        if (e.target.files[0]) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setImagePreview(reader.result);
-            };
-            reader.readAsDataURL(e.target.files[0]);
+            if (e.target.files[0].size > MAX_SIZE) {
+                setError("Image size exceeds 2MB");
+                toast.error("حجم تصویر نباید بیشتر از 2 مگابایت باشد")
+                setShowCropModal(false)
+                return;
+            }
+
+            if (e.target.files[0]) {
+                setFileLoading(true)
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    setImagePreview(reader.result);
+                };
+                reader.readAsDataURL(e.target.files[0]);
+                setFileLoading(false)
+            }
         }
-
-
-
     };
+
+    const onCrop = () => {
+        const cropper = cropperRef.current?.cropper;
+        setCroppedImage(cropper.getCroppedCanvas().toDataURL())
+        // console.log(cropper.getCroppedCanvas().toDataURL());
+    };
+
+    const handleZoom = (e) => {
+        const cropper = cropperRef.current.cropper;
+
+        // Get the canvas data (the visible part of the image)
+        const canvasData = cropper.getCanvasData();
+        const containerData = cropper.getContainerData();
+
+        // Prevent zooming out if the canvas width is less than or equal to the container width
+        if (canvasData.width <= containerData.width && e.detail.ratio < 1) {
+            e.preventDefault();  // Prevent zoom out
+        }
+    };
+
+
+
 
     const handleUpload = () => {
         if (!file) return;
 
-        const formData = new FormData();
-        formData.append('file', file);
+        setIsLoading(true);
+        fetch(croppedImage)
+            .then(res => res.blob())
+            .then(blob => {
+                const formData = new FormData();
+                formData.append('file', blob, file.name); // append the file to the form data
 
-        axios.post('/upload', formData, {
-            onUploadProgress: (progressEvent) => {
-                const percentCompleted = Math.round(
-                    (progressEvent.loaded * 100) / progressEvent.total
-                );
-                setProgress(percentCompleted);
-            },
-        })
-            .then(() => {
-                setUploaded(true);
-            })
-            .catch((err) => {
-                console.error('Upload failed:', err);
-                setUploaded(false);
+                axios.post(process.env.REACT_APP_API+'user/avatar', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        'Authorization': "Bearer " + localStorage.authToken},
+                        onUploadProgress: (progressEvent) => {
+                        const percentCompleted = Math.round(
+                            (progressEvent.loaded * 100) / progressEvent.total
+                        );
+                        setProgress(percentCompleted)
+                    }
+                }).then(response => {
+                    toast.success("تصویر پروفایل شما بروزرسانی شد");
+                    setShowCropModal(false);
+                    setImagePreview(null)
+                    setFile(null)
+                    setTimeout(() => { setShowCropModal(false); props.update() }, 500)
+                }).catch(error => {
+                    console.error('Image upload failed:', error);
+                    toast.error("مشکلی در آپلود بوجود آمده، لطفا دوباره تلاش کنید");
+                });
+                setIsLoading(false);
             });
     };
 
@@ -58,17 +109,7 @@ const AvatarUpload = () => {
         <div>
             <div onClick={() => hiddenFileInput.current.click()} className="avatar-upload-btn"></div>
             <input className="d-none" ref={hiddenFileInput} type="file" onChange={handleFileChange}/>
-            {/*<button onClick={handleUpload} disabled={!file}>*/}
-            {/*    Upload*/}
-            {/*</button>*/}
-
-            {file && (
-                <div>
-                    <p>Progress: {progress}%</p>
-                    {uploaded && <p>Upload Complete!</p>}
-                </div>
-            )}
-            <Modal show={showCropModal} onHide={() => setShowCropModal(false)} centered className="edit-game-modal custom-modal">
+            <Modal show={showCropModal} onHide={() => setShowCropModal(false)} centered className="full-screen-modal-bellow-md">
                 <Modal.Header>
                     <Modal.Title>
                         انتخاب تصویر پروفایل
@@ -82,18 +123,73 @@ const AvatarUpload = () => {
 
                 </Modal.Header>
                 <Modal.Body>
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-6">
-                                <div onClick={() => hiddenFileInput.current.click()} className="primary-btn">انتخاب تصویر</div>
-                            </div>
-                            <div className="col-6">
-                                <div onClick={() => handleUpload()} className="primary-btn"> آپلود تصویر</div>
-                            </div>
-                        </div>
+                    <div className="col-12">
+                        <ul className="notices">
+                            <li className="item">
+                                تصویر انتخاب شده نباید بیشتر از 2 مگابایت باشد
+                            </li>
+                            <li className="item">
+                                لطفا از تصویر اصلی خود برای پروفایل استفاده کنید
+                            </li>
+                            <li className="item">
+                                لطفا از استفاده تصاویر نا متعارف پرهیز کنید
+                            </li>
+                        </ul>
                     </div>
+                    {!isLoading &&
+                        <div className="buttons">
+                            <div onClick={() => hiddenFileInput.current.click()}
+                                 className="secondary-btn twin-buttons">انتخاب
+                                تصویر
+                            </div>
+                            <div onClick={() => handleUpload()} className="primary-btn twin-buttons"> آپلود تصویر</div>
+                        </div>
+                    }
+                    {file && isLoading && (
+                        <div className="progress-container" style={{marginTop: '20px'}}>
+                            <div className="progress-bar" style={{
+                                height: '10px',
+                                backgroundColor: '#ddd',
+                                borderRadius: '5px',
+                                overflow: 'hidden'
+                            }}>
+                                <div style={{
+                                    width: `${progress}%`,   // Dynamic width
+                                    height: '100%',
+                                    backgroundColor: progress === 100 ? 'green' : 'blue',  // Change color when upload is complete
+                                    transition: 'width 0.5s ease'  // Smooth transition effect
+                                }}>
+                                </div>
+                            </div>
+                            <div className="w-100 text-center" style={{
+                                fontFamily : "sans-serif",
+                            }}>{progress}%</div>
+                        </div>
+                    )}
                     <div className="choose-avatar-container">
-                        <img src={imagePreview} alt=""/>
+                        {/*<img src={imagePreview} alt=""/>*/}
+                        {fileLoading ?
+                            <div className="image-loading">
+                                Loading
+                                <div className="loader-container">
+                                    <div className="loader">
+                                    </div>
+                                </div>
+                            </div>
+                            :
+                            <Cropper
+                                src={imagePreview}
+                                style={{height: "100%", width: "100%"}}
+                                // Cropper.js options
+                                initialAspectRatio={1}
+                                aspectRatio={1}
+                                guides={false}
+                                crop={onCrop}
+                                zoomable={false}
+                                //zoom={handleZoom}
+                                ref={cropperRef}
+                            />
+                        }
                     </div>
 
                 </Modal.Body>

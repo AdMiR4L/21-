@@ -60,10 +60,10 @@ function TopPlayers(props) {
                                 <li key={index} className="player">
                                     <div className="avatar">
                                         <div className="img-container">
-                                            {player.photo_id ?
-                                                <img src={AvatarImage} alt="avatar"/>
+                                            {player.avatar ?
+                                                <img src={player.avatar} alt={player.name}/>
                                                 :
-                                                <img src={AvatarImage} alt="avatar"/>
+                                                <img src={AvatarImage} alt={player.name}/>
                                             }
 
                                         </div>

@@ -128,20 +128,12 @@ h1 {
   font-weight: 400;
   color: #181D31;
   border-radius: 50px;
-  background: #ffffff;
+  background-color: #efefef;
   text-align: center;
   width: 100%;
   display: block;
   position: relative;
-  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
-  -webkit-transition: all 0.3s;
-  -moz-transition: all 0.3s;
-  -ms-transition: all 0.3s;
-  -o-transition: all 0.3s;
-  transition: all 0.3s;
-}
-.secondary-btn:hover {
-  transform: translateY(-5px);
+  font-family: IRANYekan;
 }
 
 .third-btn {
@@ -1127,19 +1119,19 @@ input[type=number] {
   top: 0;
 }
 .cube-num img {
-  width: 35px;
+  width: 30px;
   position: absolute;
   right: -40px;
 }
 .cube-num .tag {
-  font-size: 22px;
+  font-size: 18px;
   font-family: sans-serif;
   font-weight: 800;
   bottom: 7px;
   position: relative;
 }
 .cube-num .cube {
-  font-size: 10px;
+  font-size: 9px;
 }
 
 .game-page-info {
@@ -1656,8 +1648,8 @@ input[type=number] {
 .q-mark {
   margin-right: 10px;
   cursor: pointer;
-  fill: #4b4b4b !important;
-  width: 16px !important;
+  fill: #8b8b8b !important;
+  width: 18px !important;
   transform: translateY(-1px);
 }
 
@@ -1871,6 +1863,24 @@ input[type=number] {
   padding-right: 1px;
   display: flex;
   align-items: center;
+}
+.game-setting-modal .users .user .name .user-selected-chair-container {
+  left: 5px;
+  position: absolute;
+}
+.game-setting-modal .users .user .name .user-selected-chair-container .chair-reserved-numbers {
+  background-color: rgba(243, 243, 243, 0.5882352941);
+  font-size: 11px;
+  font-weight: 600;
+  margin-right: 5px;
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  border: 1px solid #E3E3E3;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  font-family: sans-serif;
 }
 .game-setting-modal .users .user .name .user-icons {
   width: 12px;
@@ -2191,6 +2201,29 @@ input[type=number] {
 .single-chair-container .single-chair .number .key {
   font-size: 14px;
   font-weight: 600;
+}
+
+.grade-required {
+  border: 1px solid #efefef;
+  background-color: #fff;
+  border-radius: 10px;
+  letter-spacing: 1px;
+  padding: 3px 10px;
+  font-family: sans-serif;
+}
+
+.twin-buttons {
+  margin-top: 35px;
+  cursor: pointer;
+  width: calc(50% - 10px) !important;
+  display: inline-block !important;
+  background-color: #e5e5e5;
+  padding: 15px 0 !important;
+  border-radius: 15px !important;
+  color: #3b3b3b;
+}
+.twin-buttons:nth-last-child(1) {
+  margin-right: 20px;
 }
 
 /*# sourceMappingURL=Game.css.map */
