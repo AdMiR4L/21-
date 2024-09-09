@@ -42,7 +42,7 @@ function Landing(props) {
                         </div>
                     </div>
                     <div className="col-12">
-                        {/*{!props.isLoading ?
+                        {!props.isLoading ?
                             <div className="top-player">
                                 <div className="player-card">
                                     <div className="player-avatar">
@@ -54,7 +54,7 @@ function Landing(props) {
                                                 {props.weekChampion.name+" "+props.weekChampion.family}
                                             </div>
                                             <div className="date">
-                                                عضویت مهر 1399
+                                                {props.weekChampion.nickname ? props.weekChampion.nickname : "بدون نام کاربری"}
                                             </div>
                                         </li>
                                         <li className="awards">
@@ -87,7 +87,7 @@ function Landing(props) {
                                 </div>
                             </div>
                             : null
-                        }*/}
+                        }
                         <ul className="landing-social d-md-flex d-none">
                             <li>
                                 <a href="">
