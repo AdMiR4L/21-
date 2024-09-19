@@ -31,7 +31,13 @@ ul {
   color: #181D31;
 }
 
-.my-profile .dashboard .user-info .head .names .name, .custom-modal .modal-title .modal-head {
+.pagination .item, .transictions .item .id {
+  font-size: 14px;
+  font-weight: 400;
+  color: #181D31;
+}
+
+.title-dashboard, .my-profile .dashboard .user-info .head .names .name, .custom-modal .modal-title .modal-head {
   font-size: 15px;
   font-weight: 500;
 }
@@ -378,7 +384,7 @@ h1 {
 }
 /*============================*/
 /*============================*/
-.my-profile .dashboard .user-access .item .icon-container, .section-top .header-more {
+.pagination .item, .transictions .item, .my-profile .dashboard .user-access .item .icon-container, .section-top .header-more {
   background-color: #F9F9F9;
   border-radius: 20px;
   border: 1px solid #E9E9E9;
@@ -1419,6 +1425,155 @@ input[type=number] {
   background-color: #BC080E;
   border-radius: 50%;
   right: 0;
+}
+
+.transictions {
+  font-family: IRANYekan;
+}
+.transictions .item {
+  margin-bottom: 30px;
+}
+.transictions .item .id .icon {
+  height: 20px;
+  fill: #d9d9d9;
+  margin-left: 10px;
+}
+.transictions .item .transiction-cube {
+  padding: 10px 15px;
+  background-color: #f3f3f3;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.transictions .item .transiction-cube .cube-num {
+  position: relative;
+}
+.transictions .item .transiction-cube .cube-num img {
+  right: -35px !important;
+}
+.transictions .item .head {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 15px;
+}
+.transictions .item .head .head-item {
+  font-size: 12px;
+  text-align: right;
+}
+.transictions .item .head .head-item .number-order {
+  font-size: 23px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+}
+.transictions .item .head .head-item .number-order.order-date {
+  font-size: 16px;
+  margin-top: 5px;
+  display: block;
+  text-align: left;
+}
+.transictions .item .head .head-item .number-order .icon {
+  fill: #676767;
+  width: 24px;
+  margin-left: 10px;
+}
+.transictions .item .transiction-footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 15px;
+  margin: 10px 0;
+}
+.transictions .item .transiction-footer .icon-status-container {
+  padding: 5px 5px 5px 15px;
+  background-color: #F3F3F3;
+  border-radius: 20px;
+  display: inline-flex;
+  font-size: 13px;
+  align-items: center;
+}
+.transictions .item .transiction-footer .icon-status-container svg {
+  margin-left: 5px;
+}
+.transictions .item .transiction-footer .icon-status-container.success {
+  background-color: #e7ffe5;
+}
+.transictions .item .transiction-footer .icon-status-container.error {
+  background-color: #ffe5e5;
+}
+.transictions .item .transiction-footer .icon-status-container .payment-status-icon {
+  width: 20px;
+}
+.transictions .item .transiction-footer .icon-status-container .payment-status-icon .circle {
+  fill: #BC080E;
+}
+.transictions .item .transiction-footer .icon-status-container .payment-status-icon .circle.success {
+  fill: #429434;
+}
+.transictions .item .transiction-footer .icon-status-container .payment-status-icon .path {
+  fill: #fff;
+}
+.transictions .item .top-label {
+  padding-top: 15px;
+  border-top: 1px solid #efefef;
+}
+.transictions .item .score {
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: #429434;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 400;
+  border-radius: 5px;
+  margin-right: 5px;
+}
+.transictions .item .win-side {
+  padding: 3px 10px;
+  background-color: #f3f3f3;
+  font-size: 13px;
+  border: 1px solid #4d942d;
+  border-radius: 25px;
+}
+
+.pagination {
+  font-family: IRANYekan;
+  text-align: center;
+  justify-content: center;
+}
+.pagination .item {
+  padding: 5px 15px;
+  margin: 0 5px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.pagination .item.disabled {
+  background-color: #efefef;
+  color: #919191;
+  cursor: not-allowed;
+}
+.pagination .item.active {
+  background-color: #429434;
+  color: #fff;
+}
+
+.title-dashboard {
+  font-size: 25px;
+  text-align: right;
+  margin-bottom: 20px;
+  padding-right: 10px;
+  position: relative;
+}
+.title-dashboard .icon-container {
+  display: inline-block;
+  margin-left: 10px;
+}
+.title-dashboard .icon-container svg {
+  fill: #5d5d5d;
+  width: 25px;
 }
 
 /*# sourceMappingURL=Dashboard.css.map */

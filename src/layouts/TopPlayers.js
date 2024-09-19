@@ -4,6 +4,9 @@ import AvatarImage from "../assets/avatar.png";
 import './TopPlayers.css'
 import Skeleton from "../components/Skeleton";
 import ConvertToShamsiDate from "../components/ConverToShamsiDate";
+import GoldenBadgeIcon from "../assets/icons/goldenbadge.svg";
+import SecondBadgeIcon from "../assets/icons/second-badge.svg";
+import ThirdBadgeIcon from "../assets/icons/third-badge.svg";
 function TopPlayers(props) {
     return (
         <aside className="col-12">
@@ -61,13 +64,20 @@ function TopPlayers(props) {
                                     <div className="avatar">
                                         <div className="img-container">
                                             {player.avatar ?
-                                                <img src={player.avatar} alt={player.name}/>
+                                                <img className="avatar-img" src={player.avatar} alt={player.name}/>
                                                 :
-                                                <img src={AvatarImage} alt={player.name}/>
+                                                <img className="avatar-img" src={AvatarImage} alt={player.name}/>
                                             }
-
                                         </div>
-                                        <div className="number">#{index+1}</div>
+                                        {index+1 === 1 ?
+                                            <img className="champ-badge" src={GoldenBadgeIcon} alt="golden-badge"/>
+                                            : index + 1 === 2 ?
+                                                <img className="champ-badge" src={SecondBadgeIcon} alt="golden-badge"/>
+                                                : index + 1 === 3 ?
+                                                    <img className="champ-badge" src={ThirdBadgeIcon}
+                                                         alt="golden-badge"/>
+                                                    : <div className="number">#{index + 1}</div>
+                                        }
                                     </div>
                                     <ul className="player-info">
                                         <li className="head">

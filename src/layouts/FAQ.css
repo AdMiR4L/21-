@@ -919,6 +919,11 @@ input[type=number] {
 .faq-footer .img-container {
   width: 110px;
 }
+@media screen and (max-width: 468px) {
+  .faq-footer .img-container {
+    width: 85px;
+  }
+}
 .faq-footer .img-container img {
   width: 100%;
   height: 100%;

@@ -932,6 +932,36 @@ input[type=number] {
 .cube-card .head .cube-num .cube {
   font-size: 10px;
 }
+.cube-card.archive {
+  margin: 5px 0;
+}
+.cube-card.archive .cube-box .status {
+  font-family: IRANYekan;
+  font-size: 13px;
+  font-weight: 400;
+  margin-top: 10px;
+  padding: 2px 25px;
+}
+.cube-card.archive .cube-box .status.mafia {
+  background-color: #BC080E;
+  color: #fff;
+}
+.cube-card.archive .cube-box .status.city {
+  background-color: #429434;
+  color: #fff;
+}
+.cube-card.archive .cube-box .status:after {
+  display: none;
+}
+.cube-card.archive .head .number {
+  color: #181D31;
+}
+.cube-card.archive .head .cube-num img {
+  opacity: 0.5;
+}
+.cube-card.archive .head .manager {
+  opacity: 0.5;
+}
 
 .cube-info {
   padding: 10px;
@@ -946,13 +976,30 @@ input[type=number] {
   transition: all 0.3s;
 }
 .cube-info:hover {
-  border: 2px solid #ffd9d9;
+  border: 2px solid #dfdfdf;
 }
 .cube-info:nth-last-child(3) {
   margin-top: 0 !important;
 }
 .cube-info:nth-last-child(1) {
   margin-bottom: 5px;
+}
+.cube-info.disabled {
+  border: transparent !important;
+  background-color: #d1d1d1;
+}
+.cube-info.disabled .cube-box .event .full {
+  background-color: #fff;
+  border-radius: 50px;
+  padding: 2px 5px 2px 10px !important;
+}
+.cube-info.disabled .cube-box .event img {
+  filter: contrast(0);
+}
+.cube-info .no-score {
+  background-color: #FFCD2D;
+  border-radius: 50px;
+  padding: 2px 10px !important;
 }
 .cube-info .cube-box .event {
   display: flex;

@@ -15,6 +15,12 @@ import UserInfo from "./dashboard/UserInfo";
 import Admin from "./admin/Admin";
 import Users from "./admin/Users";
 import User from "./admin/User";
+import Transactions from "./dashboard/Transactions";
+import History from "./dashboard/History";
+import GameHistory from "./components/GameHistory";
+import LeaderBoard from "./components/LeaderBoard";
+import ArticlesArchive from "./components/ArticlesArchive";
+import Article from "./components/Article";
 function App() {
 
     const [user, setUser] = useState({
@@ -41,8 +47,14 @@ function App() {
                                  loginModal={loginModal}
                                  setloginModal={setLoginModal} />}
                       />
+                      <Route path="games/history" element={<GameHistory />} />
+                      <Route path="articles/archive" element={<ArticlesArchive />} />
+                      <Route path="article/:slug" element={<Article/>} />
                       <Route path="dashboard" element={<Dashboard />} />
-                      <Route path="dashboard/user/info" element={<UserInfo/>} />
+                      <Route path="leaderboard" element={<LeaderBoard />} />
+                      <Route path="dashboard/info" element={<UserInfo/>} />
+                      <Route path="dashboard/transactions" element={<Transactions/>} />
+                      <Route path="dashboard/history" element={<History/>} />
                       <Route path="verify/zarinpal/:id" element={<PaymentReceipt />} />
                       <Route path="admin" element={<Admin />} />
                       <Route path="admin/users" element={<Users/>}/>

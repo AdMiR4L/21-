@@ -14,6 +14,10 @@ function Skeleton(props) {
         return(
             <div style={{width : props.width, height : props.height, borderRadius: "15px"}} className="c-skeleton-line"></div>
         )
+        else if (props.borderRadius)
+                return(
+                    <div style={{width : props.width, height : props.height, borderRadius: props.borderRadius}} className="c-skeleton-line"></div>
+                )
         else
         return(
             <div style={{width : props.width, height : props.height}} className="c-skeleton-line"></div>

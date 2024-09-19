@@ -34,7 +34,7 @@ function Search(props) {
     return (
         <Modal show={props.showSearchModal}
                onHide={() => props.setShowSearchModal(!props.showSearchModal)}
-               className="search-modal">
+               className="search-modal modal-fullscreen-md-down">
             <Modal.Header>
                 <div className="search-input">
                     {isLoading ?

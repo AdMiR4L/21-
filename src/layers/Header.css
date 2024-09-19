@@ -1111,11 +1111,10 @@ input[type=number] {
   top: 0;
   width: 100%;
   right: 0;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: #f7f7f7;
   border-bottom: 1px solid #ebebeb;
-  padding: 10px 0;
+  padding-bottom: 5px;
   z-index: 100;
-  backdrop-filter: blur(10px);
 }
 .phone-nav-wrapper .phone-nav {
   display: flex;
@@ -1154,6 +1153,18 @@ input[type=number] {
 }
 .show-password-icon.hide {
   top: 14px;
+}
+
+.blur-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50px; /* Adjust height to cover the status bar */
+  background-color: rgba(255, 255, 255, 0.6); /* Translucent background */
+  backdrop-filter: blur(10px); /* Apply the blur effect */
+  -webkit-backdrop-filter: blur(10px); /* Safari-specific prefix */
+  z-index: 100; /* Ensure it's above other content */
 }
 
 @media screen and (max-width: 768px) {

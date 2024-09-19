@@ -2,6 +2,9 @@
 
 .articles{
   padding: 0 15px;
+  &.articles-archive{
+    padding: 0;
+  }
   .article{
     position: relative;
     @extend %first-box;
@@ -81,5 +84,109 @@
     svg{
       width: 12px;
     }
+  }
+}
+.mobile-article{
+  width: 250px;
+}
+.categories{
+  padding-right: 20px;
+  margin-top: 20px;
+  .swiper{
+
+    margin-bottom: 25px;
+    .swiper-slide{
+      width: fit-content;
+      cursor: pointer;
+      .cat-item{
+        background-color: #efefef;
+        border-radius: 10px;
+        padding: 5px 15px;
+        font-size: 13px;
+        color: $dark;
+      }
+    }
+  }
+}
+@media screen and (max-width: 1024px) {
+  .pagination .item {
+    display: none; /* Hide all items by default */
+  }
+
+  /* Show first two and last two items */
+  .pagination .item:nth-child(1),  /* First item (Previous) */
+  .pagination .item:nth-child(2),  /* Page 1 */
+  .pagination .item:nth-child(3),  /* Page 1 */
+  .pagination .item:nth-child(4),  /* Page 1 */
+  .pagination .item:nth-last-child(4),  /* Second to last page */
+  .pagination .item:nth-last-child(3),  /* Second to last page */
+  .pagination .item:nth-last-child(2),  /* Second to last page */
+  .pagination .item:nth-last-child(1),  /* Last item (Next) */
+
+    /* Show active item, previous and next to active */
+  .pagination .item.active,  /* Active page */
+  .pagination .item.active ~ .item:nth-child(1), /* Previous item */
+  .pagination .item.active ~ .item:nth-child(2), /* Next item */
+  .pagination .item.active ~ .item:nth-child(3), /* Next item */
+  .pagination .item.active ~ .item:nth-child(4), /* Next item */
+  .pagination .item.active + .item, /* Item after active (Next) */
+  .pagination .item.active  { /* Item before active (Previous) */
+    display: inline-block;
+  }
+}
+@media screen and (max-width: 768px) {
+  .pagination .item {
+    display: none!important; /* Hide all items by default */
+  }
+
+  /* Show first two and last two items */
+  .pagination .item:nth-child(1),  /* First item (Previous) */
+  .pagination .item:nth-child(2),  /* Page 1 */
+  .pagination .item:nth-last-child(2),  /* Second to last page */
+  .pagination .item:nth-last-child(1),  /* Last item (Next) */
+
+    /* Show active item, previous and next to active */
+  .pagination .item.active,  /* Active page */
+  .pagination .item.active ~ .item:nth-child(1), /* Previous item */
+  .pagination .item.active ~ .item:nth-child(2), /* Next item */
+  .pagination .item.active + .item, /* Item after active (Next) */
+  .pagination .item.active  { /* Item before active (Previous) */
+  display: inline-block!important;
+  }
+}
+.article.single{
+  border: none;
+  .head{
+    margin-top: 20px;
+    h1{
+      text-align: right;
+      font-size: 18px;
+    }
+  }
+  .content{
+    padding: 0;
+    .foot-items{
+      padding: 10px 15px!important;
+    }
+  }
+  .description{
+    text-align: right;
+    font-family: iranyekan;
+    p{
+      color: lighten($black , 40%);
+      font-size: 13px;
+    }
+  }
+}
+.like-container, .single-share{
+  display: inline-block;
+  padding: 5px;
+  svg{
+    height: 24px;
+  }
+}
+.like-container{
+  svg{
+    fill: $primary;
   }
 }

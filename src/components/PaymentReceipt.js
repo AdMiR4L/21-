@@ -64,7 +64,7 @@ function PaymentReceipt(){
             })
             .catch(error => {
                 console.log(error);
-              navigate("*")
+                navigate("*")
                 setLoading(false);
             });
     }
@@ -140,7 +140,7 @@ function PaymentReceipt(){
                                             <span className="attr">تعداد صندلی ها</span>
                                             <span
                                                 className="value">
-                                                {JSON.parse(order.reserve[0].chair_no).length}
+                                                {order.reserve.length ? JSON.parse(order.reserve[0].chair_no).length :null}
                                                 <span className="notice mr-1">عدد</span>
                                             </span>
                                         </li>
@@ -158,7 +158,7 @@ function PaymentReceipt(){
                                 </div>
 
 
-                                    {JSON.parse(order.reserve[0].chair_no).length === 1 ?
+                                    {order.reserve.length ?JSON.parse(order.reserve[0].chair_no).length === 1 ?
                                         <ul className="extra-chairs">
                                             {JSON.parse(order.reserve[0].chair_no).map((item, index) => {
                                                 return (
@@ -394,7 +394,7 @@ function PaymentReceipt(){
                                                 </ul>
 
                                                 : null
-                                    }
+                                    :null}
 
                                 <div className="event-date">
                                     تاریخ رویداد :

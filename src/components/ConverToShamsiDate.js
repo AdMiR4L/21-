@@ -1,7 +1,7 @@
 import React from 'react';
 import jalaali from 'jalaali-js';
 
-const ConvertToShamsiDate = ({ gregorianDate, name, article, slider, leaderboard }) => {
+const ConvertToShamsiDate = ({ gregorianDate, name, article, slider, leaderboard, archive }) => {
     // Extract year, month, and day from the Gregorian date
     const date = new Date(gregorianDate);
     const gregorianYear = date.getFullYear();
@@ -12,11 +12,32 @@ const ConvertToShamsiDate = ({ gregorianDate, name, article, slider, leaderboard
         "فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور",
         "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند"
     ];
+    /*const shamsiDayNames = [
+        "شنبه", "یک ‌شنبه", "دوشنبه", "سه ‌شنبه", "چهارشنبه", "پنج ‌شنبه", "جمعه"
+    ];*/
+    const shamsiDayNames = [
+             "دوشنبه", "سه ‌شنبه", "چهارشنبه", "پنج ‌شنبه", "جمعه", "شنبه", "یک ‌شنبه",
+    ];
+    const tehranDate = date.toLocaleString('fa-IR', {
+        timeZone: 'Asia/Tehran',
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false,  // 24-hour format
+    });
 
     // Convert to Jalali (Shamsi) date
     const { jy, jm, jd } = jalaali.toJalaali(gregorianYear, gregorianMonth, gregorianDay);
 
+
     const shamsiMonthName = shamsiMonthNames[jm - 1];
+
+
+    const dayOfWeekIndex = date.getDay();
+    const shamsiDayName = shamsiDayNames[dayOfWeekIndex];
 
     // Separate Year, Month, and Day
     const shamsiYear = jy;
@@ -34,6 +55,20 @@ const ConvertToShamsiDate = ({ gregorianDate, name, article, slider, leaderboard
     else if(leaderboard)
         return (
             shamsiMonthName+" "+shamsiYear
+        );
+    else if(archive)
+        return (
+           <>
+               <div className="archive-date">
+                   <span className="day-name">
+                       {shamsiDayName}
+                   </span>
+                   <span className="rest-date">
+                        {+shamsiDay+1 + " " + shamsiMonthName + " " + shamsiYear}
+                   </span>
+               </div>
+
+           </>
         );
     else if (slider)
         return (

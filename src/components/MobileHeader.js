@@ -55,15 +55,8 @@ function MobileHeader() {
 
     return (
         <header className="d-md-none">
-            {/*<Toaster/>*/}
+            {/*<div className="blur-header"></div>*/}
             <Search showSearchModal={showSearchModal} setShowSearchModal={setShowSearchModal}/>
-            {/*<div className="add-to-home-container">*/}
-            {/*    <div className="add-to-home-screen">*/}
-            {/*        {!isOnline ??*/}
-            {/*            <div className="check">دسترسی خود به اینترنت را بررسی کنید</div>*/}
-            {/*        }*/}
-            {/*    </div>*/}
-            {/*</div>*/}
             {addToHomeScreen ?
                 <div className="add-to-home-container">
                     <div className="add-to-home-screen">
@@ -127,7 +120,7 @@ function MobileHeader() {
                             </li>
                         </ul>
                     </div>
-                </div> :null}
+                </div> : null}
             <nav className="phone-nav-wrapper">
                 <div className="container">
                     <div className="row">
@@ -146,7 +139,7 @@ function MobileHeader() {
                                         </svg>
 
                                     </li>
-                                    :<li className="item">
+                                    : <li className="item">
                                         <svg onClick={() => setShowModalMenu(!showModalMenu)} className="back-icon"
                                              xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60.16 52.64">
                                             <path

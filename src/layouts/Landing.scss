@@ -22,13 +22,26 @@
       font-size: 18px;
       font-weight: 500;
       margin-bottom: 10px;
+      @media screen and (max-width: 468px) {
+        font-size: 11px;
+        font-family: IRANYekan;
+        font-weight: 600;
+
+      }
     }
     .title{
       font-size: 36px;
       font-weight: 600;
       margin-bottom: 10px;
+      @media screen and (max-width: 468px) {
+        font-size: 20px;
+        font-weight: 800;
+      }
     }
     .notice{
+      @media screen and (max-width: 468px) {
+        font-size: 10px;
+      }
       font-size: 13px;
       color: #8E8E8E;
       font-family: iranyekan;
@@ -68,6 +81,69 @@
   z-index: 1;
   bottom: 25px;
   cursor: pointer;
+  &.phone-champ{
+    position: relative;
+    bottom : unset;
+
+    .phone-champ-notice{
+      display: inline-block;
+      @extend %medium-content;
+      position: absolute;
+      width: 100%;
+    }
+    .player-card{
+      position: relative;
+      width: calc(100% - 20px);
+      transform: translateX(10px);
+      .user-info{
+        width: calc(100% - 68px);
+        .name{
+          display: flex;
+          justify-content: space-between;
+        }
+      }
+      .golden-badge{
+        position: absolute;
+        width: 35px;
+        left: -20px;
+      }
+    }
+    .content{
+      display: flex;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+      flex-direction: row-reverse;
+      @extend %medium-content;
+      li{
+       padding: 5px 25px;
+        flex: 1;
+        &:nth-child(2){
+          position: relative;
+          display: flex;
+          align-items: center;
+          font-weight: 400;
+          &:before{
+            content: "";
+            position: absolute;
+            background-color: #429434;
+            right: 12px;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+          }
+        }
+      }
+      .en{
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-family: sans-serif;
+        font-size: 12px;
+        text-align: left;
+      }
+    }
+
+  }
   .player-card{
     display: inline-flex;
     align-items: center;
@@ -120,6 +196,7 @@
         }
       }
       &.awards{
+        margin-top: 5px;
         display: flex;
         justify-content: space-between;
         font-family: iranyekan;
@@ -194,10 +271,16 @@
   top: 230px;
   right: 0;
   z-index: 0;
+  @media screen and (max-width: 468px) {
+    top: 65px;
+  }
+}
+.landing-content{
+  padding-right: 15px!important;
 }
 .landing-content{
   @media screen and (max-width: 768px) {
-    order: 2;
+    //order: 2;
   }
 }
 .landing-social{

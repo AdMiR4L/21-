@@ -22,15 +22,6 @@ function MainSlider(props) {
                         </li>
                         <li className="date">
                             <ConvertToShamsiDate gregorianDate={new Date()} slider={1}/>
-                            {/*<div className="day">
-                                18
-                            </div>
-                            <div className="month">
-                                تیـــر
-                            </div>
-                            <div className="month">
-                                ماه
-                            </div>*/}
                         </li>
                         <li className="year">
                             1403
@@ -40,10 +31,10 @@ function MainSlider(props) {
                         <Swiper
                             slidesPerView={1}
                             spaceBetween={20}
-                            // autoplay={{
-                            //     delay: 3000,
-                            //     disableOnInteraction: true,
-                            // }}
+                            autoplay={{
+                                delay: 3000,
+                                disableOnInteraction: true,
+                            }}
                             // breakpoints={{
                             //     640: {
                             //         slidesPerView: 1,

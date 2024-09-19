@@ -904,6 +904,17 @@ input[type=number] {
   cursor: not-allowed;
   background-color: #efefef !important;
 }
+.game .game-container .chairs .item .chair.unavailable .avatar-img-container {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.game .game-container .chairs .item .chair.unavailable .avatar-img-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 .game .game-container .chairs .item .chair:hover {
   background-color: #efefef;
 }
@@ -1193,7 +1204,7 @@ input[type=number] {
 }
 .god .avatar .img-container {
   overflow: hidden;
-  border-radius: 20px;
+  border-radius: 20px !important;
   width: 65px;
   height: 65px;
 }
@@ -2224,6 +2235,41 @@ input[type=number] {
 }
 .twin-buttons:nth-last-child(1) {
   margin-right: 20px;
+}
+
+.history-card {
+  text-align: right;
+}
+.history-card .history-head {
+  margin: 15px 0;
+  border-radius: 50px;
+  padding-top: 25px;
+  font-family: IRANYekan;
+}
+.history-card .history-head .archive-date {
+  display: flex;
+  justify-content: space-between;
+}
+.history-card .history-head .archive-date .day-name {
+  color: #BC080E;
+  font-weight: 700;
+  font-size: 18px;
+  padding-right: 35px;
+}
+.history-card .history-head .archive-date .rest-date {
+  font-size: 13px;
+  font-weight: 400;
+  background-color: #efefef;
+  border-radius: 50px;
+  padding: 3px 15px;
+}
+.history-card .history-head svg {
+  position: absolute;
+  fill: #c3c3c3;
+  right: 20px;
+  width: 25px;
+  margin-left: 10px;
+  transform: translateY(2px);
 }
 
 /*# sourceMappingURL=Game.css.map */
