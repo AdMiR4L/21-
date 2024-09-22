@@ -483,6 +483,7 @@ h1 {
 }
 
 .custom-modal {
+  padding: 0 !important;
   position: fixed;
   top: 0;
   left: 0;
@@ -1010,7 +1011,7 @@ input[type=number] {
 .top-player .player-card {
   display: inline-flex;
   align-items: center;
-  padding: 5px 20px 5px 30px;
+  padding: 5px 20px 5px 15px;
   border-radius: 20px 50px 50px 20px;
 }
 .top-player .player-card .player-avatar {

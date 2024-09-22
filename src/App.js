@@ -21,11 +21,23 @@ import GameHistory from "./components/GameHistory";
 import LeaderBoard from "./components/LeaderBoard";
 import ArticlesArchive from "./components/ArticlesArchive";
 import Article from "./components/Article";
+import Questions from "./admin/Questions";
 function App() {
 
     const [user, setUser] = useState({
         loggedIn : localStorage.getItem("loggedIn"),
     });
+    const meta = {
+        title: 'Some Meta Title',
+        description: 'I am a description, and I can create multiple tags',
+        canonical: 'http://example.com/path/to/page',
+        meta: {
+            charset: 'utf-8',
+            name: {
+                keywords: 'react,meta,document,html,tags'
+            }
+        }
+    }
     const [networkError, setNetworkError] = useState(false);
     const [loginModal, setLoginModal] = useState(false);
   return (
@@ -49,7 +61,7 @@ function App() {
                       />
                       <Route path="games/history" element={<GameHistory />} />
                       <Route path="articles/archive" element={<ArticlesArchive />} />
-                      <Route path="article/:slug" element={<Article/>} />
+                      <Route path="article/:slug" element={<Article setloginModal={setLoginModal}/>} />
                       <Route path="dashboard" element={<Dashboard />} />
                       <Route path="leaderboard" element={<LeaderBoard />} />
                       <Route path="dashboard/info" element={<UserInfo/>} />
@@ -58,6 +70,7 @@ function App() {
                       <Route path="verify/zarinpal/:id" element={<PaymentReceipt />} />
                       <Route path="admin" element={<Admin />} />
                       <Route path="admin/users" element={<Users/>}/>
+                      <Route path="admin/faq" element={<Questions/>}/>
                       <Route path="admin/users/:id" element={<User/>}/>
                   </Route>
                   {/* Add a fallback route to catch unmatched routes */}

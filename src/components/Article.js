@@ -2,19 +2,20 @@ import React, {useEffect, useState} from "react";
 import axios from "axios";
 import Skeleton from "./Skeleton";
 import ConvertToShamsiDate from "./ConverToShamsiDate";
-import {Swiper, SwiperSlide} from "swiper/react";
-import {FreeMode} from "swiper/modules";
-import {Link, useNavigate, useParams, useSearchParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
+import Breadcrumb from "../layouts/Breadcrumb";
+import Comment from "./Comment";
 function Article(props) {
+
     const params = useParams();
-
-
     function removeHtmlTags(str) {
         const noTags = str.replace(/<\/?[^>]+(>|$)/g, "");
         const textArea = document.createElement("textarea");
         textArea.innerHTML = noTags;
         return textArea.value;
     }
+    const navigate = useNavigate();
+
     const headers = {
         'Content-Type': 'application/json',
         'Authorization': "Bearer " + localStorage.authToken}
@@ -22,10 +23,11 @@ function Article(props) {
     const [article, setArticle] = useState({});
     const [likes, setLikes] = useState();
     const [myLike, setMyLike] = useState(false);
+    const [copied, setCopied] = useState(false);
+    const [showCommentsModal, setShowCommentsModal] = useState(false);
     function  getArticles(){
         axios.get(process.env.REACT_APP_API+"article/"+params.slug, {headers : headers})
             .then(response => {
-                console.log(response.data)
                 setLikes(response.data.article.like)
                 if (response.data.like && response.data.like.status === 1)
                     setMyLike(true)
@@ -34,9 +36,8 @@ function Article(props) {
                 setLoading(false);
             })
             .catch(error => {
-                if (!error.response)
-                    console.log("network")
                 console.log(error);
+                navigate("*")
                 setLoading(false);
             });
     }
@@ -59,6 +60,7 @@ function Article(props) {
 
     }
     useEffect(() => {
+        document.title = '21+ Articles | '+article.title ?? null
         getArticles()
         window.scrollTo(0, 0);
     }, []);
@@ -66,15 +68,70 @@ function Article(props) {
 
     return (
 
-        <section className="articles articles-archive">
+        <section className="articles">
             <div className="container">
-
+                {!loading ?
+                    <div className="d-none d-md-block col-12">
+                        <div className="space-25"></div>
+                        <Breadcrumb
+                            tag={article.title}
+                            tagLocation={`/article/${article.slug}`}
+                            categoryLocation={`/articles/archive?page=1&category=${article.category?.slug}`}  // Safe navigation here
+                            category={article.category?.title}  // Safe navigation here
+                            name="اخبار و مقالات آموزشی"
+                            location="/articles/archive?page=1"/>
+                    </div>
+                    : null
+                }
                 <div className="space-25"></div>
+                {!loading ?
+                    <div className="access">
+                        <div className="article-single-access">
+                            <ul className="item pr-2">
+                                <li className="attr">دسته </li>
+                                <li className="val">
+                                    {article.category ? (
+                                        <Link to={`/articles/archive?page=1&category=${article.category.slug}`}>
+                                            {article.category.title}
+                                        </Link>
+                                    ) : 'Loading category...'}
+                                </li>
+                            </ul>
+                            <div className="item" style={{cursor: "pointer"}} onClick={() => {
+                                const url = window.location.href;  // Current page URL, or you can set any custom URL
 
+                                navigator.clipboard.writeText(url)
+                                    .then(() => {
+                                        setCopied(true);  // Set copied state to true
+                                        setTimeout(() => setCopied(false), 2000);  // Reset after 2 seconds
+                                    })
+                                    .catch(err => {
+                                        console.error('Failed to copy: ', err);
+                                    });
+                            }}>
+                                <div className="attr pr-2">
+                                    اشتراک گذازی
+                                </div>
+                                <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 24 24">
+                                <g>
+                                        <path
+                                            d="M10 3H7a4 4 0 0 0-4 4v10a4 4 0 0 0 4 4h10a4 4 0 0 0 4-4v-3h-2v3a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3zm7.586 2-6.293 6.293 1.414 1.414L19 6.414V10h2V4a1 1 0 0 0-1-1h-6v2z"></path>
+                                    </g>
+                                </svg>
+                                {copied && (
+                                    <div className="message">
+                                        لیـنـک کپــی شــد !
+                                    </div>
+                                )}
+                            </div>
+
+                        </div>
+                    </div>
+                    : null}
                 {loading ?
                     <article className="article single">
                         <div className="img-container">
-                            <Skeleton border={1} width={"100%"} height={"100%"}/>
+                        <Skeleton border={1} width={"100%"} height={"100%"}/>
                             <svg className="blank-image position-absolute"
                                  style={{zIndex: 5, fill: "rgb(211 211 211)"}}
                                  xmlns="http://www.w3.org/2000/svg"
@@ -128,86 +185,60 @@ function Article(props) {
                                 <div className="content">
                                     <div className="footer">
                                         <ul className="foot-items">
-                                            <li className="item">
+                                            <li className="item" onClick={() =>setShowCommentsModal(true)} style={{cursor : "pointer"}}>
                                                 {article.comment}
                                                 <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
                                                      x="0" y="0" viewBox="0 0 24 24">
                                                     <g>
-                                                        <path d="M24 11.247A12.012 12.012 0 1 0 12.017 24H19a5.005 5.005 0 0 0 5-5v-7.753ZM22 19a3 3 0 0 1-3 3h-6.983a10.041 10.041 0 0 1-7.476-3.343 9.917 9.917 0 0 1-2.476-7.814 10.043 10.043 0 0 1 8.656-8.761 10.564 10.564 0 0 1 1.3-.082A9.921 9.921 0 0 1 18.4 4.3a10.041 10.041 0 0 1 3.6 7.042Z"></path>
                                                         <path
-                                                    d="M8 9h4a1 1 0 0 0 0-2H8a1 1 0 0 0 0 2ZM16 11H8a1 1 0 0 0 0 2h8a1 1 0 0 0 0-2ZM16 15H8a1 1 0 0 0 0 2h8a1 1 0 0 0 0-2Z"></path>
+                                                            d="M24 11.247A12.012 12.012 0 1 0 12.017 24H19a5.005 5.005 0 0 0 5-5v-7.753ZM22 19a3 3 0 0 1-3 3h-6.983a10.041 10.041 0 0 1-7.476-3.343 9.917 9.917 0 0 1-2.476-7.814 10.043 10.043 0 0 1 8.656-8.761 10.564 10.564 0 0 1 1.3-.082A9.921 9.921 0 0 1 18.4 4.3a10.041 10.041 0 0 1 3.6 7.042Z"></path>
+                                                        <path
+                                                            d="M8 9h4a1 1 0 0 0 0-2H8a1 1 0 0 0 0 2ZM16 11H8a1 1 0 0 0 0 2h8a1 1 0 0 0 0-2ZM16 15H8a1 1 0 0 0 0 2h8a1 1 0 0 0 0-2Z"></path>
                                                     </g>
                                                 </svg>
                                             </li>
-                                            <li className="item">
+                                            <li className="item" style={{ cursor : "pointer"}}
+                                                onClick={() => localStorage.authToken ? likeAttempt() : props.setloginModal(true)}>
                                                 {likes}
-                                                <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
-                                                     x="0" y="0" viewBox="0 0 24 24">
-                                                    <g>
-                                                        <path d="M17.5 1.917a6.4 6.4 0 0 0-5.5 3.3 6.4 6.4 0 0 0-5.5-3.3A6.8 6.8 0 0 0 0 8.967c0 4.547 4.786 9.513 8.8 12.88a4.974 4.974 0 0 0 6.4 0c4.014-3.367 8.8-8.333 8.8-12.88a6.8 6.8 0 0 0-6.5-7.05Zm-3.585 18.4a2.973 2.973 0 0 1-3.83 0C4.947 16.006 2 11.87 2 8.967a4.8 4.8 0 0 1 4.5-5.05 4.8 4.8 0 0 1 4.5 5.05 1 1 0 0 0 2 0 4.8 4.8 0 0 1 4.5-5.05 4.8 4.8 0 0 1 4.5 5.05c0 2.903-2.947 7.039-8.085 11.346Z">
-                                                        </path>
-                                                    </g>
-                                                </svg>
+                                                {myLike ?
+                                                    <svg className="active" xmlns="http://www.w3.org/2000/svg"
+                                                         version="1.1"
+                                                         viewBox="0 0 24 24">
+                                                        <g>
+                                                            <path
+                                                                d="M17.5 1.917a6.4 6.4 0 0 0-5.5 3.3 6.4 6.4 0 0 0-5.5-3.3A6.8 6.8 0 0 0 0 8.967c0 4.547 4.786 9.513 8.8 12.88a4.974 4.974 0 0 0 6.4 0c4.014-3.367 8.8-8.333 8.8-12.88a6.8 6.8 0 0 0-6.5-7.05Z">
+                                                            </path>
+                                                        </g>
+                                                    </svg>
+                                                    :
+                                                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+                                                         x="0" y="0" viewBox="0 0 24 24">
+                                                        <g>
+                                                            <path
+                                                                d="M17.5 1.917a6.4 6.4 0 0 0-5.5 3.3 6.4 6.4 0 0 0-5.5-3.3A6.8 6.8 0 0 0 0 8.967c0 4.547 4.786 9.513 8.8 12.88a4.974 4.974 0 0 0 6.4 0c4.014-3.367 8.8-8.333 8.8-12.88a6.8 6.8 0 0 0-6.5-7.05Zm-3.585 18.4a2.973 2.973 0 0 1-3.83 0C4.947 16.006 2 11.87 2 8.967a4.8 4.8 0 0 1 4.5-5.05 4.8 4.8 0 0 1 4.5 5.05 1 1 0 0 0 2 0 4.8 4.8 0 0 1 4.5-5.05 4.8 4.8 0 0 1 4.5 5.05c0 2.903-2.947 7.039-8.085 11.346Z">
+                                                            </path>
+                                                        </g>
+                                                    </svg>
+
+                                                }
                                             </li>
                                             <li className="item release">
-                                                <ConvertToShamsiDate gregorianDate={article.created_at}
-                                                                     article={1}/>
-                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                     viewBox="0 0 18.1 18.1">
-                                                    <path
-                                                        d="M9.96,18.1h-4.53c-.5,0-.9-.4-.9-.9s.4-.9.9-.9h4.53c3.12,0,5.75-2.24,6.25-5.32.28-1.67-.12-3.35-1.11-4.73-.99-1.38-2.45-2.29-4.13-2.56-.33-.05-.68-.08-1.03-.08-3.18,0-5.89,2.39-6.29,5.55-.06.49-.51.84-1.01.78-.49-.06-.84-.51-.78-1C2.39,4.88,5.86,1.81,9.96,1.81c.44,0,.88.04,1.3.1,2.16.35,4.04,1.52,5.31,3.29s1.77,3.92,1.42,6.07c-.65,3.95-4.03,6.82-8.03,6.83ZM7.24,15.39H2.71c-.5,0-.9-.4-.9-.9s.4-.9.9-.9h4.53c.5,0,.9.4.9.9s-.4.9-.9.9ZM5.43,12.67H.9c-.5,0-.9-.4-.9-.9s.4-.9.9-.9h4.53c.5,0,.9.4.9.9s-.4.9-.9.9ZM9.96,10.86c-.5,0-.9-.4-.9-.9v-3.62c0-.5.4-.9.9-.9s.9.4.9.9v3.62c0,.5-.4.9-.9.9ZM11.77,1.8h-3.62c-.5,0-.9-.4-.9-.9s.4-.9.9-.9h3.62c.5,0,.9.4.9.9s-.4.9-.9.9Z"/>
-                                                </svg>
+                                                <ConvertToShamsiDate gregorianDate={article.created_at} single={1} />
+
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
                             </article>
-                            <div className="access">
-                                <ul className="category">
-                                    <li className="attr">دسته بندی</li>
-                                    <li className="val">{article.category.title}</li>
-                                </ul>
-                                <div className="section-header">
-                                    <div className="head">
-                                        اشتراک گذازی
-                                    </div>
-                                    <div className="single-share">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12.38 13.2">
-                                            <path
-                                                d="M10.06,8.56c-.74,0-1.43.35-1.86.95l-3.66-1.87c.16-.5.13-1.03-.07-1.51l3.83-2.3c.83.96,2.29,1.07,3.26.24.96-.83,1.07-2.29.24-3.26-.83-.96-2.29-1.07-3.26-.24-.51.44-.8,1.08-.8,1.76,0,.29.06.57.16.83l-3.84,2.31c-.84-.96-2.31-1.06-3.27-.22-.96.84-1.06,2.31-.22,3.27.84.96,2.31,1.06,3.27.22.14-.12.26-.25.36-.4l3.65,1.87c-.07.22-.11.45-.11.68,0,1.28,1.04,2.32,2.32,2.32s2.32-1.04,2.32-2.32-1.04-2.32-2.32-2.32h0Z"/>
-                                        </svg>
-                                    </div>
-                                    <div className="like-container" onClick={() => likeAttempt()}>
-                                        {myLike ?
-                                            <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
-                                                 viewBox="0 0 24 24">
-                                                <g>
-                                                    <path
-                                                        d="M17.5 1.917a6.4 6.4 0 0 0-5.5 3.3 6.4 6.4 0 0 0-5.5-3.3A6.8 6.8 0 0 0 0 8.967c0 4.547 4.786 9.513 8.8 12.88a4.974 4.974 0 0 0 6.4 0c4.014-3.367 8.8-8.333 8.8-12.88a6.8 6.8 0 0 0-6.5-7.05Z">
-                                                    </path>
-                                                </g>
-                                            </svg>
-                                            :
-                                            <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
-                                                 x="0" y="0" viewBox="0 0 24 24">
-                                                <g>
-                                                    <path
-                                                        d="M17.5 1.917a6.4 6.4 0 0 0-5.5 3.3 6.4 6.4 0 0 0-5.5-3.3A6.8 6.8 0 0 0 0 8.967c0 4.547 4.786 9.513 8.8 12.88a4.974 4.974 0 0 0 6.4 0c4.014-3.367 8.8-8.333 8.8-12.88a6.8 6.8 0 0 0-6.5-7.05Zm-3.585 18.4a2.973 2.973 0 0 1-3.83 0C4.947 16.006 2 11.87 2 8.967a4.8 4.8 0 0 1 4.5-5.05 4.8 4.8 0 0 1 4.5 5.05 1 1 0 0 0 2 0 4.8 4.8 0 0 1 4.5-5.05 4.8 4.8 0 0 1 4.5 5.05c0 2.903-2.947 7.039-8.085 11.346Z">
-                                                    </path>
-                                                </g>
-                                            </svg>
-
-                                        }
-                                    </div>
-
-                                </div>
-                            </div>
-
-
                         </div>
                     </div>
                 }
             </div>
+            {!loading && (<Comment
+                setCommentsModal={setShowCommentsModal}
+                commentsModal={showCommentsModal}
+                id={article.id}
+                type={"Article::class"} />)}
 
             <div className="space-50"></div>
             <div className="space-25"></div>

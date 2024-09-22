@@ -477,6 +477,7 @@ h1 {
 }
 
 .custom-modal {
+  padding: 0 !important;
   position: fixed;
   top: 0;
   left: 0;
@@ -1065,7 +1066,7 @@ input[type=number] {
 }
 @media screen and (max-width: 468px) {
   .swiper-button-next, .swiper-button-prev {
-    display: none;
+    top: 40px;
   }
 }
 .swiper-button-next:after, .swiper-button-prev:after {

@@ -483,6 +483,7 @@ h1 {
 }
 
 .custom-modal {
+  padding: 0 !important;
   position: fixed;
   top: 0;
   left: 0;
@@ -869,6 +870,11 @@ input[type=number] {
 .top-players {
   padding: 15px;
 }
+@media screen and (max-width: 468px) {
+  .top-players {
+    padding: 15px 10px !important;
+  }
+}
 .top-players .player {
   display: flex;
   align-items: center;
@@ -876,7 +882,7 @@ input[type=number] {
   border-bottom: 1px solid rgba(233, 233, 233, 0.568627451);
   margin-bottom: 15px;
 }
-.top-players .player:nth-last-child(2) {
+.top-players .player:nth-last-child(3) {
   border-bottom: transparent;
   margin-bottom: 10px;
 }
@@ -1002,8 +1008,13 @@ input[type=number] {
   background-color: #FFFFFF;
 }
 .top-players .more-players svg {
+  transition: all 0.5s;
   width: 10px;
+  transform: rotate(0);
   fill: #929292;
+}
+.top-players .more-players.active .arrow .arrow-icon {
+  transform: rotate(180deg);
 }
 
 @media screen and (max-width: 1600px) {

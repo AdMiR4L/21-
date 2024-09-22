@@ -3,13 +3,16 @@
 .top-players{
   @extend %first-box;
   padding: 15px;
+  @media screen and (max-width: 468px){
+    padding: 15px 10px!important;
+  }
   .player{
     display: flex;
     align-items: center;
     padding-bottom: 15px;
     border-bottom: 1px solid #e9e9e991;
     margin-bottom: 15px;
-    &:nth-last-child(2){
+    &:nth-last-child(3){
       border-bottom: transparent;
       margin-bottom: 10px;
     }
@@ -143,9 +146,18 @@
       background-color:#FFFFFF ;
     }
     svg{
+      transition: all .5s;
       width: 10px;
+      transform: rotate(0);
       fill: #929292;
 
+    }
+    &.active{
+      .arrow{
+        .arrow-icon{
+          transform: rotate(180deg);
+        }
+      }
     }
   }
 }

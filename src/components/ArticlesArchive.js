@@ -4,11 +4,12 @@ import Skeleton from "./Skeleton";
 import ConvertToShamsiDate from "./ConverToShamsiDate";
 import {Swiper, SwiperSlide} from "swiper/react";
 import {FreeMode} from "swiper/modules";
-import {Link, useNavigate, useSearchParams} from "react-router-dom";
+import {Link, useLocation, useNavigate, useSearchParams} from "react-router-dom";
+import Breadcrumb from "../layouts/Breadcrumb";
 function ArticlesArchive(props) {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
-
+    const location = useLocation()
 
     function removeHtmlTags(str) {
         const noTags = str.replace(/<\/?[^>]+(>|$)/g, "");
@@ -23,25 +24,29 @@ function ArticlesArchive(props) {
     const [categories, setCategories] = useState({});
     const [page, setPage] = useState(`${process.env.REACT_APP_API}articles/archive?page=${pageParam}`);
     function  getArticles(link){
-        axios.get(link ?? page, )
+        axios.get(link ?? page, {
+            params: {
+                category: searchParams.get('category')
+            }
+        })
             .then(response => {
-                console.log(response.data);
                 setArticles(response.data.articles);
                 setCategories(response.data.categories);
                 setLoading(false);
             })
             .catch(error => {
-                if (!error.response)
-                    console.log("network")
                 console.log(error);
+                navigate("*")
                 setLoading(false);
             });
     }
     useEffect(() => {
-        console.log(pageParam)
+        document.title = '21+ Articles'
         getArticles()
-        window.scrollTo(0, 0);
-    }, []);
+        setTimeout(() => window.scrollTo({
+            top: 0, behavior: 'smooth'
+        }), 100)
+    }, [location.search]);
 
 
     return (
@@ -49,6 +54,13 @@ function ArticlesArchive(props) {
         <section className="articles articles-archive">
             <div className="container">
                 <div className="row">
+                    {!loading ?
+                        <div className="d-none d-md-block col-12">
+                            <div className="space-25"></div>
+                            <Breadcrumb name="اخبار و مقالات آموزشی" location="/articles/archive?page=1"/>
+                        </div>
+                        : null
+                    }
                     <div className="space-25"></div>
                     <div className="col-12 section-top">
 
@@ -105,11 +117,17 @@ function ArticlesArchive(props) {
                                     className="pl-3"
                                     freeMode={true}
                                 >
+
+                                        <SwiperSlide className="mobile-article">
+                                            <Link to="/articles/archive?page=1" className={`cat-item ${searchParams.get('category') === null ? "active" : null}`}>
+                                                همه
+                                            </Link>
+                                        </SwiperSlide>
                                     {categories.map((item, index) => {
                                         return <SwiperSlide className="mobile-article" key={index}>
-                                            <div key={index} className="cat-item">
+                                            <Link to={`/articles/archive?page=1&category=${item.slug}`} key={index} className={`cat-item ${searchParams.get('category') === item.slug ? "active" : null}`}>
                                                 {item.title}
-                                            </div>
+                                            </Link>
                                         </SwiperSlide>
                                     })}
                                 </Swiper>
@@ -133,12 +151,12 @@ function ArticlesArchive(props) {
                                             }
                                         </Link>
                                     </div>
-                                    <div className="share">
+                                   {/* <div className="share">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12.38 13.2">
                                             <path
                                                 d="M10.06,8.56c-.74,0-1.43.35-1.86.95l-3.66-1.87c.16-.5.13-1.03-.07-1.51l3.83-2.3c.83.96,2.29,1.07,3.26.24.96-.83,1.07-2.29.24-3.26-.83-.96-2.29-1.07-3.26-.24-.51.44-.8,1.08-.8,1.76,0,.29.06.57.16.83l-3.84,2.31c-.84-.96-2.31-1.06-3.27-.22-.96.84-1.06,2.31-.22,3.27.84.96,2.31,1.06,3.27.22.14-.12.26-.25.36-.4l3.65,1.87c-.07.22-.11.45-.11.68,0,1.28,1.04,2.32,2.32,2.32s2.32-1.04,2.32-2.32-1.04-2.32-2.32-2.32h0Z"/>
                                         </svg>
-                                    </div>
+                                    </div>*/}
                                     <ul className="content">
                                         <li className="head">
 
@@ -209,9 +227,10 @@ function ArticlesArchive(props) {
                                        onClick={() => {
                                            if (item.url && item.url !== page) {
                                                const newPage = new URL(item.url).searchParams.get('page');
+                                               const category = searchParams.get('category') ?? "";
                                                setPage(item.url);
                                                getArticles(item.url)
-                                               navigate(`?page=${newPage}`);
+                                               navigate(`?page=${newPage}${category ? `&category=${category}` : ''}`);
                                                setTimeout(() => window.scrollTo({
                                                    top: 0, behavior: 'smooth'
                                                }), 500)

@@ -404,16 +404,19 @@ function PaymentReceipt(){
                                     <div className="cube-card">
                                         <div className="head mt-2">
                                             <div className="right">
-                                                <div className="number">ســالـن {order.game.salon}</div>
-                                                <div className="manager">
-                                                    گرداننده سالن :
-                                                    <span className="cube-god">
-                                                        {order.game.god_id ?
-                                                            order.game.god.name + " " + order.game.god.family
-                                                            :
-                                                            "هنوز مشخص نشده است"
-                                                        }
+                                                <div className="number d-flex">
+                                                    <div> طـبـقـه</div>
+                                                    <span className="pr-1">
+                                                        {order.game.salon === "1" ? "اول" :
+                                                            order.game.salon === "2" ? "دوم"
+                                                                : "سوم"}
                                                     </span>
+                                                </div>
+                                                <div className="manager">
+                                                    <span className="cube-god">{order.game.salon === "1" ? "First" :
+                                                        order.game.salon === "2" ? "Second"
+                                                            : "Third"}</span>
+                                                    Floor
                                                 </div>
                                             </div>
                                             <div className="cube-num">
@@ -423,7 +426,7 @@ function PaymentReceipt(){
                                             </div>
                                         </div>
                                         <div className="cube">
-                                            <div className="cube-info">
+                                        <div className="cube-info">
                                                 <ul className="cube-box">
                                                     <li className="event">
                                                         <img className="ml-2" src={ClockIcon} alt="clock"/>
@@ -433,17 +436,10 @@ function PaymentReceipt(){
                                                             <span className="dot">الی</span>
                                                             <span
                                                                 className="end">{order.game.clock.split('-')[1]}</span>
-                                                            <div className="notice">شــروع و پـایـان</div>
+                                                            <div className="notice">شــروع و پـایـان رویداد</div>
                                                         </div>
                                                     </li>
                                                 </ul>
-                                                {order.game.status === 0 ? (
-                                                    <div className="status standby">STANDBY</div>
-                                                ) : order.game.status === 1 ? (
-                                                    <div className="status live">LIVE</div>
-                                                ) : (
-                                                    <div className="status ended">ENDED</div>
-                                                )}
                                                 <ul className="cube-box">
 
                                                     <li className="event">

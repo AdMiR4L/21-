@@ -22,7 +22,6 @@ function Home(props) {
             .then(response => {
                 setLeaderBoard(response.data.players)
                 setWeekChampion(response.data.champion)
-                console.log(response.data)
                 setIsLoading(false)
             });
     }

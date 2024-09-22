@@ -39,7 +39,7 @@ function LeaderBoard() {
 
     useEffect(() => {
         get();
-        document.title = '21+ | Leaderboard'
+        document.title = '21+ Leaderboard'
         window.scrollTo(0, 0);
     }, []);
     return <section className="games-archive">

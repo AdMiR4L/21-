@@ -215,7 +215,8 @@
     }
   }
   @media screen and (max-width: 468px){
-    display: none;
+    //display: none;
+    top: 40px;
   }
   &:after{
     font-size: 13px;
@@ -223,6 +224,7 @@
 }
 .swiper-button-prev {
   right: 20px!important;
+
 
 }
 .swiper-button-next{

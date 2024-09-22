@@ -31,6 +31,12 @@ ul {
   color: #181D31;
 }
 
+.question-modal .question-content .description {
+  font-size: 14px;
+  font-weight: 400;
+  color: #181D31;
+}
+
 .custom-modal .modal-title .modal-head {
   font-size: 15px;
   font-weight: 500;
@@ -477,6 +483,7 @@ h1 {
 }
 
 .custom-modal {
+  padding: 0 !important;
   position: fixed;
   top: 0;
   left: 0;
@@ -878,8 +885,8 @@ input[type=number] {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 45px;
-  height: 45px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background-color: #D1FFC4;
 }
@@ -890,8 +897,8 @@ input[type=number] {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 45px;
-  height: 45px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background-color: #F3F3F3;
 }
@@ -899,7 +906,10 @@ input[type=number] {
   font-family: iranyekan;
   text-align: right;
   margin-left: auto;
-  padding-right: 15px;
+  padding-right: 10px;
+  width: calc(100% - 95px);
+  white-space: nowrap;
+  overflow: hidden;
 }
 .faq .question .content .head {
   font-size: 13px;
@@ -942,12 +952,50 @@ input[type=number] {
   margin-left: 5px;
 }
 .faq-footer .content .btn {
-  padding: 8px 35px;
+  padding: 8px 25px;
   background-color: #BC080E;
   color: #fff;
   font-weight: 300;
   font-size: 14px;
-  border-radius: 50px;
+  border-radius: 10px;
+}
+
+.question-modal .modal-content .modal-header {
+  padding: 15px !important;
+}
+.question-modal .modal-content .modal-header .modal-title {
+  justify-content: flex-start !important;
+  font-size: 20px !important;
+  align-items: center;
+}
+.question-modal .modal-content .modal-header .modal-cross-icon {
+  margin-left: 10px;
+}
+.question-modal .question-mark {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  margin-left: 10px;
+  border-radius: 50%;
+  background-color: #D1FFC4;
+}
+.question-modal .question-mark svg {
+  width: 6px;
+}
+.question-modal .question-content {
+  text-align: right;
+}
+.question-modal .question-content .title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.question-modal .question-content .description {
+  font-family: IRANYekan;
+  color: #59626f;
+  margin-bottom: 35px;
 }
 
 /*# sourceMappingURL=FAQ.css.map */

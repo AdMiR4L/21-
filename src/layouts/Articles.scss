@@ -11,7 +11,10 @@
     border-radius: 20px;
     .img-container{
       height: 160px;
-      border-radius: 20px 20px 20px 0;
+      border-radius: 20px 20px 0 20px;
+      &.curve{
+        border-radius: 20px 20px 0 25px;
+      }
       overflow: hidden;
       display: flex;
       align-items: center;
@@ -98,12 +101,17 @@
     .swiper-slide{
       width: fit-content;
       cursor: pointer;
+      margin-bottom: 10px;
       .cat-item{
         background-color: #efefef;
         border-radius: 10px;
         padding: 5px 15px;
         font-size: 13px;
         color: $dark;
+        &.active{
+          color: #fff;
+          background-color: #429434;
+        }
       }
     }
   }
@@ -156,6 +164,23 @@
 }
 .article.single{
   border: none;
+  background-color: transparent;
+  .img-container{
+    min-height: 250px;
+  }
+  .content  .foot-items{
+    border-radius: 10px!important;
+    .item{
+      font-size: 13px!important;
+      svg{
+        width: 24px!important;
+        fill: #939393 !important;
+        &.active{
+          fill: $primary!important;
+        }
+      }
+    }
+  }
   .head{
     margin-top: 20px;
     h1{
@@ -172,6 +197,15 @@
   .description{
     text-align: right;
     font-family: iranyekan;
+    img{
+      width: 100% !important;
+      height: auto!important;
+      //height: 300px;
+      object-fit: contain;
+      border-radius: 15px;
+      margin: 10px 0;
+      overflow: hidden;
+    }
     p{
       color: lighten($black , 40%);
       font-size: 13px;
@@ -188,5 +222,224 @@
 .like-container{
   svg{
     fill: $primary;
+  }
+}
+.article-single-access{
+  font-family: IRANYekan;
+  position: relative;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  padding: 10px 0;
+  .item{
+    display: flex;
+    align-items: center;
+    color: lighten($black , 30%);
+    font-weight: 400;
+    .attr{
+      display: inline-block;
+      margin-left: 10px;
+    }
+    svg{
+      width: 22px;
+
+      position: relative;
+      top: -2px;
+    }
+    .val{
+      background-color: #efefef;
+      color: $black;
+      padding: 5px 10px;
+      border-radius: 10px;
+    }
+    .message{
+      position: absolute;
+      background-color: #1b1e21;
+      font-size: 11px;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      padding: 5px 15px;
+      border-radius: 10px;
+      top: 50px;
+      z-index: 5;
+      &:before{
+        content: "";
+        position: absolute;
+        top: -4px;
+        width: 10px;
+        height: 10px;
+        transform: rotate(45deg);
+        background-color: #1b1e21;
+      }
+    }
+  }
+}
+.comments{
+  margin-top: 35px;
+  .user-info{
+    .name{
+      text-align: right;
+      font-size: 13px;
+      font-weight: 300;
+      font-family: IRANYekan;
+      background-color: #7a7a7a;
+      padding: 3px 15px;
+      border-radius: 20px 20px 5px 20px;
+      position: absolute;
+      right: 30px;
+      top: -16px;
+      color: $light;
+      border: 5px solid #f7f7f7;
+      display: flex;
+      align-items: center;
+      &:before{
+        content: "";
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        left: -6px;
+        background-color: #429434;
+        border: 2px solid #f7f7f7;
+        border-radius: 50%;
+      }
+    }
+    .avatar{
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      overflow: hidden;
+      position: absolute;
+      top: -30px;
+      left: 25px;
+      border: 5px solid #f7f7f7;
+      img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+  .input-control{
+    padding-top: 30px;
+    &:focus{
+      border-color: #429434;
+    }
+  }
+  .twin-buttons{
+    font-size: 13px!important;
+    .loader-container{
+      height: 20px!important;
+    }
+  }
+}
+
+.comments-modal{
+  touch-action: none;
+  .modal-body{
+    overflow-y: auto;
+    max-height: 420px;
+  }
+  .user-comments{
+    .comment{
+      text-align: right;
+      &:nth-child(1){
+        border-top: transparent;
+      }
+      &:nth-last-child(1){
+        margin-bottom: 25px;
+      }
+      .userinfo{
+        margin: 10px 0;
+        .top{
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 5px;
+          .name{
+            font-family: IRANYekan;
+            font-size: 14px;
+            font-weight: 500;
+          }
+          .date{
+            font-family: IRANYekan;
+            font-size: 11px;
+            color: lighten($black , 40%);
+            font-weight: 400;
+            display: flex;
+            align-items: center;
+            svg{
+              width: 15px;
+              fill: lighten($black , 40%);
+              margin-left: 5px;
+            }
+          }
+        }
+        .cm{
+          display: flex;
+          .avatar{
+            .img-container{
+              width: 50px;
+              height: 50px;
+              border-radius: 50%;
+              overflow: hidden;
+              img{
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+              }
+            }
+
+          }
+          .description{
+            margin-right: 10px;
+            //margin-top: 10px;
+            font-size: 13px;
+            font-family: IRANYekan;
+            color: lighten($black, 30%);
+            width: calc(100% - 50px);
+            background-color: #efefef;
+            padding: 10px;
+            border-radius: 15px 0 15px 15px;
+          }
+        }
+      }
+    }
+  }
+  .modal-content{
+    .modal-header{
+      padding: 5px 10px!important;
+
+      .modal-title{
+        padding: 10px 15px;
+        display: flex;
+        width: 100%;
+        text-align: right;
+
+      }
+    }
+    .touch-container{
+      display: flex;
+      width: 100%;
+      height: 100%;
+      justify-content: center;
+      touch-action: none;
+      padding-bottom: 20px;
+      .touch-in{
+        margin-top: 10px;
+        width: 50px;
+        height: 8px;
+        border-radius: 50px;
+        background-color: #1b1e21;
+        touch-action: none;
+      }
+    }
+    .dragger{
+      width: 100%;
+      height: 40px;
+    }
   }
 }
