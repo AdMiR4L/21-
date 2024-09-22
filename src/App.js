@@ -15,12 +15,30 @@ import UserInfo from "./dashboard/UserInfo";
 import Admin from "./admin/Admin";
 import Users from "./admin/Users";
 import User from "./admin/User";
+import Transactions from "./dashboard/Transactions";
+import History from "./dashboard/History";
+import GameHistory from "./components/GameHistory";
+import LeaderBoard from "./components/LeaderBoard";
+import ArticlesArchive from "./components/ArticlesArchive";
+import Article from "./components/Article";
+import Questions from "./admin/Questions";
 function App() {
 
     const [user, setUser] = useState({
         loggedIn : localStorage.getItem("loggedIn"),
     });
-    //const [networkError, setNetworkError] = useState(false);
+    const meta = {
+        title: 'Some Meta Title',
+        description: 'I am a description, and I can create multiple tags',
+        canonical: 'http://example.com/path/to/page',
+        meta: {
+            charset: 'utf-8',
+            name: {
+                keywords: 'react,meta,document,html,tags'
+            }
+        }
+    }
+    const [networkError, setNetworkError] = useState(false);
     const [loginModal, setLoginModal] = useState(false);
   return (
 
@@ -37,15 +55,22 @@ function App() {
                       <Route index element={<Home user={user} setUser={setUser} loginModal={loginModal} setloginModal={setLoginModal} />} />
                       <Route path="game/:id"
                              element={<Game
-                                 //setNetworkError={setNetworkError}
+                                 setNetworkError={setNetworkError}
                                  loginModal={loginModal}
                                  setloginModal={setLoginModal} />}
                       />
+                      <Route path="games/history" element={<GameHistory />} />
+                      <Route path="articles/archive" element={<ArticlesArchive />} />
+                      <Route path="article/:slug" element={<Article setloginModal={setLoginModal}/>} />
                       <Route path="dashboard" element={<Dashboard />} />
-                      <Route path="dashboard/user/info" element={<UserInfo/>} />
+                      <Route path="leaderboard" element={<LeaderBoard />} />
+                      <Route path="dashboard/info" element={<UserInfo/>} />
+                      <Route path="dashboard/transactions" element={<Transactions/>} />
+                      <Route path="dashboard/history" element={<History/>} />
                       <Route path="verify/zarinpal/:id" element={<PaymentReceipt />} />
                       <Route path="admin" element={<Admin />} />
                       <Route path="admin/users" element={<Users/>}/>
+                      <Route path="admin/faq" element={<Questions/>}/>
                       <Route path="admin/users/:id" element={<User/>}/>
                   </Route>
                   {/* Add a fallback route to catch unmatched routes */}

@@ -31,7 +31,7 @@ ul {
   color: #181D31;
 }
 
-.top-player .side-card .content {
+.top-player .side-card .content, .top-player.phone-champ .content, .top-player.phone-champ .phone-champ-notice {
   font-size: 14px;
   font-weight: 400;
   color: #181D31;
@@ -483,6 +483,7 @@ h1 {
 }
 
 .custom-modal {
+  padding: 0 !important;
   position: fixed;
   top: 0;
   left: 0;
@@ -889,15 +890,33 @@ input[type=number] {
   font-weight: 500;
   margin-bottom: 10px;
 }
+@media screen and (max-width: 468px) {
+  .landing .content .name {
+    font-size: 11px;
+    font-family: IRANYekan;
+    font-weight: 600;
+  }
+}
 .landing .content .title {
   font-size: 36px;
   font-weight: 600;
   margin-bottom: 10px;
 }
+@media screen and (max-width: 468px) {
+  .landing .content .title {
+    font-size: 20px;
+    font-weight: 800;
+  }
+}
 .landing .content .notice {
   font-size: 13px;
   color: #8E8E8E;
   font-family: iranyekan;
+}
+@media screen and (max-width: 468px) {
+  .landing .content .notice {
+    font-size: 10px;
+  }
 }
 .landing .buttons {
   margin-top: 50px;
@@ -930,10 +949,69 @@ input[type=number] {
   bottom: 25px;
   cursor: pointer;
 }
+.top-player.phone-champ {
+  position: relative;
+  bottom: unset;
+}
+.top-player.phone-champ .phone-champ-notice {
+  display: inline-block;
+  position: absolute;
+  width: 100%;
+}
+.top-player.phone-champ .player-card {
+  position: relative;
+  width: calc(100% - 20px);
+  transform: translateX(10px);
+}
+.top-player.phone-champ .player-card .user-info {
+  width: calc(100% - 68px);
+}
+.top-player.phone-champ .player-card .user-info .name {
+  display: flex;
+  justify-content: space-between;
+}
+.top-player.phone-champ .player-card .golden-badge {
+  position: absolute;
+  width: 35px;
+  left: -20px;
+}
+.top-player.phone-champ .content {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row-reverse;
+}
+.top-player.phone-champ .content li {
+  padding: 5px 25px;
+  flex: 1;
+}
+.top-player.phone-champ .content li:nth-child(2) {
+  position: relative;
+  display: flex;
+  align-items: center;
+  font-weight: 400;
+}
+.top-player.phone-champ .content li:nth-child(2):before {
+  content: "";
+  position: absolute;
+  background-color: #429434;
+  right: 12px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+.top-player.phone-champ .content .en {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-family: sans-serif;
+  font-size: 12px;
+  text-align: left;
+}
 .top-player .player-card {
   display: inline-flex;
   align-items: center;
-  padding: 5px 20px 5px 30px;
+  padding: 5px 20px 5px 15px;
   border-radius: 20px 50px 50px 20px;
 }
 .top-player .player-card .player-avatar {
@@ -975,6 +1053,7 @@ input[type=number] {
   border-radius: 50px;
 }
 .top-player .user-info li.awards {
+  margin-top: 5px;
   display: flex;
   justify-content: space-between;
   font-family: iranyekan;
@@ -1038,11 +1117,14 @@ input[type=number] {
   right: 0;
   z-index: 0;
 }
-
-@media screen and (max-width: 768px) {
-  .landing-content {
-    order: 2;
+@media screen and (max-width: 468px) {
+  .logo-fade {
+    top: 65px;
   }
+}
+
+.landing-content {
+  padding-right: 15px !important;
 }
 
 .landing-social {

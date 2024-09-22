@@ -25,7 +25,7 @@ ul {
   background: #555;
 }
 
-.top-players .player .player-info .foot .item, .top-players .player .player-info .head .level, .section-top .header-more, .alert .form-errors li, #notification #description, .input-control, .input-label {
+.my-rank .player .player-info .foot .item, .my-rank .player .player-info .head .level, .top-players .player .player-info .foot .item, .top-players .player .player-info .head .level, .section-top .header-more, .alert .form-errors li, #notification #description, .input-control, .input-label {
   font-size: 13px;
   font-weight: 300;
   color: #181D31;
@@ -37,7 +37,7 @@ ul {
   color: #181D31;
 }
 
-.top-players .player .player-info .head .name, .custom-modal .modal-title .modal-head {
+.my-rank .player .player-info .head .name, .top-players .player .player-info .head .name, .custom-modal .modal-title .modal-head {
   font-size: 15px;
   font-weight: 500;
 }
@@ -483,6 +483,7 @@ h1 {
 }
 
 .custom-modal {
+  padding: 0 !important;
   position: fixed;
   top: 0;
   left: 0;
@@ -869,6 +870,11 @@ input[type=number] {
 .top-players {
   padding: 15px;
 }
+@media screen and (max-width: 468px) {
+  .top-players {
+    padding: 15px 10px !important;
+  }
+}
 .top-players .player {
   display: flex;
   align-items: center;
@@ -876,7 +882,7 @@ input[type=number] {
   border-bottom: 1px solid rgba(233, 233, 233, 0.568627451);
   margin-bottom: 15px;
 }
-.top-players .player:nth-last-child(2) {
+.top-players .player:nth-last-child(3) {
   border-bottom: transparent;
   margin-bottom: 10px;
 }
@@ -886,10 +892,16 @@ input[type=number] {
   position: relative;
   padding-right: 8px;
 }
-.top-players .player .avatar img {
+.top-players .player .avatar .avatar-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+.top-players .player .avatar .champ-badge {
+  width: 30px;
+  position: absolute;
+  height: 35px;
+  right: -5px;
 }
 .top-players .player .avatar .number {
   background-color: #5D5353;
@@ -996,8 +1008,13 @@ input[type=number] {
   background-color: #FFFFFF;
 }
 .top-players .more-players svg {
+  transition: all 0.5s;
   width: 10px;
+  transform: rotate(0);
   fill: #929292;
+}
+.top-players .more-players.active .arrow .arrow-icon {
+  transform: rotate(180deg);
 }
 
 @media screen and (max-width: 1600px) {
@@ -1005,6 +1022,116 @@ input[type=number] {
     width: 55px;
     height: 55px;
   }
+}
+.my-rank {
+  position: fixed;
+  bottom: 110px;
+  width: 100%;
+  right: 0;
+  z-index: 5;
+  padding: 0 15px;
+}
+.my-rank .player {
+  display: flex;
+  padding: 15px 25px;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid #E5E5E5;
+}
+.my-rank .player .avatar {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding-right: 8px;
+}
+.my-rank .player .avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.my-rank .player .avatar .number {
+  background-color: #5D5353;
+  color: #fff;
+  font-weight: 600;
+  font-size: 12px;
+  border-radius: 7px;
+  height: 25px;
+  padding: 0 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: sans-serif;
+  right: -4px;
+  position: absolute;
+}
+.my-rank .player .avatar .img-container {
+  overflow: hidden;
+  border-radius: 50%;
+  width: 65px;
+  height: 65px;
+}
+.my-rank .player .player-info {
+  padding-right: 10px;
+  width: 100%;
+}
+.my-rank .player .player-info .head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.my-rank .player .player-info .head .name {
+  font-family: iranyekan;
+}
+.my-rank .player .player-info .head .level {
+  font-family: sans-serif;
+  padding-left: 10px;
+}
+.my-rank .player .player-info .head .level .lvl {
+  font-size: 18px;
+  font-weight: 700;
+}
+.my-rank .player .player-info .head .level .icon-container {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  margin-right: 5px;
+  position: relative;
+  top: -5px;
+}
+.my-rank .player .player-info .head .level .icon-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.my-rank .player .player-info .foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.my-rank .player .player-info .foot .item {
+  text-align: right;
+  font-family: iranyekan;
+  padding-left: 15px;
+}
+.my-rank .player .player-info .foot .item:nth-last-child(1) {
+  padding-left: 0;
+}
+.my-rank .player .player-info .foot .item.reg-date {
+  font-size: 11px;
+  background-color: #F3F3F3;
+  padding: 3px 15px;
+  border-radius: 50px;
+}
+.my-rank .player .player-info .foot .item svg {
+  width: 20px;
+  height: 20px;
+  fill: #D2D2D2;
+}
+.my-rank .player .player-info .foot .item svg.score-icon {
+  width: 17px;
 }
 
 /*# sourceMappingURL=TopPlayers.css.map */

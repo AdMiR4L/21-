@@ -42,9 +42,10 @@ function Admin() {
     const [showSearchResult, setShowSearchResult] = useState(false);
     function search(value) {
         setSearchInput(value)
-        setUserSearchLoading(true)
-        setTimeout(() =>{
+
+
             if (value.length > 3){
+                setUserSearchLoading(true)
                 axios.post(process.env.REACT_APP_API+'find/user', {username : value})
                     .then((response) => {
                         console.log(response);
@@ -56,7 +57,7 @@ function Admin() {
                         console.log(error)
                     });
             }
-        }, 500)
+
     }
 
 

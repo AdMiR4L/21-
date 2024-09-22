@@ -10,6 +10,7 @@ import LevelIcon from "../assets/icons/level.svg";
 import axios from "axios";
 import {Link} from "react-router-dom";
 import ConvertToShamsiDate from "../components/ConverToShamsiDate";
+import Skeleton from "../components/Skeleton";
 
 function Cubes() {
 
@@ -58,18 +59,20 @@ function Cubes() {
                             <h4 className="notice mb-0">
                                 امروز
                                 {/*<span className="date">26 تیر 1403</span>*/}
-                                <span className="date"><ConvertToShamsiDate gregorianDate={new Date()} name={1}/> </span>
+                                <span className="date"><ConvertToShamsiDate gregorianDate={new Date()} name={1}/></span>
                                 ، برای خرید بلیط روی ساعت و سالن مورد نظر خود کلیک کنید
                             </h4>
                         </div>
-                        <div className="header-more">
-                            <svg className="more-icon" xmlns="http://www.w3.org/2000/svg"
-                                 viewBox="0 0 56.88 56.87">
-                                <path
-                                    d="M56.88,28.43c0,15.71-12.73,28.44-28.44,28.44S0,44.14,0,28.43c0-1.12.91-2.03,2.03-2.03s2.03.91,2.03,2.03c-.02,13.48,10.89,24.43,24.37,24.45,13.48.02,24.43-10.89,24.45-24.37.02-13.48-10.89-24.43-24.37-24.45-4.81,0-9.51,1.41-13.52,4.06h1.26c1.12,0,2.03.91,2.03,2.03s-.91,2.03-2.03,2.03h-6.09c-1.12,0-2.03-.91-2.03-2.03v-6.09c0-1.12.91-2.03,2.03-2.03s2.03.91,2.03,2.03v1.04C25.08-3.87,42.8-.7,51.78,12.19c3.32,4.77,5.1,10.44,5.1,16.24ZM46.72,28.43c0,10.1-8.18,18.28-18.28,18.28s-18.28-8.18-18.28-18.28S18.34,10.15,28.44,10.15s18.28,8.18,18.28,18.28h0ZM35.66,30.81l-5.19-3.46v-9.07c0-1.12-.91-2.03-2.03-2.03s-2.03.91-2.03,2.03v10.16c0,.68.34,1.31.9,1.69l6.09,4.06c.93.62,2.19.37,2.82-.56.62-.93.37-2.19-.56-2.82h0Z"/>
-                            </svg>
-                            تــاریـخـچـه بــــازی هـا
-                        </div>
+                        <Link style={{ position : "absolute", top: "-5px", left : "15px"}} to={"/games/history"}>
+                            <div style={{padding: "5px 5px 5px 15px"}} className="header-more">
+                                <svg className="more-icon" xmlns="http://www.w3.org/2000/svg"
+                                     viewBox="0 0 56.88 56.87">
+                                    <path
+                                        d="M56.88,28.43c0,15.71-12.73,28.44-28.44,28.44S0,44.14,0,28.43c0-1.12.91-2.03,2.03-2.03s2.03.91,2.03,2.03c-.02,13.48,10.89,24.43,24.37,24.45,13.48.02,24.43-10.89,24.45-24.37.02-13.48-10.89-24.43-24.37-24.45-4.81,0-9.51,1.41-13.52,4.06h1.26c1.12,0,2.03.91,2.03,2.03s-.91,2.03-2.03,2.03h-6.09c-1.12,0-2.03-.91-2.03-2.03v-6.09c0-1.12.91-2.03,2.03-2.03s2.03.91,2.03,2.03v1.04C25.08-3.87,42.8-.7,51.78,12.19c3.32,4.77,5.1,10.44,5.1,16.24ZM46.72,28.43c0,10.1-8.18,18.28-18.28,18.28s-18.28-8.18-18.28-18.28S18.34,10.15,28.44,10.15s18.28,8.18,18.28,18.28h0ZM35.66,30.81l-5.19-3.46v-9.07c0-1.12-.91-2.03-2.03-2.03s-2.03.91-2.03,2.03v10.16c0,.68.34,1.31.9,1.69l6.09,4.06c.93.62,2.19.37,2.82-.56.62-.93.37-2.19-.56-2.82h0Z"/>
+                                </svg>
+                                تـاریخچـه بــازی ها
+                            </div>
+                        </Link>
                     </div>
                 </div>
                 {
@@ -81,7 +84,7 @@ function Cubes() {
                                         <div className="head">
                                             <div className="right">
                                                 <div className="number d-flex">
-                                                  <div>  طـبـقـه</div>
+                                                    <div> طـبـقـه</div>
                                                     <span className="pr-1">
                                                         {salon === "1" ? "اول" :
                                                             salon === "2" ? "دوم"
@@ -166,398 +169,62 @@ function Cubes() {
                                     </div>
                                 </div>
                             ))}
-
-
-                            {/*<div className="col-lg-4">
-                                <div className="cube-card">
-                                    <div className="head">
-                                        <div className="right">
-                                            <div className="number">ســالـن یــک</div>
-                                            <div className="manager">
-                                                گرداننده سالن :
-                                                <span className="cube-god">
-                                            امین رضایی
-                                        </span>
-                                            </div>
-                                        </div>
-                                        <div className="cube-num">
-                                            <img src={CubeIcon} alt="cube"/>
-                                            <div className="cube">CUBE</div>
-                                            <div className="tag">#1</div>
-                                        </div>
-                                    </div>
-
-                                    <div className="cube-info" onClick={() => setShowCube(!showCube)}>
-                                        <ul className="cube-box">
-                                            <li className="event">
-                                                <img className="ml-2" src={ClockIcon} alt="clock"/>
-                                                <div className="time">
-                                                    <span className="start">16</span>
-                                                    <span className="dot">الی</span>
-                                                    <span className="end">18</span>
-                                                    <div className="notice">شــروع و پـایـان</div>
-                                                </div>
-
-                                            </li>
-                                        </ul>
-                                        <div className="more">+</div>
-                                        <ul className="cube-box">
-                                            <li className="event">
-
-                                                <div className="time">
-                                                    <span className="start cap">5</span>
-                                                    <span className="dot">/</span>
-                                                    <span className="end">20</span>
-                                                    <div className="notice">ظـرفیت میـز</div>
-                                                </div>
-
-                                                <img className="mr-2" src={UserIcon} alt="user"/>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div className="cube-info">
-                                        <ul className="cube-box">
-                                            <li className="event">
-                                                <img className="ml-2" src={ClockIcon} alt="clock"/>
-                                                <div className="time">
-                                                    <span className="start">16</span>
-                                                    <span className="dot">الی</span>
-                                                    <span className="end">18</span>
-                                                    <div className="notice">شــروع و پـایـان</div>
-                                                </div>
-
-                                            </li>
-                                        </ul>
-                                        <div className="more">+</div>
-                                        <ul className="cube-box">
-                                            <li className="event">
-
-                                                <div className="time">
-                                                    <span className="start cap">5</span>
-                                                    <span className="dot">/</span>
-                                                    <span className="end">20</span>
-                                                    <div className="notice">ظـرفیت میـز</div>
-                                                </div>
-
-                                                <img className="mr-2" src={UserIcon} alt="user"/>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div className="cube-info">
-                                        <ul className="cube-box">
-                                            <li className="event">
-                                                <img className="ml-2" src={ClockIcon} alt="clock"/>
-                                                <div className="time">
-                                                    <span className="start">16</span>
-                                                    <span className="dot">الی</span>
-                                                    <span className="end">18</span>
-                                                    <div className="notice">شــروع و پـایـان</div>
-                                                </div>
-
-                                            </li>
-                                        </ul>
-                                        <div className="more">+</div>
-                                        <ul className="cube-box">
-                                            <li className="event">
-
-                                                <div className="time">
-                                                    <span className="start cap">5</span>
-                                                    <span className="dot">/</span>
-                                                    <span className="end">20</span>
-                                                    <div className="notice">ظـرفیت میـز</div>
-                                                </div>
-
-                                                <img className="mr-2" src={UserIcon} alt="user"/>
-                                            </li>
-                                        </ul>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div className="col-lg-4">
-                                <div className="cube-card">
-                                    <div className="head">
-                                        <div className="right">
-                                            <div className="number">ســالـن دو</div>
-                                            <div className="manager">
-                                                گرداننده سالن :
-                                                <span className="cube-god">
-                                            امین رضایی
-                                        </span>
-                                            </div>
-                                        </div>
-                                        <div className="cube-num">
-                                            <img src={CubeIcon} alt="cube"/>
-                                            <div className="cube">CUBE</div>
-                                            <div className="tag">#2</div>
-                                        </div>
-                                    </div>
-
-                                    <div className="cube-info" onClick={() => navigate("game")}>
-                                        <ul className="cube-box">
-                                            <li className="event">
-                                                <img className="ml-2" src={ClockIcon} alt="clock"/>
-                                                <div className="time">
-                                                    <span className="start">16</span>
-                                                    <span className="dot">الی</span>
-                                                    <span className="end">18</span>
-                                                    <div className="notice">شــروع و پـایـان</div>
-                                                </div>
-
-                                            </li>
-                                        </ul>
-                                        <div className="status live">LIVE</div>
-                                        <ul className="cube-box">
-                                            <li className="event">
-
-                                                <div className="time">
-                                                    <span className="start cap">5</span>
-                                                    <span className="dot">/</span>
-                                                    <span className="end">20</span>
-                                                    <div className="notice">ظـرفیت میـز</div>
-                                                </div>
-
-                                                <img className="mr-2" src={UserIcon} alt="user"/>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div className="cube-info">
-                                        <ul className="cube-box">
-                                            <li className="event">
-                                                <img className="ml-2" src={ClockIcon} alt="clock"/>
-                                                <div className="time">
-                                                    <span className="start">16</span>
-                                                    <span className="dot">الی</span>
-                                                    <span className="end">18</span>
-                                                    <div className="notice">شــروع و پـایـان</div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                        <div className="status standby">STANDBY</div>
-                                        <ul className="cube-box">
-                                            <li className="event">
-
-                                                <div className="time">
-                                                    <span className="start cap">5</span>
-                                                    <span className="dot">/</span>
-                                                    <span className="end">20</span>
-                                                    <div className="notice">ظـرفیت میـز</div>
-                                                </div>
-
-                                                <img className="mr-2" src={UserIcon} alt="user"/>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div className="cube-info">
-                                        <ul className="cube-box">
-                                            <li className="event">
-                                                <img className="ml-2" src={ClockIcon} alt="clock"/>
-                                                <div className="time">
-                                                    <span className="start">16</span>
-                                                    <span className="dot">الی</span>
-                                                    <span className="end">18</span>
-                                                    <div className="notice">شــروع و پـایـان</div>
-                                                </div>
-
-                                            </li>
-                                        </ul>
-                                        <div className="more">+</div>
-                                        <ul className="cube-box">
-                                            <li className="event">
-
-                                                <div className="time">
-                                                    <span className="start cap">5</span>
-                                                    <span className="dot">/</span>
-                                                    <span className="end">20</span>
-                                                    <div className="notice">ظـرفیت میـز</div>
-                                                </div>
-
-                                                <img className="mr-2" src={UserIcon} alt="user"/>
-                                            </li>
-                                        </ul>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div className="col-lg-4">
-                                <div className="cube-card">
-                                    <div className="head">
-                                        <div className="right">
-                                            <div className="number">ســالـن ســه</div>
-                                            <div className="manager">
-                                                گرداننده سالن :
-                                                <span className="cube-god">
-                                            امین رضایی
-                                        </span>
-                                            </div>
-                                        </div>
-                                        <div className="cube-num">
-                                            <img src={CubeIcon} alt="cube"/>
-                                            <div className="cube">CUBE</div>
-                                            <div className="tag">#3</div>
-                                        </div>
-                                    </div>
-
-                                    <div className="cube-info">
-                                        <ul className="cube-box">
-                                            <li className="event">
-                                                <img className="ml-2" src={ClockIcon} alt="clock"/>
-                                                <div className="time">
-                                                    <span className="start">16</span>
-                                                    <span className="dot">الی</span>
-                                                    <span className="end">18</span>
-                                                    <div className="notice">شــروع و پـایـان</div>
-                                                </div>
-
-                                            </li>
-                                        </ul>
-                                        <div className="more">+</div>
-                                        <ul className="cube-box">
-                                            <li className="event">
-
-                                                <div className="time">
-                                                    <span className="start cap">5</span>
-                                                    <span className="dot">/</span>
-                                                    <span className="end">20</span>
-                                                    <div className="notice">ظـرفیت میـز</div>
-                                                </div>
-
-                                                <img className="mr-2" src={UserIcon} alt="user"/>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div className="cube-info">
-                                        <ul className="cube-box">
-                                            <li className="event">
-                                                <img className="ml-2" src={ClockIcon} alt="clock"/>
-                                                <div className="time">
-                                                    <span className="start">16</span>
-                                                    <span className="dot">الی</span>
-                                                    <span className="end">18</span>
-                                                    <div className="notice">شــروع و پـایـان</div>
-                                                </div>
-
-                                            </li>
-                                        </ul>
-
-                                        <ul className="cube-box">
-                                            <li className="event closed">
-
-                                                <svg className="close" xmlns="http://www.w3.org/2000/svg"
-                                                     viewBox="0 0 56.67 56.67">
-                                                    <path className="cls-1"
-                                                          d="M28.33,0C12.69,0,0,12.69,0,28.33s12.69,28.33,28.33,28.33,28.33-12.69,28.33-28.33C56.65,12.69,43.97.02,28.33,0ZM38.77,35.43c.92.92.92,2.42,0,3.34-.92.92-2.42.92-3.34,0l-7.1-7.1-7.09,7.1c-.92.92-2.42.92-3.34,0-.92-.92-.92-2.42,0-3.34l7.1-7.1-7.1-7.09c-.92-.92-.92-2.42,0-3.34.92-.92,2.42-.92,3.34,0l7.09,7.1,7.1-7.1c.92-.92,2.42-.92,3.34,0,.92.92.92,2.42,0,3.34l-7.1,7.09,7.1,7.1Z"/>
-                                                </svg>
-                                                <div className="full">
-                                                    طرفیت تکمیل
-                                                </div>
-
-
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div className="cube-info">
-                                        <ul className="cube-box">
-                                            <li className="event">
-                                                <img className="ml-2" src={ClockIcon} alt="clock"/>
-                                                <div className="time">
-                                                    <span className="start">16</span>
-                                                    <span className="dot">الی</span>
-                                                    <span className="end">18</span>
-                                                    <div className="notice">شــروع و پـایـان</div>
-                                                </div>
-
-                                            </li>
-                                        </ul>
-                                        <div className="more">+</div>
-                                        <ul className="cube-box">
-                                            <li className="event">
-
-                                                <div className="time">
-                                                    <span className="start cap">5</span>
-                                                    <span className="dot">/</span>
-                                                    <span className="end">20</span>
-                                                    <div className="notice">ظـرفیت میـز</div>
-                                                </div>
-
-                                                <img className="mr-2" src={UserIcon} alt="user"/>
-                                            </li>
-                                        </ul>
-                                    </div>
-
-                                </div>
-                            </div>*/}
                         </div>
-
                         :
-
                         <div className="row">
-                            <div className="col-lg-4">
-                                <div className="cube-card ">
-                                    <div className="head">
-                                        <div className="right">
-                                            <div className="number"> ســالـن اول</div>
-                                            <div className="manager">
-                                                <span className="c-skeleton-line"></span>
+                            {Array.from(Array(3).keys()).map((_, index) => (
+                                <div key={index} className="col-lg-4">
+                                    <div className="cube-card ">
+                                        <div className="head">
+                                            <div className="right">
+                                                <div className="number"><Skeleton width="100px" height="20px"/></div>
+                                                <div>
+                                                    <Skeleton width="60px" height="15px"/>
+                                                </div>
+                                            </div>
+                                            <div className="cube-num">
+                                                <img style={{opacity: 0.3}} src={CubeIcon} alt="cube"/>
+                                                <div className="cube">CUBE</div>
+                                                <div className="tag"><Skeleton width="30px" borderRadius={5}
+                                                                               height="15px"/></div>
                                             </div>
                                         </div>
-                                        <div className="cube-num">
-                                            <img src={CubeIcon} alt="cube"/>
-                                            <div className="cube">CUBE</div>
-                                            <div className="tag">#1</div>
-                                        </div>
-                                    </div>
-                                    <div className="cube">
-                                        <div className="cube-loading c-skeleton-square"></div>
-                                        <div className="cube-loading c-skeleton-square"></div>
-                                        <div className="cube-loading c-skeleton-square"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-lg-4">
-                                <div className="cube-card ">
-                                    <div className="head">
-                                        <div className="right">
-                                            <div className="number"> ســالـن دوم</div>
-                                            <div className="manager">
-                                                <span className="c-skeleton-line"></span>
+                                        {Array.from({length: 3}).map((_, index) => (
+                                            <div className="cube" key={index}>
+                                                <div
+                                                    className="cube-info">
+                                                    <ul className="cube-box">
+                                                        <li className="event">
+                                                            <img style={{opacity: 0.4}} className="ml-2" src={ClockIcon}
+                                                                 alt="clock"/>
+                                                            <div className="time">
+                                                                <Skeleton width="100px" height="20px"/>
+                                                                <div className="notice">
+                                                                    <Skeleton width="100px" height="15px"/>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+
+                                                    <ul className="cube-box">
+                                                        <li className="event">
+                                                            <div className="time">
+                                                                <Skeleton width="100px" height="20px"/>
+                                                                <div className="notice">
+                                                                    <Skeleton width="100px" height="15px"/>
+                                                                </div>
+                                                            </div>
+                                                            <img style={{opacity: 0.4}} className="mr-2" src={UserIcon}
+                                                                 alt="user"/>
+                                                        </li>
+                                                    </ul>
+
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="cube-num">
-                                            <img src={CubeIcon} alt="cube"/>
-                                            <div className="cube">CUBE</div>
-                                            <div className="tag">#2</div>
-                                        </div>
-                                    </div>
-                                    <div className="cube">
-                                        <div className="cube-loading c-skeleton-square"></div>
-                                        <div className="cube-loading c-skeleton-square"></div>
-                                        <div className="cube-loading c-skeleton-square"></div>
+                                        ))}
                                     </div>
                                 </div>
-                            </div>
-                            <div className="col-lg-4">
-                                <div className="cube-card ">
-                                    <div className="head">
-                                        <div className="right">
-                                            <div className="number"> ســالـن ســوم</div>
-                                            <div className="manager">
-                                                <span className="c-skeleton-line"></span>
-                                            </div>
-                                        </div>
-                                        <div className="cube-num">
-                                            <img src={CubeIcon} alt="cube"/>
-                                            <div className="cube">CUBE</div>
-                                            <div className="tag">#3</div>
-                                        </div>
-                                    </div>
-                                    <div className="cube">
-                                        <div className="cube-loading c-skeleton-square"></div>
-                                        <div className="cube-loading c-skeleton-square"></div>
-                                        <div className="cube-loading c-skeleton-square"></div>
-                                    </div>
-                                </div>
-                            </div>
+                            ))}
                         </div>
                 }
 

@@ -18,8 +18,8 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 45px;
-      height: 45px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       background-color: #D1FFC4;
       svg{
@@ -30,8 +30,8 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 45px;
-      height: 45px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       background-color: #F3F3F3;
     }
@@ -40,7 +40,10 @@
       font-family: iranyekan;
       text-align: right;
       margin-left: auto;
-      padding-right: 15px;
+      padding-right: 10px;
+      width: calc(100% - 95px);
+      white-space: nowrap;
+      overflow: hidden;
       .head{
         font-size: 13px;
         font-weight: 400;
@@ -59,6 +62,9 @@
   align-items: center;
   .img-container{
     width: 110px;
+    @media screen and (max-width: 468px){
+      width: 85px;
+    }
     img{
       width: 100%;
       height: 100%;
@@ -78,12 +84,56 @@
       }
     }
     .btn{
-      padding: 8px 35px;
+      padding: 8px 25px;
       background-color: $primary;
       color:#fff;
       font-weight: 300;
       font-size: 14px;
-      border-radius: 50px;
+      border-radius: 10px;
+    }
+  }
+}
+.question-modal{
+  .modal-content{
+    .modal-header{
+      padding: 15px!important;
+      .modal-title{
+        justify-content: flex-start!important;
+        font-size: 20px!important;
+        align-items: center;
+
+      }
+      .modal-cross-icon{
+        margin-left: 10px;
+      }
+    }
+  }
+  .question-mark{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    margin-left: 10px;
+    border-radius: 50%;
+    background-color: #D1FFC4;
+    svg{
+      width: 6px;
+    }
+  }
+  .question-content{
+
+    text-align: right;
+    .title{
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .description{
+      font-family: IRANYekan;
+      @extend %medium-content;
+      color: lighten($black, 30%);
+      margin-bottom: 35px;
     }
   }
 }
