@@ -145,12 +145,12 @@ function Articles(props) {
                                     <li className="head">
                                         <Skeleton width={"60px"} height={"20px"}/>
                                     </li>
-                                    <li className="description">
-                                        <p>
+                                    <li className="description mb-3">
+
                                             <Skeleton width={"100%"} height={"10px"}/>
                                             <Skeleton width={"100%"} height={"10px"}/>
                                             <Skeleton width={"70%"} height={"10px"}/>
-                                        </p>
+
                                     </li>
                                     <li className="footer">
                                         <Skeleton width={"100%"} border={1} height={"30px"}/>
