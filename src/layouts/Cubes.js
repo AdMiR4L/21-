@@ -131,21 +131,38 @@ function Cubes() {
                                                         <ul className="cube-box">
                                                             {game.available_capacity <= 0 ?
                                                                 <li className="event closed flex-column">
-                                                                    <div className="full">
-                                                                        <svg className="close ml-1"
-                                                                             xmlns="http://www.w3.org/2000/svg"
-                                                                             viewBox="0 0 56.67 56.67">
-                                                                            <path className="cls-1"
-                                                                                  d="M28.33,0C12.69,0,0,12.69,0,28.33s12.69,28.33,28.33,28.33,28.33-12.69,28.33-28.33C56.65,12.69,43.97.02,28.33,0ZM38.77,35.43c.92.92.92,2.42,0,3.34-.92.92-2.42.92-3.34,0l-7.1-7.1-7.09,7.1c-.92.92-2.42.92-3.34,0-.92-.92-.92-2.42,0-3.34l7.1-7.1-7.1-7.09c-.92-.92-.92-2.42,0-3.34.92-.92,2.42-.92,3.34,0l7.09,7.1,7.1-7.1c.92-.92,2.42-.92,3.34,0,.92.92.92,2.42,0,3.34l-7.1,7.09,7.1,7.1Z"/>
-                                                                        </svg>
-                                                                        ظرفیت تکمیل
-                                                                    </div>
+                                                                    {game.game_scenario === null ?
+                                                                        <div className="full">
+                                                                            <svg className="close ml-1"
+                                                                                 xmlns="http://www.w3.org/2000/svg"
+                                                                                 viewBox="0 0 56.67 56.67">
+                                                                                <path className="cls-1"
+                                                                                      d="M28.33,0C12.69,0,0,12.69,0,28.33s12.69,28.33,28.33,28.33,28.33-12.69,28.33-28.33C56.65,12.69,43.97.02,28.33,0ZM38.77,35.43c.92.92.92,2.42,0,3.34-.92.92-2.42.92-3.34,0l-7.1-7.1-7.09,7.1c-.92.92-2.42.92-3.34,0-.92-.92-.92-2.42,0-3.34l7.1-7.1-7.1-7.09c-.92-.92-.92-2.42,0-3.34.92-.92,2.42-.92,3.34,0l7.09,7.1,7.1-7.1c.92-.92,2.42-.92,3.34,0,.92.92.92,2.42,0,3.34l-7.1,7.09,7.1,7.1Z"/>
+                                                                            </svg>
+                                                                            ظرفیت تکمیل
+                                                                        </div>
+                                                                        :
+                                                                        <div className="full">
+                                                                            سناریو
+                                                                            {" " + game.scenario.name}
+                                                                        </div>
+                                                                    }
                                                                     {game.status === 0 ? (
-                                                                        <div className="status standby w-100 mt-1">STANDBY</div>
+                                                                        <div
+                                                                            className="status standby w-100 mt-1">STANDBY</div>
                                                                     ) : game.status === 1 ? (
                                                                         <div className="status live w-100 mt-1">LIVE</div>
                                                                     ) : (
-                                                                        <div className="status ended w-100 mt-1">ENDED</div>
+                                                                        game.win_side === 0 ? (
+                                                                                <div
+                                                                                    className="status mafia">مافـیـا</div>
+                                                                            ) : game.win_side === 1 ? (
+                                                                                <div
+                                                                                    className="status city">شــهــر</div>
+                                                                            ) : (
+                                                                            <div
+                                                                                className="status ended w-100 mt-1">ENDED</div>
+                                                                        )
                                                                     )}
                                                                 </li>
                                                                 :

@@ -22,8 +22,12 @@ import LeaderBoard from "./components/LeaderBoard";
 import ArticlesArchive from "./components/ArticlesArchive";
 import Article from "./components/Article";
 import Questions from "./admin/Questions";
+import Articles from "./admin/articles/Articles";
+import Create from "./admin/articles/Create";
+import axios from "axios";
 function App() {
-
+    const [networkError, setNetworkError] = useState(false);
+    const [loginModal, setLoginModal] = useState(false);
     const [user, setUser] = useState({
         loggedIn : localStorage.getItem("loggedIn"),
     });
@@ -38,12 +42,23 @@ function App() {
             }
         }
     }
-    const [networkError, setNetworkError] = useState(false);
-    const [loginModal, setLoginModal] = useState(false);
+    // function connection(){
+    //     axios.get(process.env.REACT_APP_API+"connection").then((response) => {
+    //
+    //     }).catch((error) => {
+    //         console.log(error)
+    //     })
+    // }
+
   return (
 
       <Router>
           <div className="App">
+              {/*{networkError && (*/}
+              {/*    <div className="h-100">*/}
+              {/*        */}
+              {/*    </div>*/}
+              {/*)}*/}
               <Header
                   loginModal={loginModal}
                   setLoginModal={setLoginModal}
@@ -71,6 +86,9 @@ function App() {
                       <Route path="admin" element={<Admin />} />
                       <Route path="admin/users" element={<Users/>}/>
                       <Route path="admin/faq" element={<Questions/>}/>
+                      <Route path="admin/articles" element={<Articles/>}/>
+                      <Route path="admin/articles/add" element={<Create/>}/>
+                      <Route path="admin/articles/edit" element={<Questions/>}/>
                       <Route path="admin/users/:id" element={<User/>}/>
                   </Route>
                   {/* Add a fallback route to catch unmatched routes */}

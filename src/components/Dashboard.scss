@@ -782,3 +782,10 @@
     }
   }
 }
+.article-mark{
+  background-color: #efefef!important;
+  svg{
+    width: 16px!important;
+    fill: lighten($black, 30%);
+  }
+}

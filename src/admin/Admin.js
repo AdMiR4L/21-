@@ -186,7 +186,7 @@ function Admin() {
                             </li>
 
                             <li className="item">
-                                <Link to={"/admin/users"}>
+                                <Link to={"/admin/articles"}>
                                     <div className="icon-container">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21.5 21.51">
                                             <path

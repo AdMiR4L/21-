@@ -1577,4 +1577,12 @@ input[type=number] {
   width: 25px;
 }
 
+.article-mark {
+  background-color: #efefef !important;
+}
+.article-mark svg {
+  width: 16px !important;
+  fill: #59626f;
+}
+
 /*# sourceMappingURL=Dashboard.css.map */

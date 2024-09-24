@@ -2350,4 +2350,30 @@ input[type=number] {
   margin-left: 5px;
 }
 
+.show-character-container {
+  margin-top: 25px;
+}
+.show-character-container .item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  font-family: IRANYekan;
+}
+.show-character-container .item .name {
+  background-color: #efefef;
+  border-radius: 10px;
+  padding: 5px 15px;
+  font-size: 13px;
+}
+.show-character-container .item .show-character {
+  background-color: #BC080E;
+  border-radius: 10px;
+  padding: 5px 15px;
+  font-size: 13px;
+  color: #fff;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+}
+
 /*# sourceMappingURL=Game.css.map */

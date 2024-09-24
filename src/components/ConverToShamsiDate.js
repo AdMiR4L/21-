@@ -1,7 +1,7 @@
 import React from 'react';
 import jalaali from 'jalaali-js';
 
-const ConvertToShamsiDate = ({ gregorianDate, name, article, slider, leaderboard, archive, comment, single }) => {
+const ConvertToShamsiDate = ({ gregorianDate, name, article, slider, leaderboard, archive, comment, single, log }) => {
     // Extract year, month, and day from the Gregorian date
     const date = new Date(gregorianDate);
     const gregorianYear = date.getFullYear();
@@ -12,22 +12,27 @@ const ConvertToShamsiDate = ({ gregorianDate, name, article, slider, leaderboard
         "فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور",
         "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند"
     ];
-    /*const shamsiDayNames = [
-        "شنبه", "یک ‌شنبه", "دوشنبه", "سه ‌شنبه", "چهارشنبه", "پنج ‌شنبه", "جمعه"
-    ];*/
     const shamsiDayNames = [
-        "سه ‌شنبه", "چهارشنبه", "پنج ‌شنبه", "جمعه", "شنبه", "یک ‌شنبه", "دوشنبه"
+        "شنبه", "یک ‌شنبه", "دوشنبه", "سه ‌شنبه", "چهارشنبه", "پنج ‌شنبه", "جمعه"
     ];
-    // const tehranDateString  = date.toLocaleString('fa-IR', {
-    //     timeZone: 'Asia/Tehran',
-    //     year: 'numeric',
-    //     month: 'numeric',
-    //     day: 'numeric',
-    //     hour: '2-digit',
-    //     minute: '2-digit',
-    //     second: '2-digit',
-    //     hour12: false,  // 24-hour format
-    // });
+    // const shamsiDayNames = [
+    //     "دوشنبه", "چهارشنبه", "پنج ‌شنبه", "جمعه", "شنبه", "یک ‌شنبه", "سه ‌شنبه"
+    // ];
+
+    // const shamsiDayNames = [
+    //      "دوشنبه", "سه ‌شنبه", "چهارشنبه", "پنج ‌شنبه", "جمعه", "شنبه", "یک ‌شنبه"
+    // ];
+
+    const tehranDateString  = date.toLocaleString('fa-IR', {
+        timeZone: 'Asia/Tehran',
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false,  // 24-hour format
+    });
 
 
     // Get the current time
@@ -86,6 +91,10 @@ const ConvertToShamsiDate = ({ gregorianDate, name, article, slider, leaderboard
         return (
             getRelativeTime()
         );
+    else if (log)
+        return (
+            tehranDateString
+        );
     else if(leaderboard)
         return (
             shamsiMonthName+" "+shamsiYear
@@ -98,7 +107,7 @@ const ConvertToShamsiDate = ({ gregorianDate, name, article, slider, leaderboard
                        {shamsiDayName}
                    </span>
                    <span className="rest-date">
-                        {+shamsiDay+1 + " " + shamsiMonthName + " " + shamsiYear}
+                        {shamsiDay + " " + shamsiMonthName + " " + shamsiYear}
                    </span>
                </div>
 

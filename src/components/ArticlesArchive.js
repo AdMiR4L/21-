@@ -118,37 +118,39 @@ function ArticlesArchive(props) {
                     }
                 </div>
                 {loading || ArticlesLoading ?
-                    Array.from({length: 5}).map((_, index) => {
-                        return <div key={index} className="col-lg-4 p-0 mt-2 mb-3">
-                            <article className="article">
-                                <div className="img-container">
-                                    <Skeleton border={1} width={"100%"} height={"100%"}/>
-                                    <svg className="blank-image position-absolute"
-                                         style={{zIndex: 5, fill: "rgb(211 211 211)"}}
-                                         xmlns="http://www.w3.org/2000/svg"
-                                         viewBox="0 0 426.67 426.67">
-                                        <path
-                                            d="M12.37,362.88l-.43.43c-5.76-12.59-9.39-26.88-10.88-42.67,1.49,15.57,5.55,29.65,11.31,42.24ZM149.33,178.77c28.04,0,50.78-22.73,50.78-50.77s-22.73-50.78-50.77-50.78h0c-28.04,0-50.77,22.74-50.77,50.78,0,28.04,22.73,50.77,50.77,50.77Z"/>
-                                        <path
-                                            d="M302.72,0H123.95C46.29,0,0,46.29,0,123.95v178.77c0,23.25,4.05,43.52,11.95,60.59,18.35,40.53,57.6,63.36,112,63.36h178.77c77.65,0,123.95-46.29,123.95-123.95V123.95C426.67,46.29,380.37,0,302.72,0ZM391.89,224c-16.64-14.29-43.52-14.29-60.16,0l-88.75,76.16c-16.64,14.29-43.52,14.29-60.16,0l-7.25-5.97c-15.15-13.23-39.25-14.51-56.32-2.99l-79.79,53.55c-4.69-11.95-7.47-25.81-7.47-42.03V123.95c0-60.16,31.79-91.95,91.95-91.95h178.77c60.16,0,91.95,31.79,91.95,91.95v102.4l-2.77-2.35Z"/>
-                                    </svg>
-                                </div>
-                                <ul className="content">
-                                    <li className="head">
-                                        <Skeleton width={"100px"} height={"20px"}/>
-                                    </li>
-                                    <li className="description mb-3">
-                                        <Skeleton width={"100%"} height={"10px"}/>
-                                        <Skeleton width={"100%"} height={"10px"}/>
-                                        <Skeleton width={"70%"} height={"10px"}/>
-                                    </li>
-                                    <li className="footer">
-                                        <Skeleton width={"100%"} border={1} height={"30px"}/>
-                                    </li>
-                                </ul>
-                            </article>
-                        </div>
-                    })
+                    <div className="row">
+                        {Array.from({length: 5}).map((_, index) => {
+                            return <div key={index} className="col-lg-4 col-sm-6 mt-2 mb-3">
+                                <article className="article">
+                                    <div className="img-container">
+                                        <Skeleton border={1} width={"100%"} height={"100%"}/>
+                                        <svg className="blank-image position-absolute"
+                                             style={{zIndex: 5, fill: "rgb(211 211 211)"}}
+                                             xmlns="http://www.w3.org/2000/svg"
+                                             viewBox="0 0 426.67 426.67">
+                                            <path
+                                                d="M12.37,362.88l-.43.43c-5.76-12.59-9.39-26.88-10.88-42.67,1.49,15.57,5.55,29.65,11.31,42.24ZM149.33,178.77c28.04,0,50.78-22.73,50.78-50.77s-22.73-50.78-50.77-50.78h0c-28.04,0-50.77,22.74-50.77,50.78,0,28.04,22.73,50.77,50.77,50.77Z"/>
+                                            <path
+                                                d="M302.72,0H123.95C46.29,0,0,46.29,0,123.95v178.77c0,23.25,4.05,43.52,11.95,60.59,18.35,40.53,57.6,63.36,112,63.36h178.77c77.65,0,123.95-46.29,123.95-123.95V123.95C426.67,46.29,380.37,0,302.72,0ZM391.89,224c-16.64-14.29-43.52-14.29-60.16,0l-88.75,76.16c-16.64,14.29-43.52,14.29-60.16,0l-7.25-5.97c-15.15-13.23-39.25-14.51-56.32-2.99l-79.79,53.55c-4.69-11.95-7.47-25.81-7.47-42.03V123.95c0-60.16,31.79-91.95,91.95-91.95h178.77c60.16,0,91.95,31.79,91.95,91.95v102.4l-2.77-2.35Z"/>
+                                        </svg>
+                                    </div>
+                                    <ul className="content">
+                                        <li className="head">
+                                            <Skeleton width={"100px"} height={"20px"}/>
+                                        </li>
+                                        <li className="description mb-3">
+                                            <Skeleton width={"100%"} height={"10px"}/>
+                                            <Skeleton width={"100%"} height={"10px"}/>
+                                            <Skeleton width={"70%"} height={"10px"}/>
+                                        </li>
+                                        <li className="footer">
+                                            <Skeleton width={"100%"} border={1} height={"30px"}/>
+                                        </li>
+                                    </ul>
+                                </article>
+                            </div>
+                        })}
+                    </div>
                     :
                     <div className="row">
                         {articles.data.map((item, index) => (

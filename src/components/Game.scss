@@ -1658,3 +1658,30 @@
     }
   }
 }
+.show-character-container{
+  margin-top: 25px;
+  .item{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-family: IRANYekan;
+    .name{
+      background-color: #efefef;
+      border-radius: 10px;
+      padding: 5px 15px;
+      font-size: 13px;
+
+    }
+    .show-character{
+      background-color: $primary;
+      border-radius: 10px;
+      padding: 5px 15px;
+      font-size: 13px;
+      color: #fff;
+      display: flex;
+      cursor: pointer;
+      align-items: center;
+
+    }
+  }
+}

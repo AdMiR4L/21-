@@ -364,10 +364,10 @@ class Header extends Component{
                                 </ul>
 
                                 <ul className="header-tags">
-                                    <li className="item"><a href="/">خانه</a></li>
-                                    <li className="item"><a href="/">مسابقات</a></li>
-                                    <li className="item"><a href="/">مقالات</a></li>
-                                    <li className="item"><a href="/">بازیکنان برتر</a></li>
+                                    <li className="item"><Link to="/">خانه</Link></li>
+                                    <li className="item"><Link to="/games/history">تاریخچه</Link></li>
+                                    <li className="item"><Link to="/articles/archive">مقالات</Link></li>
+                                    <li className="item"><Link to="/leaderboard">بازیکنان برتر</Link></li>
                                     <li className="item"><a href="/">قوانین</a></li>
                                     <li className="item"><a href="/">تماس با ما</a></li>
                                 </ul>
