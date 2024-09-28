@@ -380,7 +380,7 @@ h1 {
 }
 /*============================*/
 /*============================*/
-.search-modal .search-modal-results .head .icon-container, .section-top .header-more {
+.search-modal .search-modal-results .head .icon-container, .phone-nav-wrapper .phone-nav .notify-box, .section-top .header-more {
   background-color: #F9F9F9;
   border-radius: 20px;
   border: 1px solid #E9E9E9;
@@ -1124,6 +1124,23 @@ input[type=number] {
 }
 .phone-nav-wrapper .phone-nav .item {
   padding: 15px;
+  position: relative;
+}
+.phone-nav-wrapper .phone-nav .item .has-notify {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: #BC080E;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  right: 5px;
+  top: 20px;
+  z-index: 500;
+  font-family: sans-serif;
+  color: #f7f7f7;
+  font-size: 11px;
 }
 .phone-nav-wrapper .phone-nav .item img {
   width: 30px;
@@ -1136,6 +1153,20 @@ input[type=number] {
   height: 27px;
   top: 1px;
   position: relative;
+}
+.phone-nav-wrapper .phone-nav .notify-box {
+  position: absolute;
+  right: 0;
+  top: 55px;
+  width: 230px;
+}
+.phone-nav-wrapper .phone-nav .notify-box .item {
+  font-family: IRANYekan;
+  font-size: 13px;
+  font-weight: 400;
+  text-align: right;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #f2f2f2;
 }
 .phone-nav-wrapper .phone-nav .logo {
   padding: 5px;

@@ -278,10 +278,38 @@
     .phone-nav{
         display: flex;
         justify-content: space-between;
-
         align-items: center;
+        //.dropdown{
+        //    .dp-toggle{
+        //        border: none;
+        //        background-color: transparent;
+        //        &:after{
+        //            display: none;
+        //        }
+        //        &:focus{
+        //            box-shadow: none;
+        //        }
+        //    }
+        //}
         .item{
             padding: 15px;
+            position: relative;
+            .has-notify{
+                width: 18px;
+                height: 18px;
+                border-radius: 50%;
+                background-color: $primary;
+                position: absolute;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                right: 5px;
+                top: 20px;
+                z-index: 500;
+                font-family: sans-serif;
+                color: $light;
+                font-size: 11px;
+            }
             img{
                 width: 30px;
             }
@@ -293,6 +321,21 @@
                 height: 27px;
                 top: 1px;
                 position: relative;
+            }
+        }
+        .notify-box{
+            @extend %first-box;
+            position: absolute;
+            right: 0;
+            top: 55px;
+            width: 230px;
+            .item{
+                font-family: IRANYekan;
+                font-size: 13px;
+                font-weight: 400;
+                text-align: right;
+                padding-bottom: 10px;
+                border-bottom: 2px solid darken($light , 2%);;
             }
         }
         .logo{

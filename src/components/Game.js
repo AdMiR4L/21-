@@ -23,7 +23,9 @@ import FAQ from "../layouts/FAQ";
 
 function Game(props) {
     const { id } = useParams();
-
+    const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': "Bearer " + localStorage.authToken}
     const [game, setGame] = useState();
     const [reserves, setReserves] = useState();
     const [unavailable, setUnavailable] = useState([]);
@@ -89,9 +91,6 @@ function Game(props) {
 
     function payWithZarinPal(){
         setSendDataLoading(true)
-            const headers = {
-                'Content-Type': 'application/json',
-                'Authorization': "Bearer " + localStorage.authToken}
             axios.post(process.env.REACT_APP_API+'game/payment/attempt',
                 {
                     game_id : game.id ?? null,
@@ -219,7 +218,7 @@ function Game(props) {
                             };
                         }))
                     }
-                    console.log(response.data.reserves)
+                    // console.log(response.data.reserves)
                     setScenariosInput(response.data.game.scenario)
                     setShowCharacterDescription(
                         response.data.game.scenario.characters.reduce((acc, character) => {
@@ -272,9 +271,6 @@ function Game(props) {
     }
 
     function editGame() {
-        const headers = {
-            'Content-Type': 'application/json',
-            'Authorization': "Bearer " + localStorage.authToken}
         setSendDataLoading(true);
 
         axios.post(process.env.REACT_APP_API+'game/edit',
@@ -302,9 +298,6 @@ function Game(props) {
     function removeUserFromGame(id) {
 
 
-        const headers = {
-            'Content-Type': 'application/json',
-            'Authorization': "Bearer " + localStorage.authToken}
         setSendDataLoading(true);
         axios.post(process.env.REACT_APP_API+'game/user/remove',
             {
@@ -335,10 +328,6 @@ function Game(props) {
            };
        });
        const minus = temp.find(character => character.id === 5) ? 2 : 1;
-       //console.log(minus);
-        const headers = {
-            'Content-Type': 'application/json',
-            'Authorization': "Bearer " + localStorage.authToken}
         setSendDataLoading(true)
         // console.log("TEMP LE",temp.length)
         // console.log("MAFIA",scenarioMafiaCount)
@@ -495,10 +484,6 @@ function Game(props) {
             game_id : id,
             chair_no : JSON.stringify(selectedChairs),}
         console.log(data)
-        const headers = {
-            'Content-Type': 'application/json',
-            'Authorization': "Bearer " + localStorage.authToken
-        }
         setNoPaymentLoading(true)
         axios.post(process.env.REACT_APP_API+'game/reserve/attempt', data ,{
             headers: headers
@@ -525,10 +510,6 @@ function Game(props) {
 
 
     function saveUsersCharacter (){
-        const headers = {
-            'Content-Type': 'application/json',
-            'Authorization': "Bearer " + localStorage.authToken
-        }
         setSendDataLoading(true);
         axios.post(process.env.REACT_APP_API+'game/setting',
             {
@@ -549,10 +530,6 @@ function Game(props) {
 
 
     function saveUsersScore (){
-        const headers = {
-            'Content-Type': 'application/json',
-            'Authorization': "Bearer " + localStorage.authToken
-        }
         setSendDataLoading(true);
         axios.post(process.env.REACT_APP_API+'game/scores',
             {
@@ -575,10 +552,6 @@ function Game(props) {
 
 
     function sendUsersCharacter() {
-        const headers = {
-            'Content-Type': 'application/json',
-            'Authorization': "Bearer " + localStorage.authToken
-        }
         setSendDataLoading(true);
         axios.post(process.env.REACT_APP_API+'game/send/characters',
             {
@@ -590,6 +563,7 @@ function Game(props) {
                 setShowGameScoresModal(false);
                 setTimeout(() => {getGame()}, 500)
                 setSendDataLoading(false)
+                console.log(response)
             })
             .catch((error) =>{
                 toast.error("لطفا قبل از ارسال نقش اطلاعات را ذخیره کنید")
@@ -598,10 +572,6 @@ function Game(props) {
     }
 
     function userVisitLog() {
-        const headers = {
-            'Content-Type': 'application/json',
-            'Authorization': "Bearer " + localStorage.authToken
-        }
         setLogLoading(true);
         axios.post(process.env.REACT_APP_API+'game/roles/visit',
             {
@@ -619,11 +589,6 @@ function Game(props) {
             });
     }
     function getUserVisitLog(id) {
-        const headers = {
-            'Content-Type': 'application/json',
-            'Authorization': "Bearer " + localStorage.authToken
-        }
-        console.log(id)
         setLogLoading(true);
         axios.get(process.env.REACT_APP_API+'game/visit/logs',
             {
@@ -633,7 +598,6 @@ function Game(props) {
                headers : headers
             })
             .then((response) => {
-                console.log(response)
                 setLogLoading(false)
                 setLogs(response.data)
             })
@@ -1742,7 +1706,7 @@ function Game(props) {
                                 </div>
                             }
 
-                            {localStorage.getItem("userDetails") && (JSON.parse(localStorage.userDetails).id === 1 || JSON.parse(localStorage.userDetails).id === 17) ?
+                            {localStorage.getItem("authToken") && localStorage.getItem("userDetails") && (JSON.parse(localStorage.userDetails).id === 1 || JSON.parse(localStorage.userDetails).id === 17) ?
                             <div className="logs" onClick={() =>setShowLogModal(true)}>
                                 <svg className="log-icon" xmlns="http://www.w3.org/2000/svg" version="1.1"
                                      viewBox="0 0 512 512">

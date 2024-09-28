@@ -234,7 +234,24 @@
       }
     }
 
-
+    &.city, &.mafia{
+      margin-top: 5px;
+      font-family: 'iranyekan';
+      font-size: 13px;
+      font-weight: 400;
+      padding: 2px 10px;
+      color: #fff;
+      width: 100%;
+      &:after{
+        display: none;
+      }
+    }
+    &.city{
+      background-color: #429434;
+    }
+    &.mafia{
+      background-color: $primary;
+    }
   }
 }
 .cube-info-modal{

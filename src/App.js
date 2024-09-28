@@ -25,6 +25,7 @@ import Questions from "./admin/Questions";
 import Articles from "./admin/articles/Articles";
 import Create from "./admin/articles/Create";
 import axios from "axios";
+import NotificationComponent from "./components/NotificationComponent";
 function App() {
     const [networkError, setNetworkError] = useState(false);
     const [loginModal, setLoginModal] = useState(false);

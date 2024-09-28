@@ -4,6 +4,9 @@ import Logo from "../assets/21logo.svg";
 import Search from "./Search";
 import Modal from "react-bootstrap/Modal";
 import {Toaster} from "react-hot-toast";
+import NotificationComponent from "./NotificationComponent";
+import Dropdown from 'react-bootstrap/Dropdown';
+
 
 
 function MobileHeader() {
@@ -13,6 +16,7 @@ function MobileHeader() {
     const [showModalMenu, setShowModalMenu] = useState(false);
     const [isOnline, setIsOnline] = useState(navigator.onLine);
     const [addToHomeScreen, setAddToHomeScreen] = useState(false);
+    const [notificationBox, setNotificationBox] = useState(false);
 
     useEffect(() => {
         const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
@@ -129,7 +133,25 @@ function MobileHeader() {
 
 
                                 {localStorage.authToken ?
-                                    <li className="item">
+                                    <li className="item" onClick={() => setNotificationBox(!notificationBox)}>
+                                        {/*<Dropdown>*/}
+                                        {/*    <Dropdown.Toggle className="dp-toggle">*/}
+                                        {/*        <svg className="back-icon notification-icon"*/}
+                                        {/*             xmlns="http://www.w3.org/2000/svg"*/}
+                                        {/*             viewBox="0 0 57.1 61.48">*/}
+                                        {/*            <path*/}
+                                        {/*                d="M51.65,32.26l-1.79-.95v-9.37C49.86,9.84,40.3,0,28.55,0S7.24,9.84,7.24,21.93l.03,9.38-1.85.96C2.05,34.06-.02,37.53,0,41.32,0,46.92,4.45,51.47,9.92,51.47h37.26c5.47,0,9.92-4.55,9.92-10.15,0-3.85-2.09-7.33-5.45-9.06ZM47.18,45.05H9.92c-1.93,0-3.5-1.67-3.5-3.75,0-1.41.76-2.69,1.97-3.34l1.83-.95c2.12-1.1,3.44-3.29,3.44-5.71v-9.38c0-8.55,6.68-15.51,14.89-15.51s14.89,6.96,14.89,15.51v9.36c0,2.39,1.29,4.57,3.44,5.73l1.82.94c1.2.62,1.97,1.93,1.97,3.35,0,2.06-1.57,3.73-3.5,3.73Z"/>*/}
+                                        {/*            <path*/}
+                                        {/*                d="M33.65,54.84h-10.19c-1.83,0-3.32,1.49-3.32,3.32s1.49,3.32,3.32,3.32h10.19c1.83,0,3.32-1.49,3.32-3.32s-1.49-3.32-3.32-3.32Z"/>*/}
+                                        {/*        </svg>*/}
+                                        {/*    </Dropdown.Toggle>*/}
+
+                                        {/*    <Dropdown.Menu>*/}
+                                        {/*        <Dropdown.Item href="#/action-1">Action</Dropdown.Item>*/}
+                                        {/*        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>*/}
+                                        {/*        <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>*/}
+                                        {/*    </Dropdown.Menu>*/}
+                                        {/*</Dropdown>*/}
                                         <svg className="back-icon notification-icon" xmlns="http://www.w3.org/2000/svg"
                                              viewBox="0 0 57.1 61.48">
                                             <path
@@ -137,6 +159,31 @@ function MobileHeader() {
                                             <path
                                                 d="M33.65,54.84h-10.19c-1.83,0-3.32,1.49-3.32,3.32s1.49,3.32,3.32,3.32h10.19c1.83,0,3.32-1.49,3.32-3.32s-1.49-3.32-3.32-3.32Z"/>
                                         </svg>
+                                        <div className="has-notify">3</div>
+                                        {notificationBox ?
+                                            <ul className="notify-box">
+                                                {localStorage.getItem("authToken") && localStorage.getItem("userDetails") ?
+                                                    <NotificationComponent
+                                                        user={JSON.parse(localStorage.getItem("userDetails"))}/>
+                                                    : null
+                                                }
+                                                <li className="item">
+                                                    اگر شما یک طراح هستین و یا با طراحی های گرافیکی سروکار دارید به متن
+                                                    های
+                                                    برخورده اید که با نام لورم ایپسوم شناخته می‌شوند. لورم ایپسوم یا
+                                                    طرح‌نما
+                                                    (به انگلیسی: Lorem ipsum) متنی ساختگی و بدون معنی است
+                                                </li>
+                                                <li className="item">
+                                                    اگر شما یک طراح هستین و یا با طراحی های گرافیکی سروکار دارید به متن
+                                                    های
+                                                    برخورده اید که با نام لورم ایپسوم شناخته می‌شوند. لورم
+                                                </li>
+                                                <li className="item">
+                                                    اگر شما یک طراح هستین و یا با طراحی های گرافیکی سروکار دارید ب
+                                                </li>
+                                            </ul>
+                                            : null}
 
                                     </li>
                                     : <li className="item">

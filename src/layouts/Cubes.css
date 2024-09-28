@@ -1074,6 +1074,24 @@ input[type=number] {
 .cube-info .status.standby:after {
   background-color: #FFCD2D;
 }
+.cube-info .status.city, .cube-info .status.mafia {
+  margin-top: 5px;
+  font-family: "iranyekan";
+  font-size: 13px;
+  font-weight: 400;
+  padding: 2px 10px;
+  color: #fff;
+  width: 100%;
+}
+.cube-info .status.city:after, .cube-info .status.mafia:after {
+  display: none;
+}
+.cube-info .status.city {
+  background-color: #429434;
+}
+.cube-info .status.mafia {
+  background-color: #BC080E;
+}
 
 .cube-info-modal .title {
   font-size: 22px;

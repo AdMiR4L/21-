@@ -29,7 +29,7 @@ function FAQ() {
     }
     useEffect(() => {
         getQuestions()
-    }, );
+    }, []);
 
     return (
         <aside className="col-12 mt-3">
