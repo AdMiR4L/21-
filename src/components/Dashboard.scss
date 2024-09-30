@@ -239,6 +239,24 @@
         }
       }
     }
+    &.admin-dashboard{
+      .user-access{
+        .item{
+          @extend %first-box;
+          margin-bottom: 15px;
+          padding: 10px;
+          .point-icon{
+            left: 20px;
+          }
+          .icon-container{
+            border: transparent;
+            svg{
+              fill: lighten($dark, 15%);
+            }
+          }
+        }
+      }
+    }
   }
 
   .scores {

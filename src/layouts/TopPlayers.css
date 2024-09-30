@@ -882,7 +882,7 @@ input[type=number] {
   border-bottom: 1px solid rgba(233, 233, 233, 0.568627451);
   margin-bottom: 15px;
 }
-.top-players .player:nth-last-child(3) {
+.top-players .player:nth-last-child(3), .top-players .player:nth-last-child(1) {
   border-bottom: transparent;
   margin-bottom: 10px;
 }
@@ -984,6 +984,10 @@ input[type=number] {
 }
 .top-players .player .player-info .foot .item svg.score-icon {
   width: 17px;
+}
+.top-players .player-cards.active .player:nth-last-child(3) {
+  border-bottom: 1px solid rgba(233, 233, 233, 0.568627451) !important;
+  margin-bottom: 15px !important;
 }
 .top-players .more-players {
   display: flex;

@@ -48,7 +48,7 @@ function Create() {
         })
             .then((response) => {
                 console.log(response.data)
-                setArticle(response.data)
+                setCategories(response.data)
                 setLoading(false)
             })
             .catch((error) => {
@@ -170,21 +170,36 @@ function Create() {
                     <div className="col-6 position-relative">
                         <label className="input-label">دسته بندی</label>
                         <div onClick={() => setCategorySelection(!categorySelection)}
-                             className="input-control position-relative"> انتخاب دسته بندی
-                            {categorySelection ?
+                             className="input-control position-relative">
+                            {/* Check if category is set and category.id is valid */}
+                            {category && category.id ? categories.find(obj => obj.id === category.id)?.title : "انتخاب دسته بندی"}
+                            <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+                                 className={categorySelection ? "active angle-icon" : "angle-icon"}
+                                 viewBox="0 0 24 24">
+                                <g><path d="M9 20a1 1 0 0 1-.707-1.707L14.586 12 8.293 5.707a1 1 0 0 1 1.414-1.414l7 7a1 1 0 0 1 0 1.414l-7 7A1 1 0 0 1 9 20z"></path></g></svg>
+                           {/* <svg className={categorySelection ? "active angle-icon" : "angle-icon"}
+                                 xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 24 24">
+                                <g>
+                                    <path
+                                        d="M12 14.75a.744.744 0 0 1-.53-.22l-4-4a.75.75 0 0 1 1.06-1.06L12 12.939l3.47-3.469a.75.75 0 0 1 1.06 1.06l-4 4a.744.744 0 0 1-.53.22z"></path>
+                                </g>
+                            </svg>*/}
+                            {categorySelection ? (
                                 <ul style={{right: 0, transform: "translateY(10px)"}} className="custom-select-input">
                                     {categories.map((item, index) => (
                                         <li
                                             key={index}
                                             className="item"
                                             onClick={() => {
-                                                setCategory(item.id);
-                                                setCategorySelection(!categorySelection);
+                                                setCategory(item); // Store the entire item object, not just item.id
+                                                setCategorySelection(false); // Close the dropdown after selection
                                             }}
-                                        >{item.title}
+                                        >
+                                            {item.title}
                                         </li>
                                     ))}
-                                </ul> : null}
+                                </ul>
+                            ) : null}
                         </div>
                     </div>
 

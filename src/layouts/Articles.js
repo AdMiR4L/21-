@@ -9,7 +9,6 @@ import {Link} from "react-router-dom";
 
 
 function Articles(props) {
-
     function removeHtmlTags(str) {
         // Step 1: Remove HTML tags
         const noTags = str.replace(/<\/?[^>]+(>|$)/g, "");

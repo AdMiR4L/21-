@@ -1128,6 +1128,7 @@ input[type=number] {
 }
 .phone-nav-wrapper .phone-nav .item .has-notify {
   width: 18px;
+  user-select: none;
   height: 18px;
   border-radius: 50%;
   background-color: #BC080E;
@@ -1158,7 +1159,94 @@ input[type=number] {
   position: absolute;
   right: 0;
   top: 55px;
-  width: 230px;
+  width: 270px;
+  overflow: hidden;
+}
+.phone-nav-wrapper .phone-nav .notify-box .notifications {
+  max-height: 320px;
+  overflow-y: auto;
+  background-color: #f7f7f7;
+}
+.phone-nav-wrapper .phone-nav .notify-box .notifications .notification-item {
+  font-family: IRANYekan;
+  font-size: 13px;
+  text-align: right;
+  padding: 5px 15px;
+  margin-top: 10px;
+}
+.phone-nav-wrapper .phone-nav .notify-box .notifications .notification-item .title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #15171A;
+  margin-bottom: 5px;
+  padding-right: 10px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.phone-nav-wrapper .phone-nav .notify-box .notifications .notification-item .title:before {
+  position: absolute;
+  content: "";
+  right: 0;
+  background-color: #BC080E;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+.phone-nav-wrapper .phone-nav .notify-box .notifications .notification-item .title.read:before {
+  background-color: #429434;
+}
+.phone-nav-wrapper .phone-nav .notify-box .notifications .notification-item .message {
+  font-size: 11px;
+  color: #4a5a98;
+}
+.phone-nav-wrapper .phone-nav .notify-box .notifications .notification-item .message .character {
+  font-weight: 400;
+  color: #f7f7f7;
+  background-color: #293153;
+  border-radius: 5px;
+  padding: 3px 10px;
+  margin-right: 10px;
+}
+.phone-nav-wrapper .phone-nav .notify-box .notifications .notification-item:nth-last-child(1) {
+  margin-bottom: 15px;
+}
+.phone-nav-wrapper .phone-nav .notify-box .notif-footer {
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+}
+.phone-nav-wrapper .phone-nav .notify-box .notif-footer .item {
+  flex: 1;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #efefef;
+  font-size: 13px;
+}
+.phone-nav-wrapper .phone-nav .notify-box .notif-footer .item:nth-last-child(1) {
+  border-right: 1px solid #f7f7f7;
+}
+.phone-nav-wrapper .phone-nav .notify-box .notif-footer .item svg {
+  fill: #a3a3a3;
+  height: 16px;
+  margin-left: 5px;
+}
+.phone-nav-wrapper .phone-nav .notify-box .head {
+  font-weight: 500;
+  font-size: 15px;
+  padding: 10px 20px;
+  border-bottom: 1px solid #efefef;
+}
+.phone-nav-wrapper .phone-nav .notify-box .head.has {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.phone-nav-wrapper .phone-nav .notify-box .head .clean-icon {
+  height: 20px;
+  fill: #3a4675;
 }
 .phone-nav-wrapper .phone-nav .notify-box .item {
   font-family: IRANYekan;
@@ -1167,6 +1255,12 @@ input[type=number] {
   text-align: right;
   padding-bottom: 10px;
   border-bottom: 2px solid #f2f2f2;
+}
+.phone-nav-wrapper .phone-nav .notify-box .empty img {
+  width: 60px;
+}
+.phone-nav-wrapper .phone-nav .notify-box .empty .text {
+  font-size: 12px;
 }
 .phone-nav-wrapper .phone-nav .logo {
   padding: 5px;

@@ -62,7 +62,7 @@ function TopPlayers(props) {
                 </div>
                 :
                 <div className="top-players">
-                    <ul className="player-cards">
+                    <ul className={`player-cards ${showMorePlayers ? "active" : null}`}>
                         {props.leaderBoard.slice(0, 5).map((player, index) => {
                             return (
                                 <li key={index} className="player"  ref={index === 4 ? scrollEndRef : null}>

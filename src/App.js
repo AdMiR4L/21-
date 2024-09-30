@@ -24,8 +24,7 @@ import Article from "./components/Article";
 import Questions from "./admin/Questions";
 import Articles from "./admin/articles/Articles";
 import Create from "./admin/articles/Create";
-import axios from "axios";
-import NotificationComponent from "./components/NotificationComponent";
+
 function App() {
     const [networkError, setNetworkError] = useState(false);
     const [loginModal, setLoginModal] = useState(false);
@@ -86,11 +85,22 @@ function App() {
                       <Route path="verify/zarinpal/:id" element={<PaymentReceipt />} />
                       <Route path="admin" element={<Admin />} />
                       <Route path="admin/users" element={<Users/>}/>
+                      <Route path="admin/users/:id" element={<User/>}/>
                       <Route path="admin/faq" element={<Questions/>}/>
                       <Route path="admin/articles" element={<Articles/>}/>
                       <Route path="admin/articles/add" element={<Create/>}/>
                       <Route path="admin/articles/edit" element={<Questions/>}/>
-                      <Route path="admin/users/:id" element={<User/>}/>
+                      <Route path="admin/transictions/" element={<User/>}/>
+                      <Route path="admin/categories/" element={<User/>}/>
+                      <Route path="admin/characters/" element={<User/>}/>
+                      <Route path="admin/characters/:id" element={<User/>}/>
+                      <Route path="admin/scenarios" element={<User/>}/>
+                      <Route path="admin/scenarios/:id" element={<User/>}/>
+                      <Route path="admin/sliders" element={<User/>}/>
+                      <Route path="admin/landing" element={<User/>}/>
+                      <Route path="admin/comments" element={<User/>}/>
+                      <Route path="admin/pages" element={<User/>}/>
+                      <Route path="admin/contacts" element={<User/>}/>
                   </Route>
                   {/* Add a fallback route to catch unmatched routes */}
                   <Route path="*" element={<NotFound />} />

@@ -384,7 +384,7 @@ h1 {
 }
 /*============================*/
 /*============================*/
-.pagination .item, .transictions .item, .my-profile .dashboard .user-access .item .icon-container, .section-top .header-more {
+.pagination .item, .transictions .item, .my-profile .dashboard.admin-dashboard .user-access .item, .my-profile .dashboard .user-access .item .icon-container, .section-top .header-more {
   background-color: #F9F9F9;
   border-radius: 20px;
   border: 1px solid #E9E9E9;
@@ -1080,6 +1080,19 @@ input[type=number] {
 }
 .my-profile .dashboard .user-info .foot .item svg.score-icon {
   width: 17px;
+}
+.my-profile .dashboard.admin-dashboard .user-access .item {
+  margin-bottom: 15px;
+  padding: 10px;
+}
+.my-profile .dashboard.admin-dashboard .user-access .item .point-icon {
+  left: 20px;
+}
+.my-profile .dashboard.admin-dashboard .user-access .item .icon-container {
+  border: transparent;
+}
+.my-profile .dashboard.admin-dashboard .user-access .item .icon-container svg {
+  fill: #313b64;
 }
 .my-profile .scores {
   margin-bottom: 25px;

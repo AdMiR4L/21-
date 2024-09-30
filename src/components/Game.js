@@ -578,7 +578,6 @@ function Game(props) {
                 game_id : game.id ?? null,
             }, {headers : headers})
             .then((response) => {
-                console.log(response)
                 setLogLoading(false)
                 setTimeout(() => getUserVisitLog(game.id), 500)
 
